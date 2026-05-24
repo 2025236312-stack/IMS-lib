@@ -17,7 +17,6 @@ if (empty($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 }
 
-huij
 // Rate limiting for failed attempts
 if (!isset($_SESSION['login_attempts'])) {
     $_SESSION['login_attempts'] = 0;
