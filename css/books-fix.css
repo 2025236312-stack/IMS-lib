@@ -1,0 +1,113 @@
+/* books-fix.css - Book Image Display Fixes */
+
+/* Fix for book cover images - show full picture */
+.book-cover-futuristic {
+    width: 100%;
+    height: 280px;
+    overflow: hidden;
+    position: relative;
+    border-radius: 12px 12px 0 0;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.book-cover-futuristic img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+    padding: 15px;
+    transition: transform 0.3s ease;
+    background-color: #fff;
+}
+
+.book-card-futuristic:hover .book-cover-futuristic img {
+    transform: scale(1.05);
+}
+
+/* Cover preview styling */
+.cover-preview-large {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.image-preview-container {
+    position: relative;
+    display: inline-block;
+}
+
+.preview-label {
+    font-size: 12px;
+    color: #6c757d;
+    margin-top: 8px;
+    display: block;
+}
+
+.book-cover-img {
+    width: 100%;
+    height: 250px;
+    object-fit: contain;
+    border-radius: 8px;
+    padding: 10px;
+    background: #f5f5f5;
+}
+
+.img-error {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+/* Alert styling */
+.alert-success {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .book-cover-futuristic {
+        height: 220px;
+    }
+    .book-cover-futuristic img {
+        padding: 10px;
+    }
+}
+
+@media (max-width: 576px) {
+    .book-cover-futuristic {
+        height: 180px;
+    }
+    .book-cover-futuristic img {
+        padding: 8px;
+    }
+}
+
+/* Dark mode adjustments */
+[data-bs-theme="dark"] .book-cover-futuristic img {
+    background-color: #2a2a2a;
+}
+
+[data-bs-theme="dark"] .cover-preview-large {
+    background-color: #2a2a2a;
+}

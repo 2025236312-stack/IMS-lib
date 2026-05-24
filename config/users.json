@@ -1,0 +1,11 @@
+[
+    {
+        "id": "U0001",
+        "fullname": "adani",
+        "email": "adanisofiaa@gmail.com",
+        "password": "$2y$10$TP1t7Vi97CNwS20a0H0UQOpYO3OEFJwNnhS9LAdpFZRVNINuxvEbq",
+        "role": "Student",
+        "created_at": "2026-05-12 18:37:24",
+        "status": "active"
+    }
+]

@@ -1,0 +1,469 @@
+/* books-fix.css - Table Border Fixes for Transactions Page */
+
+/* Force box sizing */
+* {
+    box-sizing: border-box;
+}
+
+/* Table responsive container */
+.table-responsive {
+    overflow-x: auto !important;
+    width: 100% !important;
+    border-radius: 12px !important;
+    background: var(--bs-card-bg) !important;
+}
+
+/* Main table styles - COMPLETE BORDERS */
+.transactions-table {
+    width: 100% !important;
+    min-width: 1000px !important;
+    border-collapse: collapse !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    font-size: 14px !important;
+}
+
+/* ALL HEADER CELLS - FULL BORDERS */
+.transactions-table th {
+    padding: 12px 12px !important;
+    background: #2a2a2e !important;
+    font-weight: 600 !important;
+    font-size: 0.75rem !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+    color: #a1a1aa !important;
+    border: 1px solid #3e3e42 !important;
+    text-align: left !important;
+}
+
+/* ALL DATA CELLS - FULL BORDERS */
+.transactions-table td {
+    padding: 12px 12px !important;
+    border: 1px solid #3e3e42 !important;
+    color: var(--bs-body-color) !important;
+    font-size: 0.85rem !important;
+    vertical-align: middle !important;
+    background: var(--bs-card-bg) !important;
+}
+
+/* Remove double borders between rows */
+.transactions-table tr td {
+    border-top: none !important;
+}
+
+/* First row top border */
+.transactions-table tr:first-child td {
+    border-top: 1px solid #3e3e42 !important;
+}
+
+/* Row hover effect */
+.transactions-table tr:hover td {
+    background: rgba(99, 102, 241, 0.05) !important;
+}
+
+/* Column minimum widths */
+.transactions-table th:nth-child(1),
+.transactions-table td:nth-child(1) { 
+    min-width: 75px !important; 
+}
+
+.transactions-table th:nth-child(2),
+.transactions-table td:nth-child(2) { 
+    min-width: 220px !important; 
+}
+
+.transactions-table th:nth-child(3),
+.transactions-table td:nth-child(3) { 
+    min-width: 130px !important; 
+}
+
+.transactions-table th:nth-child(4),
+.transactions-table td:nth-child(4) { 
+    min-width: 110px !important; 
+}
+
+.transactions-table th:nth-child(5),
+.transactions-table td:nth-child(5) { 
+    min-width: 110px !important; 
+}
+
+.transactions-table th:nth-child(6),
+.transactions-table td:nth-child(6) { 
+    min-width: 110px !important; 
+}
+
+.transactions-table th:nth-child(7),
+.transactions-table td:nth-child(7) { 
+    min-width: 100px !important; 
+}
+
+.transactions-table th:nth-child(8),
+.transactions-table td:nth-child(8) { 
+    min-width: 70px !important; 
+}
+
+.transactions-table th:nth-child(9),
+.transactions-table td:nth-child(9) { 
+    min-width: 80px !important; 
+}
+
+/* Transaction ID styling */
+.transactions-table td:first-child strong {
+    color: #818cf8 !important;
+    font-family: monospace !important;
+    font-weight: 600 !important;
+}
+
+/* Status badges */
+.badge-transaction {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    padding: 4px 12px !important;
+    border-radius: 30px !important;
+    font-size: 0.7rem !important;
+    font-weight: 600 !important;
+}
+
+.badge-borrowed {
+    background: rgba(245, 158, 11, 0.15) !important;
+    color: #f59e0b !important;
+}
+
+.badge-returned {
+    background: rgba(34, 197, 94, 0.15) !important;
+    color: #22c55e !important;
+}
+
+.badge-overdue {
+    background: rgba(239, 68, 68, 0.15) !important;
+    color: #ef4444 !important;
+}
+
+/* Action buttons */
+.action-buttons {
+    display: flex !important;
+    gap: 8px !important;
+    align-items: center !important;
+}
+
+.return-btn, .delete-btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 28px !important;
+    height: 28px !important;
+    border-radius: 6px !important;
+    text-decoration: none !important;
+    transition: all 0.2s ease !important;
+    cursor: pointer !important;
+    border: none !important;
+}
+
+.return-btn {
+    background: rgba(34, 197, 94, 0.1) !important;
+    color: #22c55e !important;
+}
+
+.return-btn:hover {
+    background: #22c55e !important;
+    color: white !important;
+}
+
+.delete-btn {
+    background: rgba(239, 68, 68, 0.1) !important;
+    color: #ef4444 !important;
+}
+
+.delete-btn:hover {
+    background: #ef4444 !important;
+    color: white !important;
+}
+
+/* Fine amounts */
+.fine-positive {
+    color: #ef4444 !important;
+    font-weight: 600 !important;
+}
+
+.fine-zero {
+    color: #71717a !important;
+}
+
+/* Stats Cards */
+.transactions-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.stat-card-glass {
+    background: var(--bs-card-bg);
+    border-radius: 12px;
+    padding: 0.875rem 0.75rem;
+    text-align: center;
+    border: 1px solid var(--bs-border-color);
+}
+
+.stat-number {
+    font-size: 1.5rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.stat-label {
+    font-size: 0.7rem;
+    color: var(--bs-secondary-color);
+    margin-top: 0.25rem;
+}
+
+/* Summary Cards */
+.summary-cards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.875rem;
+    margin-bottom: 1.5rem;
+}
+
+.summary-card {
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.08), rgba(118, 75, 162, 0.08));
+    border-radius: 10px;
+    padding: 0.7rem 0.5rem;
+    text-align: center;
+    border: 1px solid rgba(102, 126, 234, 0.15);
+}
+
+.summary-label {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--bs-secondary-color);
+}
+
+.summary-value {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #667eea;
+}
+
+/* Filter Bar */
+.filter-bar {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.filter-btn {
+    background: var(--bs-secondary-bg);
+    border: 1px solid var(--bs-border-color);
+    padding: 0.35rem 0.9rem;
+    border-radius: 30px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    color: var(--bs-body-color);
+    cursor: pointer;
+}
+
+.filter-btn.active {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    border-color: transparent;
+}
+
+/* Date Range Picker */
+.date-range-picker {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--bs-secondary-bg);
+    padding: 0.25rem 0.7rem;
+    border-radius: 30px;
+    border: 1px solid var(--bs-border-color);
+}
+
+.date-input {
+    background: var(--bs-body-bg);
+    border: 1px solid var(--bs-border-color);
+    padding: 0.25rem 0.5rem;
+    border-radius: 6px;
+    font-size: 0.7rem;
+    color: var(--bs-body-color);
+}
+
+/* Search Input */
+.search-input-wrapper {
+    position: relative;
+    margin-bottom: 1.5rem;
+}
+
+.search-input-wrapper i {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--bs-secondary-color);
+}
+
+.search-input-wrapper input {
+    width: 100%;
+    padding: 0.6rem 1rem 0.6rem 2.5rem;
+    background: var(--bs-body-bg);
+    border: 1px solid var(--bs-border-color);
+    border-radius: 10px;
+    font-size: 0.85rem;
+    color: var(--bs-body-color);
+}
+
+/* Pagination */
+.pagination-wrapper {
+    margin-top: 1.5rem;
+    display: flex;
+    justify-content: center;
+}
+
+.pagination-controls {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.page-btn {
+    background: var(--bs-secondary-bg);
+    border: 1px solid var(--bs-border-color);
+    padding: 0.3rem 0.7rem;
+    border-radius: 6px;
+    cursor: pointer;
+    color: var(--bs-body-color);
+    font-size: 0.75rem;
+}
+
+.page-btn.active {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    border-color: transparent;
+}
+
+/* Recent Activity */
+.recent-activity {
+    margin-top: 1.5rem;
+    background: var(--bs-card-bg);
+    border-radius: 12px;
+    padding: 1rem;
+    border: 1px solid var(--bs-border-color);
+}
+
+.section-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 0.875rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--bs-heading-color);
+}
+
+.activity-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.activity-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.6rem;
+    background: var(--bs-secondary-bg);
+    border-radius: 8px;
+}
+
+.activity-icon {
+    font-size: 1.1rem;
+}
+
+.activity-details {
+    flex: 1;
+}
+
+.activity-title {
+    font-weight: 500;
+    font-size: 0.8rem;
+    color: var(--bs-body-color);
+}
+
+.activity-time {
+    font-size: 0.6rem;
+    color: var(--bs-secondary-color);
+}
+
+.activity-status {
+    font-size: 0.6rem;
+    padding: 0.15rem 0.5rem;
+    border-radius: 20px;
+    font-weight: 600;
+}
+
+.activity-status.borrowed {
+    background: rgba(245, 158, 11, 0.12);
+    color: #f59e0b;
+}
+
+.activity-status.returned {
+    background: rgba(34, 197, 94, 0.12);
+    color: #22c55e;
+}
+
+.activity-status.overdue {
+    background: rgba(239, 68, 68, 0.12);
+    color: #ef4444;
+}
+
+/* Dual Chart Grid */
+.dual-chart-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+#dailyChart,
+#statusChart {
+    max-height: 260px;
+    width: 100%;
+}
+
+/* Light mode overrides */
+[data-bs-theme="light"] .transactions-table th {
+    background: #f4f4f5 !important;
+    border-color: #e4e4e7 !important;
+    color: #71717a !important;
+}
+
+[data-bs-theme="light"] .transactions-table td {
+    border-color: #e4e4e7 !important;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .transactions-table {
+        min-width: 800px !important;
+    }
+    
+    .transactions-table th,
+    .transactions-table td {
+        padding: 8px 8px !important;
+    }
+    
+    .transactions-table th {
+        font-size: 0.65rem !important;
+    }
+    
+    .transactions-table td {
+        font-size: 0.7rem !important;
+    }
+}

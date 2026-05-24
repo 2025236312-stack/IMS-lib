@@ -1,0 +1,269 @@
+/* ============================================
+   insights.css - Complete Styles for Insights Page
+   Light & Dark Mode Fully Supported
+   ============================================ */
+
+/* CSS Variables */
+:root {
+    --primary-gradient: linear-gradient(135deg, #6366f1, #8b5cf6);
+    --primary-color: #6366f1;
+    --success-color: #22c55e;
+    --warning-color: #f59e0b;
+    --danger-color: #ef4444;
+}
+
+/* Dark Mode (Default) */
+[data-bs-theme="dark"] {
+    --insight-bg-primary: #0f0f1a;
+    --insight-card-bg: rgba(255, 255, 255, 0.03);
+    --insight-text-primary: #ffffff;
+    --insight-text-secondary: rgba(255, 255, 255, 0.7);
+    --insight-text-muted: rgba(255, 255, 255, 0.5);
+    --insight-border: rgba(255, 255, 255, 0.1);
+    --insight-card-hover: rgba(255, 255, 255, 0.05);
+    --insight-progress-bg: rgba(255, 255, 255, 0.1);
+    --insight-kpi-bg: linear-gradient(135deg, rgba(99,102,241,0.15), rgba(139,92,246,0.15));
+}
+
+/* Light Mode */
+[data-bs-theme="light"] {
+    --insight-bg-primary: #f8fafc;
+    --insight-card-bg: rgba(255, 255, 255, 0.9);
+    --insight-text-primary: #1e293b;
+    --insight-text-secondary: #475569;
+    --insight-text-muted: #94a3b8;
+    --insight-border: rgba(0, 0, 0, 0.08);
+    --insight-card-hover: rgba(99, 102, 241, 0.05);
+    --insight-progress-bg: rgba(0, 0, 0, 0.05);
+    --insight-kpi-bg: linear-gradient(135deg, rgba(99,102,241,0.08), rgba(139,92,246,0.08));
+}
+
+/* Global Styles */
+body {
+    background: var(--insight-bg-primary);
+    color: var(--insight-text-primary);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* KPI Grid */
+.kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.kpi-card {
+    background: var(--insight-kpi-bg);
+    backdrop-filter: blur(10px);
+    border-radius: 24px;
+    padding: 1.5rem;
+    text-align: center;
+    border: 1px solid rgba(99, 102, 241, 0.3);
+    transition: all 0.3s ease;
+}
+
+.kpi-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(99, 102, 241, 0.2);
+}
+
+.kpi-number {
+    font-size: 2.5rem;
+    font-weight: 700;
+    background: var(--primary-gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin-bottom: 0.5rem;
+}
+
+.kpi-label {
+    color: var(--insight-text-secondary);
+    font-size: 0.875rem;
+    margin-bottom: 0.5rem;
+}
+
+.trend-up {
+    color: var(--success-color);
+    font-size: 0.75rem;
+}
+
+.trend-down {
+    color: var(--danger-color);
+    font-size: 0.75rem;
+}
+
+/* Insights Grid */
+.insights-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.insight-card {
+    background: var(--insight-card-bg);
+    backdrop-filter: blur(10px);
+    border-radius: 24px;
+    padding: 1.5rem;
+    border: 1px solid var(--insight-border);
+    transition: all 0.3s ease;
+}
+
+.insight-card:hover {
+    transform: translateY(-5px);
+    background: var(--insight-card-hover);
+    border-color: var(--primary-color);
+}
+
+.insight-card h5 {
+    margin-bottom: 1.25rem;
+    color: var(--insight-text-primary);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 600;
+}
+
+.insight-card h5 i {
+    background: var(--primary-gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.chart-wrapper {
+    position: relative;
+    height: 280px;
+}
+
+/* Performance Metrics */
+.performance-metrics {
+    background: var(--insight-card-bg);
+    backdrop-filter: blur(10px);
+    border-radius: 24px;
+    padding: 1.5rem;
+    border: 1px solid var(--insight-border);
+    margin-top: 1.5rem;
+}
+
+.metric-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--insight-text-primary);
+}
+
+.metric-label {
+    font-size: 0.75rem;
+    color: var(--insight-text-muted);
+    margin-bottom: 0.5rem;
+}
+
+.progress {
+    background: var(--insight-progress-bg);
+    border-radius: 10px;
+    height: 6px;
+}
+
+.progress-bar {
+    border-radius: 10px;
+}
+
+/* Date Filter */
+.date-filter {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 1.5rem;
+}
+
+.date-filter select {
+    background: var(--insight-card-bg);
+    border: 1px solid var(--insight-border);
+    border-radius: 40px;
+    padding: 0.5rem 1rem;
+    color: var(--insight-text-primary);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.date-filter select:hover {
+    border-color: var(--primary-color);
+}
+
+/* Section Title */
+.section-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: var(--insight-text-primary);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Alert Info - NEW */
+.alert-info-custom {
+    background: rgba(99, 102, 241, 0.1);
+    border: 1px solid rgba(99, 102, 241, 0.3);
+    border-radius: 16px;
+    color: var(--insight-text-primary);
+    padding: 0.75rem 1rem;
+    margin-bottom: 1rem;
+    font-size: 0.875rem;
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+    .kpi-number {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 992px) {
+    .kpi-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+    .insights-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .kpi-card {
+        padding: 1rem;
+    }
+    .kpi-number {
+        font-size: 1.5rem;
+    }
+    .insight-card {
+        padding: 1rem;
+    }
+    .chart-wrapper {
+        height: 220px;
+    }
+    .date-filter {
+        justify-content: flex-start;
+        margin-bottom: 1rem;
+    }
+    .metric-value {
+        font-size: 1.2rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .kpi-grid {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+    }
+    .performance-metrics .row {
+        gap: 1rem;
+    }
+    .metric-item {
+        margin-bottom: 1rem;
+    }
+    .insight-card h5 {
+        font-size: 1rem;
+    }
+}
