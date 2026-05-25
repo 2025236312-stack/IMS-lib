@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>SmartLib - Library Management System Login</title>
+    <title>4a Repository - SmartLib Login</title>
     
     <!-- Bootstrap 5.3 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -26,11 +26,27 @@
         body {
             font-family: 'Inter', sans-serif;
             min-height: 100vh;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        #bg-vanta {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+        
+        .content-overlay {
+            position: relative;
+            z-index: 10;
+            min-height: 100vh;
         }
         
         .login-card {
-            background: rgba(15, 25, 45, 0.95);
+            background: rgba(15, 25, 45, 0.85);
             backdrop-filter: blur(12px);
             border-radius: 24px;
             width: 100%;
@@ -38,6 +54,11 @@
             transition: all 0.3s ease;
             border: 1px solid rgba(255, 255, 255, 0.1);
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+        
+        .login-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.4);
         }
         
         .login-card .card-body {
@@ -48,11 +69,14 @@
             color: white;
             font-family: 'Saira Stencil', cursive;
             margin-bottom: 1.5rem;
+            letter-spacing: 1px;
         }
         
         .login-card .form-label {
             color: rgba(255, 255, 255, 0.9);
             font-weight: 500;
+            font-size: 0.85rem;
+            margin-bottom: 0.3rem;
         }
         
         .login-card .form-control {
@@ -63,11 +87,25 @@
             padding: 10px 12px;
         }
         
+        .login-card .form-control::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+        
         .login-card .form-control:focus {
             background: rgba(255, 255, 255, 0.15);
             border-color: #667eea;
             color: white;
             box-shadow: 0 0 0 0.25rem rgba(102, 126, 234, 0.25);
+            outline: none;
+        }
+        
+        .logo-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            text-align: center;
         }
         
         .logo-icon-large {
@@ -89,6 +127,13 @@
         .logo-section h2 {
             color: white;
             font-family: 'Saira Stencil', cursive;
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+        
+        .logo-section p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.85rem;
         }
         
         .btn-login {
@@ -99,6 +144,7 @@
             color: white;
             font-weight: 600;
             width: 100%;
+            transition: all 0.3s ease;
             cursor: pointer;
         }
         
@@ -106,92 +152,506 @@
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
         }
+        
+        .divider {
+            border-color: rgba(255, 255, 255, 0.2);
+            margin: 1rem 0;
+        }
+        
+        .border-end-custom {
+            border-right: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        @media (max-width: 768px) {
+            .login-card .card-body {
+                padding: 1.5rem;
+            }
+            .border-end-custom {
+                border-right: none;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+                padding-bottom: 1.5rem;
+                margin-bottom: 1.5rem;
+            }
+            .logo-icon-large {
+                width: 80px;
+                height: 80px;
+            }
+            .logo-icon-large i {
+                font-size: 2.5rem;
+            }
+            .logo-section h2 {
+                font-size: 1.4rem;
+            }
+        }
+        
+        .toast-notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+            min-width: 280px;
+            animation: slideIn 0.3s ease;
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .particle {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 50%;
+            animation: float 6s infinite ease-in-out;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0) translateX(0); opacity: 0.2; }
+            50% { transform: translateY(-20px) translateX(10px); opacity: 0.6; }
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="row justify-content-center align-items-center min-vh-100">
-            <div class="col-md-8">
-                <div class="card login-card">
-                    <div class="card-body">
-                        <h3 class="text-center">SMARTLIB LOGIN</h3>
-                        <div class="row">
-                            <div class="col-md-6 text-center border-end border-white">
-                                <div class="logo-section py-4">
-                                    <div class="logo-icon-large mx-auto">
-                                        <i class="bi bi-book-half"></i>
-                                    </div>
-                                    <h2 class="mt-3">SmartLib</h2>
-                                    <p>Library Management System</p>
-                                    <small class="text-white-50">Secure Access</small>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <form id="loginForm">
-                                    <div class="mb-3">
-                                        <label class="form-label">Email Address</label>
-                                        <input type="email" id="loginEmail" class="form-control" placeholder="Enter your email" required>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label class="form-label">Password</label>
-                                        <input type="password" id="loginPassword" class="form-control" placeholder="Enter your password" required>
-                                    </div>
-                                    <button type="submit" class="btn-login">
-                                        <i class="bi bi-box-arrow-in-right"></i> Login
-                                    </button>
-                                </form>
-                                <hr class="bg-white">
-                                <div class="text-center">
-                                    <small class="text-white-50">
-                                        <i class="bi bi-shield-check"></i> Secure Login
-                                    </small>
-                                </div>
-                            </div>
+
+<div id="bg-vanta"></div>
+<div class="particles" id="particles"></div>
+
+<div class="content-overlay d-flex justify-content-center align-items-center vh-100">
+    <div class="card login-card">
+        <div class="card-body">
+            <h3 class="text-center">LOGIN</h3>
+            <div class="row">
+                <div class="col-md-6 border-end-custom">
+                    <div class="logo-section">
+                        <div class="logo-icon-large">
+                            <i class="bi bi-book-half"></i>
                         </div>
+                        <h2>SmartLib</h2>
+                        <p>Library Management System</p>
+                        <div class="mt-3">
+                            <small class="text-white-50">
+                                <i class="bi bi-shield-check"></i> Secure Access
+                            </small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <form id="loginForm">
+                        <div class="mb-3">
+                            <label for="Email" class="form-label">
+                                <i class="bi bi-envelope"></i> Email Address
+                            </label>
+                            <input type="email" id="loginEmail" class="form-control" placeholder="Enter your email" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="Password" class="form-label">
+                                <i class="bi bi-lock"></i> Password
+                            </label>
+                            <input type="password" id="loginPassword" class="form-control" placeholder="Enter your password" required>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="rememberMe">
+                                <label class="form-check-label small text-white-50" for="rememberMe">
+                                    Remember Me
+                                </label>
+                            </div>
+                            <a href="#" class="text-decoration-none small" style="color: #a78bfa;" onclick="showForgotPassword()">Forgot Password?</a>
+                        </div>
+                        <button type="submit" class="btn-login">
+                            <i class="bi bi-box-arrow-in-right"></i> Login
+                        </button>
+                    </form>
+                    
+                    <div class="text-center mt-3">
+                        <small class="text-white-50">
+                            Don't have an account? 
+                            <a href="#" class="text-decoration-none" style="color: #a78bfa;" onclick="showRegister()">Register here</a>
+                        </small>
+                    </div>
+                    
+                    <hr class="divider">
+                    
+                    <div class="text-center">
+                        <small class="text-white-50">
+                            <i class="bi bi-shield-check"></i> Secure Login • 30min Session
+                        </small>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
-    <script>
-        // Demo accounts
-        const demoAccounts = [
-            { id: "STAFF001", fullname: "Staff User", email: "staff@library.com", password: "staff123", role: "Staff" },
-            { id: "STU002", fullname: "Student User", email: "student@library.com", password: "student123", role: "Student" },
-            { id: "GUEST003", fullname: "Guest User", email: "guest@library.com", password: "guest123", role: "Guest" }
-        ];
+<!-- Register Modal -->
+<div class="modal fade" id="registerModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="background: rgba(15, 25, 45, 0.95); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.1);">
+            <div class="modal-header" style="border-bottom: 1px solid rgba(255,255,255,0.1);">
+                <h5 class="modal-title text-white"><i class="bi bi-person-plus"></i> Create Account</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="registerForm">
+                    <div class="mb-3">
+                        <label class="form-label text-white">Full Name</label>
+                        <input type="text" id="regName" class="form-control" style="background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2); color: white;" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label text-white">Email Address</label>
+                        <input type="email" id="regEmail" class="form-control" style="background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2); color: white;" required>
+                        <small id="regEmailAvailability" class="text-muted"></small>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label text-white">Password</label>
+                        <input type="password" id="regPassword" class="form-control" style="background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2); color: white;" required>
+                        <div id="regPasswordStrength"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label text-white">Confirm Password</label>
+                        <input type="password" id="regConfirm" class="form-control" style="background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2); color: white;" required>
+                        <small id="regPasswordMatch" class="text-muted"></small>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label text-white">Role</label>
+                        <select id="regRole" class="form-select" style="background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2); color: white;">
+                            <option value="Student" style="background: #1a1a2e;">🎓 Student</option>
+                            <option value="Staff" style="background: #1a1a2e;">👔 Staff</option>
+                            <option value="Guest" style="background: #1a1a2e;">🌐 Guest</option>
+                        </select>
+                    </div>
+                    <div class="form-check mb-3">
+                        <input type="checkbox" class="form-check-input" id="termsCheck">
+                        <label class="form-check-label text-white-50 small">I agree to the Terms & Conditions</label>
+                    </div>
+                    <button type="submit" class="btn btn-success w-100" style="background: linear-gradient(135deg, #11998e, #38ef7d); border: none;">Register</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const email = document.getElementById('loginEmail').value;
-            const password = document.getElementById('loginPassword').value;
-            
-            const user = demoAccounts.find(u => u.email === email && u.password === password);
-            
-            if (user) {
-                // Store session data - THIS IS WHAT YOUR DASHBOARD LOOKS FOR
-                sessionStorage.clear();
-                sessionStorage.setItem('logged_in', 'true');
-                sessionStorage.setItem('user_id', user.id);
-                sessionStorage.setItem('user_name', user.fullname);
-                sessionStorage.setItem('user_email', user.email);
-                sessionStorage.setItem('user_role', user.role);
-                sessionStorage.setItem('last_activity', new Date().toISOString());
-                
-                // Also store in localStorage as backup
-                localStorage.setItem('library_logged_in', 'true');
-                localStorage.setItem('library_user_name', user.fullname);
-                localStorage.setItem('library_user_email', user.email);
-                localStorage.setItem('library_user_role', user.role);
-                
-                alert(`Welcome ${user.fullname}! Redirecting to dashboard...`);
-                window.location.href = 'dashboard.html';
-            } else {
-                alert('Invalid email or password!\n\nDemo accounts:\nstaff@library.com / staff123\nstudent@library.com / student123\nguest@library.com / guest123');
-            }
-        });
-    </script>
+<!-- Forgot Password Modal -->
+<div class="modal fade" id="forgotModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="background: rgba(15, 25, 45, 0.95); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.1);">
+            <div class="modal-header" style="border-bottom: 1px solid rgba(255,255,255,0.1);">
+                <h5 class="modal-title text-white"><i class="bi bi-key"></i> Reset Password</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="forgotForm">
+                    <div class="alert alert-info small py-2 mb-3" style="background: rgba(102,126,234,0.2); border: 1px solid rgba(102,126,234,0.3); color: white;">
+                        <i class="bi bi-info-circle-fill"></i> Enter your registered email to reset password
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label text-white">Email Address</label>
+                        <input type="email" id="fpEmail" class="form-control" style="background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2); color: white;" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label text-white">New Password</label>
+                        <input type="password" id="fpNewPassword" class="form-control" style="background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2); color: white;" required>
+                        <div id="fpPasswordStrength"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label text-white">Confirm Password</label>
+                        <input type="password" id="fpConfirm" class="form-control" style="background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2); color: white;" required>
+                        <small id="fpPasswordMatch" class="text-muted"></small>
+                    </div>
+                    <button type="submit" class="btn btn-warning w-100" style="background: linear-gradient(135deg, #f093fb, #f5576c); border: none; color: white;">Reset Password</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="toastNotification" class="toast-notification" style="display: none;">
+    <div class="toast bg-success text-white" role="alert">
+        <div class="toast-body d-flex align-items-center justify-content-between">
+            <span id="toastMessage"><i class="bi bi-check-circle-fill me-2"></i> Message</span>
+            <button type="button" class="btn-close btn-close-white" onclick="hideToast()"></button>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"></script>
+
+<script>
+// ============================================
+// SMARTLIB LOGIN SYSTEM - FULLY FUNCTIONAL
+// ============================================
+
+// Initialize Vanta.js Background
+VANTA.NET({
+    el: "#bg-vanta",
+    mouseControls: true,
+    touchControls: true,
+    gyroControls: false,
+    minHeight: 200.00,
+    minWidth: 200.00,
+    scale: 1.00,
+    scaleMobile: 1.00,
+    color: 0x667eea,
+    backgroundColor: 0x0a0a2a
+});
+
+// Create floating particles
+function createParticles() {
+    const particlesContainer = document.getElementById('particles');
+    if (!particlesContainer) return;
+    for (let i = 0; i < 40; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        particle.style.width = Math.random() * 8 + 2 + 'px';
+        particle.style.height = particle.style.width;
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.top = Math.random() * 100 + '%';
+        particle.style.animationDelay = Math.random() * 5 + 's';
+        particle.style.animationDuration = Math.random() * 4 + 3 + 's';
+        particlesContainer.appendChild(particle);
+    }
+}
+createParticles();
+
+// Toast notification
+function showToast(message, type = 'success') {
+    const toast = document.getElementById('toastNotification');
+    const toastMessage = document.getElementById('toastMessage');
+    const toastDiv = toast.querySelector('.toast');
+    toastDiv.className = `toast text-white bg-${type === 'success' ? 'success' : type === 'error' ? 'danger' : 'info'}`;
+    toastMessage.innerHTML = `<i class="bi bi-${type === 'success' ? 'check-circle-fill' : 'exclamation-triangle-fill'} me-2"></i> ${message}`;
+    toast.style.display = 'block';
+    setTimeout(() => { toast.style.display = 'none'; }, 3000);
+}
+
+function hideToast() {
+    document.getElementById('toastNotification').style.display = 'none';
+}
+
+// Demo accounts
+const demoAccounts = [
+    { id: "STAFF001", fullname: "Staff User", email: "staff@library.com", password: "staff123", role: "Staff" },
+    { id: "STU002", fullname: "Student User", email: "student@library.com", password: "student123", role: "Student" },
+    { id: "GUEST003", fullname: "Guest User", email: "guest@library.com", password: "guest123", role: "Guest" }
+];
+
+// Load registered users - IMPORTANT: This matches your dashboard
+let registeredUsers = JSON.parse(localStorage.getItem('library_users') || '[]');
+
+function saveUsers() {
+    localStorage.setItem('library_users', JSON.stringify(registeredUsers));
+}
+
+function userExists(email) {
+    return demoAccounts.some(u => u.email === email) || registeredUsers.some(u => u.email === email);
+}
+
+function authenticateUser(email, password) {
+    const demoUser = demoAccounts.find(u => u.email === email && u.password === password);
+    if (demoUser) return demoUser;
+    const regUser = registeredUsers.find(u => u.email === email && u.password === password);
+    return regUser || null;
+}
+
+// This is the CRITICAL function - stores data exactly as dashboard expects
+function redirectToDashboard(user) {
+    // Clear any existing session
+    sessionStorage.clear();
+    
+    // Store session data - THESE ARE THE EXACT KEYS YOUR DASHBOARD LOOKS FOR
+    sessionStorage.setItem('logged_in', 'true');
+    sessionStorage.setItem('user_id', user.id || 'USER_' + Date.now());
+    sessionStorage.setItem('user_name', user.fullname);
+    sessionStorage.setItem('user_email', user.email);
+    sessionStorage.setItem('user_role', user.role);
+    sessionStorage.setItem('last_activity', new Date().toISOString());
+    
+    // Save registered users to localStorage (your dashboard reads this)
+    localStorage.setItem('library_users', JSON.stringify(registeredUsers));
+    
+    // Handle remember me
+    const remember = document.getElementById('rememberMe').checked;
+    if (remember) {
+        localStorage.setItem('remembered_email', user.email);
+        localStorage.setItem('library_remember_token', 'true');
+    } else {
+        localStorage.removeItem('remembered_email');
+        localStorage.removeItem('library_remember_token');
+    }
+    
+    showToast(`Welcome ${user.fullname}! Redirecting to dashboard...`, 'success');
+    
+    // Force redirect to dashboard
+    setTimeout(() => {
+        window.location.replace('dashboard.html');
+    }, 1000);
+}
+
+// Login handler
+document.getElementById('loginForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const email = document.getElementById('loginEmail').value;
+    const password = document.getElementById('loginPassword').value;
+    const user = authenticateUser(email, password);
+    
+    if (user) {
+        redirectToDashboard(user);
+    } else {
+        showToast('Invalid email or password!', 'error');
+    }
+});
+
+// Register handler
+document.getElementById('registerForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const name = document.getElementById('regName').value;
+    const email = document.getElementById('regEmail').value;
+    const password = document.getElementById('regPassword').value;
+    const role = document.getElementById('regRole').value;
+    const terms = document.getElementById('termsCheck').checked;
+    
+    if (!terms) {
+        showToast('Please accept Terms & Conditions!', 'error');
+        return;
+    }
+    
+    if (userExists(email)) {
+        showToast('Email already registered!', 'error');
+        return;
+    }
+    
+    const newUser = {
+        id: 'USER' + Date.now(),
+        fullname: name,
+        email: email,
+        password: password,
+        role: role,
+        registeredDate: new Date().toISOString()
+    };
+    
+    registeredUsers.push(newUser);
+    saveUsers();
+    showToast('Registration successful! Please login.', 'success');
+    const registerModal = bootstrap.Modal.getInstance(document.getElementById('registerModal'));
+    registerModal.hide();
+    document.getElementById('loginEmail').value = email;
+    document.getElementById('registerForm').reset();
+});
+
+// Forgot password handler
+document.getElementById('forgotForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const email = document.getElementById('fpEmail').value;
+    const newPassword = document.getElementById('fpNewPassword').value;
+    const confirm = document.getElementById('fpConfirm').value;
+    
+    if (newPassword !== confirm) {
+        showToast('Passwords do not match!', 'error');
+        return;
+    }
+    
+    let found = false;
+    for (let i = 0; i < registeredUsers.length; i++) {
+        if (registeredUsers[i].email === email) {
+            registeredUsers[i].password = newPassword;
+            saveUsers();
+            found = true;
+            break;
+        }
+    }
+    
+    if (found) {
+        showToast('Password reset successful! Please login.', 'success');
+        const forgotModal = bootstrap.Modal.getInstance(document.getElementById('forgotModal'));
+        forgotModal.hide();
+        document.getElementById('loginEmail').value = email;
+    } else if (demoAccounts.some(u => u.email === email)) {
+        showToast('Demo account password cannot be changed!', 'error');
+    } else {
+        showToast('Email not found! Please register first.', 'error');
+    }
+});
+
+function showRegister() {
+    new bootstrap.Modal(document.getElementById('registerModal')).show();
+}
+
+function showForgotPassword() {
+    new bootstrap.Modal(document.getElementById('forgotModal')).show();
+}
+
+// Check remembered email
+const rememberedEmail = localStorage.getItem('remembered_email');
+if (rememberedEmail) {
+    document.getElementById('loginEmail').value = rememberedEmail;
+    document.getElementById('rememberMe').checked = true;
+}
+
+// If already logged in, go to dashboard
+if (sessionStorage.getItem('logged_in') === 'true') {
+    window.location.replace('dashboard.html');
+}
+
+// Password strength meter
+function updateRegPasswordStrength() {
+    const password = document.getElementById('regPassword').value;
+    const strengthDiv = document.getElementById('regPasswordStrength');
+    if (!password) { strengthDiv.innerHTML = ''; return; }
+    let strength = 0;
+    if (password.length >= 8) strength++;
+    if (password.match(/[a-z]/) && password.match(/[A-Z]/)) strength++;
+    if (password.match(/\d/)) strength++;
+    if (password.match(/[^a-zA-Z\d]/)) strength++;
+    let text = strength <= 1 ? '<small class="text-danger">Weak</small>' : strength === 2 ? '<small class="text-warning">Medium</small>' : '<small class="text-success">Strong</small>';
+    strengthDiv.innerHTML = `<div class="password-strength" style="height:4px; border-radius:2px; margin-top:5px; width:${strength <= 1 ? '33%' : strength === 2 ? '66%' : '100%'}; background:${strength <= 1 ? '#ef4444' : strength === 2 ? '#f59e0b' : '#10b981'};"></div>${text}`;
+}
+
+function checkRegPasswordMatch() {
+    const password = document.getElementById('regPassword').value;
+    const confirm = document.getElementById('regConfirm').value;
+    const matchSpan = document.getElementById('regPasswordMatch');
+    if (confirm === '') { matchSpan.innerHTML = ''; return; }
+    matchSpan.innerHTML = password === confirm ? '<span class="text-success">✓ Match</span>' : '<span class="text-danger">✗ No match</span>';
+}
+
+function checkEmailAvailability() {
+    const email = document.getElementById('regEmail').value;
+    const availabilitySpan = document.getElementById('regEmailAvailability');
+    if (userExists(email)) {
+        availabilitySpan.innerHTML = '<span class="text-danger">✗ Email already taken</span>';
+    } else if (email.includes('@')) {
+        availabilitySpan.innerHTML = '<span class="text-success">✓ Available</span>';
+    } else {
+        availabilitySpan.innerHTML = '';
+    }
+}
+
+document.getElementById('regPassword')?.addEventListener('input', updateRegPasswordStrength);
+document.getElementById('regConfirm')?.addEventListener('input', checkRegPasswordMatch);
+document.getElementById('regEmail')?.addEventListener('input', checkEmailAvailability);
+
+const style = document.createElement('style');
+style.textContent = `.password-strength { height: 4px; border-radius: 2px; margin-top: 5px; transition: all 0.3s ease; }`;
+document.head.appendChild(style);
+</script>
+<script src="auth.js"></script>
 </body>
 </html>
