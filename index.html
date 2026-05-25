@@ -30,7 +30,6 @@
             overflow-x: hidden;
         }
         
-        /* Vanta background container */
         #bg-vanta {
             position: fixed;
             top: 0;
@@ -40,14 +39,12 @@
             z-index: 0;
         }
         
-        /* Content overlay */
         .content-overlay {
             position: relative;
             z-index: 10;
             min-height: 100vh;
         }
         
-        /* Login Card */
         .login-card {
             background: rgba(15, 25, 45, 0.85);
             backdrop-filter: blur(12px);
@@ -102,7 +99,6 @@
             outline: none;
         }
         
-        /* Image/Logo Section */
         .logo-section {
             display: flex;
             flex-direction: column;
@@ -140,7 +136,6 @@
             font-size: 0.85rem;
         }
         
-        /* Button */
         .btn-login {
             background: linear-gradient(135deg, #667eea, #764ba2);
             border: none;
@@ -158,18 +153,15 @@
             box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
         }
         
-        /* Divider */
         .divider {
             border-color: rgba(255, 255, 255, 0.2);
             margin: 1rem 0;
         }
         
-        /* Border end */
         .border-end-custom {
             border-right: 1px solid rgba(255, 255, 255, 0.2);
         }
         
-        /* Responsive */
         @media (max-width: 768px) {
             .login-card .card-body {
                 padding: 1.5rem;
@@ -192,7 +184,6 @@
             }
         }
         
-        /* Toast Notification */
         .toast-notification {
             position: fixed;
             top: 20px;
@@ -213,7 +204,6 @@
             }
         }
         
-        /* Floating particles */
         .particles {
             position: fixed;
             top: 0;
@@ -239,13 +229,9 @@
 </head>
 <body>
 
-<!-- Vanta.js Background -->
 <div id="bg-vanta"></div>
-
-<!-- Floating Particles -->
 <div class="particles" id="particles"></div>
 
-<!-- Content Overlay -->
 <div class="content-overlay d-flex justify-content-center align-items-center vh-100">
     <div class="card login-card">
         <div class="card-body">
@@ -395,7 +381,6 @@
     </div>
 </div>
 
-<!-- Toast Notification -->
 <div id="toastNotification" class="toast-notification" style="display: none;">
     <div class="toast bg-success text-white" role="alert">
         <div class="toast-body d-flex align-items-center justify-content-between">
@@ -405,13 +390,11 @@
     </div>
 </div>
 
-<!-- Scripts -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"></script>
 
 <script>
-// Initialize Vanta.js Background
 VANTA.NET({
     el: "#bg-vanta",
     mouseControls: true,
@@ -425,7 +408,6 @@ VANTA.NET({
     backgroundColor: 0x0a0a2a
 });
 
-// Create floating particles
 function createParticles() {
     const particlesContainer = document.getElementById('particles');
     if (!particlesContainer) return;
@@ -443,12 +425,10 @@ function createParticles() {
 }
 createParticles();
 
-// Toast notification
 function showToast(message, type = 'success') {
     const toast = document.getElementById('toastNotification');
     const toastMessage = document.getElementById('toastMessage');
     const toastDiv = toast.querySelector('.toast');
-    
     toastDiv.className = `toast text-white bg-${type === 'success' ? 'success' : type === 'error' ? 'danger' : 'info'}`;
     toastMessage.innerHTML = `<i class="bi bi-${type === 'success' ? 'check-circle-fill' : 'exclamation-triangle-fill'} me-2"></i> ${message}`;
     toast.style.display = 'block';
@@ -459,7 +439,6 @@ function hideToast() {
     document.getElementById('toastNotification').style.display = 'none';
 }
 
-// Demo accounts
 const demoAccounts = [
     { id: "STAFF001", fullname: "Staff User", email: "staff@library.com", password: "staff123", role: "Staff" },
     { id: "STU002", fullname: "Student User", email: "student@library.com", password: "student123", role: "Student" },
@@ -483,94 +462,35 @@ function authenticateUser(email, password) {
     return regUser || null;
 }
 
-function checkPasswordStrength(password) {
-    let strength = 0;
-    if (password.length >= 8) strength++;
-    if (password.match(/[a-z]/) && password.match(/[A-Z]/)) strength++;
-    if (password.match(/\d/)) strength++;
-    if (password.match(/[^a-zA-Z\d]/)) strength++;
-    return strength;
-}
-
-function updateRegPasswordStrength() {
-    const password = document.getElementById('regPassword').value;
-    const strengthDiv = document.getElementById('regPasswordStrength');
-    if (!password) { strengthDiv.innerHTML = ''; return; }
-    const strength = checkPasswordStrength(password);
-    let className = '';
-    let text = '';
-    if (strength <= 1) { className = 'strength-weak'; text = '<small class="text-danger">Weak</small>'; }
-    else if (strength === 2) { className = 'strength-medium'; text = '<small class="text-warning">Medium</small>'; }
-    else { className = 'strength-strong'; text = '<small class="text-success">Strong</small>'; }
-    strengthDiv.innerHTML = `<div class="password-strength" style="height:4px; border-radius:2px; margin-top:5px; width:${strength <= 1 ? '33%' : strength === 2 ? '66%' : '100%'}; background:${strength <= 1 ? '#ef4444' : strength === 2 ? '#f59e0b' : '#10b981'};"></div>${text}`;
-}
-
-function checkRegPasswordMatch() {
-    const password = document.getElementById('regPassword').value;
-    const confirm = document.getElementById('regConfirm').value;
-    const matchSpan = document.getElementById('regPasswordMatch');
-    if (confirm === '') { matchSpan.innerHTML = ''; return; }
-    matchSpan.innerHTML = password === confirm ? '<span class="text-success">✓ Match</span>' : '<span class="text-danger">✗ No match</span>';
-}
-
-function checkEmailAvailability() {
-    const email = document.getElementById('regEmail').value;
-    const availabilitySpan = document.getElementById('regEmailAvailability');
-    if (userExists(email)) {
-        availabilitySpan.innerHTML = '<span class="text-danger">✗ Email already taken</span>';
-    } else if (email.includes('@')) {
-        availabilitySpan.innerHTML = '<span class="text-success">✓ Available</span>';
-    } else {
-        availabilitySpan.innerHTML = '';
-    }
-}
-
-// FIXED: Properly store session data for dashboard
 function redirectToDashboard(user) {
-    // Clear any existing session data first
-    sessionStorage.clear();
+    // Store session data
+    sessionStorage.setItem('smartlib_logged_in', 'true');
+    sessionStorage.setItem('smartlib_user_id', user.id);
+    sessionStorage.setItem('smartlib_user_name', user.fullname);
+    sessionStorage.setItem('smartlib_user_email', user.email);
+    sessionStorage.setItem('smartlib_user_role', user.role);
+    sessionStorage.setItem('smartlib_login_time', new Date().toISOString());
     
-    // Store complete user session data - dashboard expects these exact keys
-    sessionStorage.setItem('logged_in', 'true');
-    sessionStorage.setItem('user_id', user.id || 'USER_' + Date.now());
-    sessionStorage.setItem('user_name', user.fullname);
-    sessionStorage.setItem('user_email', user.email);
-    sessionStorage.setItem('user_role', user.role);
-    sessionStorage.setItem('last_activity', new Date().toISOString());
+    // Also store in localStorage for persistence
+    localStorage.setItem('smartlib_user_name', user.fullname);
+    localStorage.setItem('smartlib_user_email', user.email);
+    localStorage.setItem('smartlib_user_role', user.role);
+    localStorage.setItem('smartlib_logged_in', 'true');
     
-    // Also store in localStorage for persistence if needed
-    localStorage.setItem('library_logged_in', 'true');
-    localStorage.setItem('library_user_name', user.fullname);
-    localStorage.setItem('library_user_email', user.email);
-    localStorage.setItem('library_user_role', user.role);
-    
-    // Preserve registered users in localStorage
-    localStorage.setItem('library_users', JSON.stringify(registeredUsers));
-    
-    // Handle remember me
-    const remember = document.getElementById('rememberMe').checked;
-    if (remember) {
-        localStorage.setItem('remembered_email', user.email);
-        localStorage.setItem('library_remember_token', 'true');
-    } else {
-        localStorage.removeItem('remembered_email');
-        localStorage.removeItem('library_remember_token');
+    if (document.getElementById('rememberMe').checked) {
+        localStorage.setItem('smartlib_remember_email', user.email);
     }
     
     showToast(`Welcome ${user.fullname}! Redirecting to dashboard...`, 'success');
-    
-    // Force redirect to dashboard
     setTimeout(() => {
-        window.location.replace('dashboard.html');
+        window.location.href = 'dashboard.html';
     }, 1000);
 }
 
-// Login form submit - FIXED
 document.getElementById('loginForm').addEventListener('submit', function(e) {
     e.preventDefault();
     const email = document.getElementById('loginEmail').value;
     const password = document.getElementById('loginPassword').value;
-    
     const user = authenticateUser(email, password);
     
     if (user) {
@@ -580,7 +500,6 @@ document.getElementById('loginForm').addEventListener('submit', function(e) {
     }
 });
 
-// Register form submit
 document.getElementById('registerForm').addEventListener('submit', function(e) {
     e.preventDefault();
     const name = document.getElementById('regName').value;
@@ -610,17 +529,13 @@ document.getElementById('registerForm').addEventListener('submit', function(e) {
     
     registeredUsers.push(newUser);
     saveUsers();
-    
     showToast('Registration successful! Please login.', 'success');
-    
     const registerModal = bootstrap.Modal.getInstance(document.getElementById('registerModal'));
     registerModal.hide();
-    
     document.getElementById('loginEmail').value = email;
     document.getElementById('registerForm').reset();
 });
 
-// Forgot password form submit
 document.getElementById('forgotForm').addEventListener('submit', function(e) {
     e.preventDefault();
     const email = document.getElementById('fpEmail').value;
@@ -643,58 +558,30 @@ document.getElementById('forgotForm').addEventListener('submit', function(e) {
     }
     
     if (found) {
-        showToast('Password reset successful! Please login.', 'success');
+        showToast('Password reset successful!', 'success');
         const forgotModal = bootstrap.Modal.getInstance(document.getElementById('forgotModal'));
         forgotModal.hide();
         document.getElementById('loginEmail').value = email;
     } else if (demoAccounts.some(u => u.email === email)) {
         showToast('Demo account password cannot be changed!', 'error');
     } else {
-        showToast('Email not found! Please register first.', 'error');
+        showToast('Email not found!', 'error');
     }
 });
 
 function showRegister() {
-    const registerModal = new bootstrap.Modal(document.getElementById('registerModal'));
-    registerModal.show();
+    new bootstrap.Modal(document.getElementById('registerModal')).show();
 }
 
 function showForgotPassword() {
-    const forgotModal = new bootstrap.Modal(document.getElementById('forgotModal'));
-    forgotModal.show();
+    new bootstrap.Modal(document.getElementById('forgotModal')).show();
 }
 
-// Event listeners for register form
-document.getElementById('regPassword')?.addEventListener('input', updateRegPasswordStrength);
-document.getElementById('regConfirm')?.addEventListener('input', checkRegPasswordMatch);
-document.getElementById('regEmail')?.addEventListener('input', checkEmailAvailability);
-
-// Check remembered email
-const rememberedEmail = localStorage.getItem('remembered_email');
+const rememberedEmail = localStorage.getItem('smartlib_remember_email');
 if (rememberedEmail) {
     document.getElementById('loginEmail').value = rememberedEmail;
     document.getElementById('rememberMe').checked = true;
 }
-
-// If user is already logged in, redirect to dashboard
-if (sessionStorage.getItem('logged_in') === 'true' || localStorage.getItem('library_logged_in') === 'true') {
-    window.location.replace('dashboard.html');
-}
-
-// Password strength styles
-const style = document.createElement('style');
-style.textContent = `
-    .password-strength {
-        height: 4px;
-        border-radius: 2px;
-        margin-top: 5px;
-        transition: all 0.3s ease;
-    }
-    .strength-weak { width: 33%; background: #ef4444; }
-    .strength-medium { width: 66%; background: #f59e0b; }
-    .strength-strong { width: 100%; background: #10b981; }
-`;
-document.head.appendChild(style);
 </script>
 </body>
 </html>
