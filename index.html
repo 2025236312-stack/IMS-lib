@@ -3,33 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <meta name="description" content="LibraFlow - Advanced Library Management System with Secure Authentication">
+    <meta name="description" content="SmartLib - Advanced Library Management System with Secure Authentication">
     <meta name="theme-color" content="#667eea">
     <title>SmartLib - Library Management</title>
     
-    <!-- Bootstrap 5.3 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
-    
-    <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
-
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=Saira+Stencil:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-    <!-- AOS Animation -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-
-    <!-- External CSS -->
     <link rel="stylesheet" href="css/stylee.css">
     <link rel="stylesheet" href="css/login.css">
     
     <style>
-        /* Password toggle button style */
-        .password-wrapper {
-            position: relative;
-        }
+        .password-wrapper { position: relative; }
         .password-toggle {
             position: absolute;
             right: 10px;
@@ -41,14 +27,21 @@
             border: none;
             z-index: 10;
         }
-        .password-toggle:hover {
-            color: #667eea;
+        .password-toggle:hover { color: #667eea; }
+        .attempt-warning {
+            display: none;
+            margin-top: 10px;
+            padding: 5px;
+            background: rgba(255, 193, 7, 0.2);
+            border-radius: 8px;
+            text-align: center;
+            font-size: 12px;
+            color: #ffc107;
         }
     </style>
 </head>
 <body id="bg-vanta">
 
-    <!-- Toast Notification -->
     <div class="toast-notification" id="liveToast" style="display: none;">
         <div class="toast bg-success text-white" role="alert">
             <div class="toast-body" id="toastMessage">
@@ -57,11 +50,9 @@
         </div>
     </div>
 
-    <!-- Main Container -->
     <div class="d-flex justify-content-center align-items-center vh-100">
         <div class="card login-card shadow-lg border-0" data-aos="zoom-in" data-aos-duration="800" data-aos-once="true">
             <div class="card-body p-3 p-md-4">
-                <!-- Logo -->
                 <div class="text-center mb-3">
                     <div class="d-inline-block bg-gradient-primary p-2 rounded-circle mb-2" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
                         <i class="bi bi-book-half text-white logo-icon" style="font-size: 1.75rem;"></i>
@@ -70,7 +61,6 @@
                     <p class="text-muted small">Library Management System</p>
                 </div>
 
-                <!-- Tab Navigation -->
                 <ul class="nav nav-tabs nav-justified mb-3 border-0" id="authTab" role="tablist">
                     <li class="nav-item">
                         <button class="nav-link active fw-semibold" id="login-tab" data-bs-toggle="tab" data-bs-target="#login" type="button" role="tab">
@@ -89,7 +79,6 @@
                     </li>
                 </ul>
 
-                <!-- Tab Content -->
                 <div class="tab-content">
                     
                     <!-- LOGIN TAB -->
@@ -98,7 +87,6 @@
                             <div class="col-md-5 text-center border-end" data-aos="fade-right" data-aos-delay="200">
                                 <i class="bi bi-shield-lock" style="font-size: 40px; color: #667eea;"></i>
                                 <p class="mt-1 text-muted small">Secure Access</p>
-                                
                                 <div class="role-selector mt-2" id="roleSelector">
                                     <div class="role-option" data-role="staff" data-email="staff@library.com" data-password="staff123" data-name="Staff User" data-role-name="Staff">
                                         <div class="role-dot staff-dot"><i class="bi bi-person-badge"></i></div>
@@ -113,7 +101,6 @@
                                         <span class="role-label">Guest</span>
                                     </div>
                                 </div>
-                                
                                 <div class="mt-2">
                                     <small class="text-muted"><i class="bi bi-info-circle"></i> Session: 30min</small>
                                 </div>
@@ -121,10 +108,8 @@
                             <div class="col-md-7" data-aos="fade-left" data-aos-delay="300">
                                 <form id="loginForm">
                                     <input type="hidden" name="csrf_token" id="csrf_token_login" value="">
-                                    
                                     <label class="form-label fw-semibold small"><i class="bi bi-envelope"></i> Email Address</label>
                                     <input type="email" name="email" id="login_email" class="form-control form-control-sm mb-2" required placeholder="Enter your email" autocomplete="email">
-                                    
                                     <label class="form-label fw-semibold small"><i class="bi bi-lock"></i> Password</label>
                                     <div class="password-wrapper">
                                         <input type="password" name="password" id="login_password" class="form-control form-control-sm mb-2" required placeholder="••••••" autocomplete="current-password">
@@ -132,7 +117,6 @@
                                             <i class="bi bi-eye-slash" id="login_password_icon"></i>
                                         </button>
                                     </div>
-                                    
                                     <div class="d-flex justify-content-between align-items-center mb-2">
                                         <div class="form-check">
                                             <input type="checkbox" class="form-check-input" id="remember_me" name="remember_me">
@@ -140,14 +124,14 @@
                                         </div>
                                         <small class="text-muted"><i class="bi bi-shield-check"></i> Secure</small>
                                     </div>
-                                    
                                     <button type="submit" class="btn btn-primary w-100 py-1 fw-semibold btn-sm" id="loginBtn">
                                         <i class="bi bi-box-arrow-in-right"></i> Login
                                     </button>
                                 </form>
-                                
+                                <div class="attempt-warning" id="attemptWarning">
+                                    <i class="bi bi-exclamation-triangle"></i> Multiple failed attempts! Please wait.
+                                </div>
                                 <div id="loginErrorMessage" class="mt-2"></div>
-                                
                                 <div class="mt-2 text-center small text-muted">
                                     <hr class="my-1">
                                     <span class="text-muted">Click on role dots above</span>
@@ -171,15 +155,12 @@
                             <div class="col-md-7" data-aos="fade-left" data-aos-delay="300">
                                 <form id="registerForm" novalidate>
                                     <input type="hidden" name="csrf_token" id="csrf_token_reg" value="">
-                                    
                                     <label class="form-label fw-semibold small"><i class="bi bi-person"></i> Full Name</label>
                                     <input type="text" name="fullname" id="reg_name" class="form-control form-control-sm mb-2" required placeholder="Full name">
                                     <div class="invalid-feedback small" id="nameFeedback"></div>
-                                    
                                     <label class="form-label fw-semibold small"><i class="bi bi-envelope"></i> Email Address</label>
                                     <input type="email" name="email" id="reg_email" class="form-control form-control-sm mb-1" required placeholder="your@email.com" autocomplete="off">
                                     <div class="small text-muted" id="emailAvailability"></div>
-                                    
                                     <label class="form-label fw-semibold small"><i class="bi bi-lock"></i> Password</label>
                                     <div class="password-wrapper">
                                         <input type="password" name="password" id="reg_password" class="form-control form-control-sm mb-1" required placeholder="Min 8 chars">
@@ -189,7 +170,6 @@
                                     </div>
                                     <div id="passwordStrength"></div>
                                     <div class="password-hint small text-muted" id="passwordHint"></div>
-                                    
                                     <label class="form-label fw-semibold small"><i class="bi bi-shield-lock"></i> Confirm Password</label>
                                     <div class="password-wrapper">
                                         <input type="password" name="confirm_password" id="reg_confirm" class="form-control form-control-sm mb-2" required placeholder="Confirm password">
@@ -198,24 +178,20 @@
                                         </button>
                                     </div>
                                     <div class="small" id="passwordMatch"></div>
-                                    
                                     <label class="form-label fw-semibold small"><i class="bi bi-person-badge"></i> Role</label>
                                     <select name="role" id="reg_role" class="form-select form-select-sm mb-2" required>
                                         <option value="Student">🎓 Student</option>
                                         <option value="Staff">👔 Staff</option>
                                         <option value="Guest">🌐 Guest</option>
                                     </select>
-                                    
                                     <div class="form-check mb-2">
                                         <input type="checkbox" class="form-check-input" id="termsCheck" required>
                                         <label class="form-check-label small" for="termsCheck">I agree to <a href="#" data-bs-toggle="modal" data-bs-target="#termsModal">Terms</a></label>
                                     </div>
-                                    
                                     <button type="submit" class="btn btn-success w-100 py-1 fw-semibold btn-sm" id="registerBtn" disabled>
                                         <i class="bi bi-person-plus"></i> Create Account
                                     </button>
                                 </form>
-                                
                                 <div id="regErrorMessage" class="mt-2"></div>
                             </div>
                         </div>
@@ -235,15 +211,12 @@
                             <div class="col-md-7" data-aos="fade-left" data-aos-delay="300">
                                 <form id="forgotForm">
                                     <input type="hidden" name="csrf_token" id="csrf_token_fp" value="">
-                                    
                                     <div class="alert alert-info small py-1 mb-2">
                                         <i class="bi bi-info-circle-fill"></i> Enter registered email
                                     </div>
-                                    
                                     <label class="form-label fw-semibold small"><i class="bi bi-envelope"></i> Email Address</label>
                                     <input type="email" name="email" id="fp_email" class="form-control form-control-sm mb-2" required placeholder="registered@email.com">
                                     <div id="emailCheckResult" class="small mb-1"></div>
-                                    
                                     <label class="form-label fw-semibold small"><i class="bi bi-lock"></i> New Password</label>
                                     <div class="password-wrapper">
                                         <input type="password" name="new_password" id="fp_new_password" class="form-control form-control-sm mb-1" required placeholder="Min 8 chars">
@@ -252,7 +225,6 @@
                                         </button>
                                     </div>
                                     <div id="fpPasswordStrength"></div>
-                                    
                                     <label class="form-label fw-semibold small"><i class="bi bi-shield-lock"></i> Confirm Password</label>
                                     <div class="password-wrapper">
                                         <input type="password" name="confirm_password" id="fp_confirm" class="form-control form-control-sm mb-2" required placeholder="Confirm">
@@ -261,21 +233,18 @@
                                         </button>
                                     </div>
                                     <div class="small" id="fpPasswordMatch"></div>
-                                    
                                     <button type="submit" class="btn btn-warning w-100 py-1 fw-semibold btn-sm">
                                         <i class="bi bi-arrow-repeat"></i> Reset Password
                                     </button>
                                 </form>
-                                
                                 <div id="fpErrorMessage" class="mt-2"></div>
                             </div>
                         </div>
                     </div>
                 </div>
                 
-                <!-- Footer -->
                 <div class="text-center mt-3 pt-2 border-top">
-                    <small class="text-muted"><i class="bi bi-c-circle"></i> 2025 LibraFlow</small>
+                    <small class="text-muted"><i class="bi bi-c-circle"></i> 2025 SmartLib</small>
                 </div>
             </div>
         </div>
@@ -310,7 +279,6 @@
     // Initialize
     AOS.init({ once: true, duration: 800 });
 
-    // Vanta.js Background
     VANTA.NET({
         el: "#bg-vanta",
         mouseControls: true,
@@ -325,12 +293,11 @@
     });
 
     // ============================================
-    // PASSWORD TOGGLE FUNCTION
+    // PASSWORD TOGGLE
     // ============================================
     function togglePassword(inputId) {
         const input = document.getElementById(inputId);
         const icon = document.getElementById(inputId + '_icon');
-        
         if (input.type === 'password') {
             input.type = 'text';
             icon.classList.remove('bi-eye-slash');
@@ -343,78 +310,65 @@
     }
 
     // ============================================
-    // USER MANAGEMENT - PERSISTENT STORAGE
+    // USER MANAGEMENT - PERSISTENT STORAGE (FIXED)
     // ============================================
     
     const STORAGE_KEY = 'smartlib_registered_users';
     
-    // Demo Accounts (Fixed - cannot be modified)
     const DEMO_ACCOUNTS = [
         { id: "STAFF001", fullname: "Staff User", email: "staff@library.com", password: "staff123", role: "Staff", isDemo: true },
         { id: "STU002", fullname: "Student User", email: "student@library.com", password: "student123", role: "Student", isDemo: true },
         { id: "GUEST003", fullname: "Guest User", email: "guest@library.com", password: "guest123", role: "Guest", isDemo: true }
     ];
 
-    // Load registered users from localStorage
     function loadRegisteredUsers() {
         const saved = localStorage.getItem(STORAGE_KEY);
         if (saved) {
             try {
                 return JSON.parse(saved);
             } catch(e) {
-                console.error('Error parsing users:', e);
                 return [];
             }
         }
         return [];
     }
 
-    // Save registered users to localStorage
     function saveRegisteredUsers(users) {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(users));
-        console.log('Users saved to localStorage:', users.length);
+        console.log('✅ Saved', users.length, 'users to localStorage');
     }
 
-    // Get all users (demo + registered)
     function getAllUsers() {
         const registered = loadRegisteredUsers();
         return [...DEMO_ACCOUNTS, ...registered];
     }
 
-    // Authenticate user
     function authenticateUser(email, password) {
         const allUsers = getAllUsers();
         const user = allUsers.find(u => u.email === email && u.password === password);
-        
         if (user) {
-            console.log('User authenticated:', user.email);
-            return { 
-                id: user.id, 
-                fullname: user.fullname, 
-                email: user.email, 
-                role: user.role 
-            };
+            console.log('✅ User authenticated:', email);
+            return { id: user.id, fullname: user.fullname, email: user.email, role: user.role };
         }
-        console.log('Authentication failed for:', email);
+        console.log('❌ Authentication failed for:', email);
         return null;
     }
 
-    // Check if email exists
     function emailExists(email) {
         const allUsers = getAllUsers();
         return allUsers.some(u => u.email === email);
     }
 
-    // Register new user
     function registerUser(name, email, password, role) {
-        const allUsers = getAllUsers();
-        
-        // Check if email already exists
-        if (allUsers.some(u => u.email === email)) {
-            return { success: false, message: 'Email already exists!' };
+        if (DEMO_ACCOUNTS.some(u => u.email === email)) {
+            return { success: false, message: 'Cannot register demo email!' };
         }
         
-        // Create new user
+        const registered = loadRegisteredUsers();
+        if (registered.some(u => u.email === email)) {
+            return { success: false, message: 'Email already registered!' };
+        }
+        
         const newUser = {
             id: 'USR' + Date.now(),
             fullname: name,
@@ -425,28 +379,22 @@
             created_at: new Date().toISOString()
         };
         
-        // Save to registered users
-        const registered = loadRegisteredUsers();
         registered.push(newUser);
         saveRegisteredUsers(registered);
-        
-        console.log('New user registered:', email);
-        console.log('Total registered users:', registered.length);
+        console.log('✅ New user registered:', email);
+        console.log('📦 Total registered users:', registered.length);
         
         return { success: true, message: 'Registration successful!' };
     }
 
-    // Reset password
     function resetPassword(email, newPassword) {
         const registered = loadRegisteredUsers();
         const userIndex = registered.findIndex(u => u.email === email);
-        
         if (userIndex !== -1) {
             registered[userIndex].password = newPassword;
             saveRegisteredUsers(registered);
             return { success: true, message: 'Password reset successful!' };
         }
-        
         return { success: false, message: 'Email not found!' };
     }
 
@@ -490,10 +438,8 @@
         loginAttempts++;
         sessionStorage.setItem('login_attempts', loginAttempts);
         sessionStorage.setItem('last_attempt_time', Math.floor(Date.now() / 1000));
-        if (loginAttempts >= 3) {
-            const warning = document.getElementById('attemptWarning');
-            if (warning) warning.style.display = 'block';
-        }
+        const warning = document.getElementById('attemptWarning');
+        if (warning && loginAttempts >= 3) warning.style.display = 'block';
     }
     
     function resetAttempts() {
@@ -656,7 +602,6 @@
                 if (rememberMe) {
                     const rememberToken = generateCsrfToken();
                     sessionStorage.setItem('remember_token', rememberToken);
-                    localStorage.setItem('library_remember_token', rememberToken);
                     const expiryDate = new Date();
                     expiryDate.setDate(expiryDate.getDate() + 30);
                     document.cookie = `remember_token=${rememberToken}; expires=${expiryDate.toUTCString()}; path=/`;
@@ -694,14 +639,12 @@
         
         if (result.success) {
             showToast(result.message, 'success');
-            // Clear form
             document.getElementById('registerForm').reset();
             document.getElementById('passwordStrength').innerHTML = '';
             document.getElementById('passwordHint').innerHTML = '';
             document.getElementById('passwordMatch').innerHTML = '';
             document.getElementById('emailAvailability').innerHTML = '';
             
-            // Switch to login tab
             setTimeout(() => {
                 const loginTab = document.querySelector('button[data-bs-target="#login"]');
                 if (loginTab) bootstrap.Tab.getOrCreateInstance(loginTab).show();
@@ -733,7 +676,6 @@
             return;
         }
         
-        // Check if it's a demo account
         const isDemo = DEMO_ACCOUNTS.some(u => u.email === email);
         if (isDemo) {
             showToast('Demo account passwords cannot be changed!', 'warning');
@@ -763,8 +705,7 @@
         const toast = document.getElementById('liveToast');
         const toastMessage = document.getElementById('toastMessage');
         if (toast && toastMessage) {
-            const bgColor = type === 'success' ? 'bg-success' : type === 'error' ? 'bg-danger' : 'bg-info';
-            toast.className = `toast-notification toast ${bgColor} text-white`;
+            toast.className = `toast-notification toast bg-${type === 'success' ? 'success' : type === 'error' ? 'danger' : 'info'} text-white`;
             toastMessage.innerHTML = `<i class="bi bi-${type === 'success' ? 'check-circle-fill' : 'exclamation-triangle-fill'} me-2"></i> ${message}`;
             toast.style.display = 'block';
             setTimeout(() => { toast.style.display = 'none'; }, 3000);
@@ -774,13 +715,14 @@
     }
     
     // ============================================
-    // SESSION CHECK
+    // SESSION CHECK - FIXED (DOES NOT CLEAR STORAGE)
     // ============================================
     function checkExistingSession() {
         const isLoggedIn = sessionStorage.getItem('logged_in') === 'true';
         const userName = sessionStorage.getItem('user_name');
         
         if (isLoggedIn && userName) {
+            console.log('User already logged in, redirecting to dashboard');
             window.location.href = 'dashboard.html';
         }
     }
@@ -805,10 +747,10 @@
         });
     });
     
-    // Display registered users count in console for debugging
-    console.log('=== SmartLib Login System ===');
+    console.log('=== SmartLib Login System Ready ===');
     console.log('Demo Accounts: staff@library.com, student@library.com, guest@library.com');
     console.log('Registered users:', loadRegisteredUsers().length);
+    console.log('✅ Users will persist after logout!');
     </script>
 </body>
 </html>

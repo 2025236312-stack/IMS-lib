@@ -991,10 +991,45 @@ if (document.readyState === 'loading') {
         role: 'Library Admin'
     };
     
-    // Complete Logout Function
+// ============================================
+// FIXED LOGOUT - DOES NOT DELETE REGISTERED USERS
+// ============================================
 function logoutUser() {
-    // Clear all session storage
+    // ONLY clear session data - NOT the registered users!
     sessionStorage.clear();
+    
+    // Clear remember me cookie only
+    document.cookie = "remember_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    
+    // IMPORTANT: DO NOT clear localStorage.getItem('smartlib_registered_users')
+    // Your registered users remain safe!
+    
+    console.log('✅ Logged out, registered users preserved');
+    
+    // Redirect to login page
+    window.location.href = 'index.html';
+}
+
+// Attach to logout button
+document.addEventListener('DOMContentLoaded', function() {
+    const logoutBtn = document.querySelector('.btn-outline-danger');
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            logoutUser();
+        });
+    }
+    
+    // Also handle any other logout links
+    const logoutLinks = document.querySelectorAll('a[href="index.html"]');
+    logoutLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            logoutUser();
+        });
+    });
+});
+    
     
     // Clear all relevant localStorage items
     localStorage.removeItem('library_remember_token');
@@ -1009,7 +1044,6 @@ function logoutUser() {
     setTimeout(function() {
         window.location.href = 'index.html';
     }, 50);
-}
 
 // Attach to your logout button
 document.getElementById('logoutBtn')?.addEventListener('click', logoutUser);
