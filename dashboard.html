@@ -991,34 +991,12 @@
     
     if (toggleSwitch) toggleSwitch.addEventListener('change', (e) => setTheme(e.target.checked));
     
-    // FIXED LOGOUT FUNCTION - Preserves registered users
-document.addEventListener('DOMContentLoaded', function() {
-    // Find all logout links/buttons
-    const logoutLinks = document.querySelectorAll('a[href="index.html"], .logout-btn, #logoutBtn, [data-logout], .btn-outline-danger');
-    
-    logoutLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
-            e.preventDefault();
-            
-            // Clear session data ONLY - preserve registered users
-            sessionStorage.clear();
-            
-            // Clear remember me token only
-            localStorage.removeItem('library_remember_token');
-            localStorage.removeItem('remembered_email');
-            
-            // IMPORTANT: DO NOT clear 'library_users' - that deletes registered accounts!
-            
-            // Clear cookies
-            document.cookie.split(";").forEach(function(c) {
-                document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
-            });
-            
-            // Redirect to login page
-            window.location.href = 'index.html';
-        });
-    });
-});
+    // Logout function - clears session only
+    function logoutUser() {
+        sessionStorage.clear();
+        localStorage.removeItem('remembered_email');
+        window.location.href = 'index.html';
+    }
     
     // Attach logout handlers
     const logoutBtn = document.getElementById('logoutBtn');
@@ -1043,6 +1021,37 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('notificationCountBadge').textContent = '8';
     document.getElementById('updateBadge').textContent = '8';
 })();
+</script>
+
+<!-- FIXED LOGOUT FUNCTION - Preserves registered users -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Find all logout links/buttons
+    const logoutLinks = document.querySelectorAll('a[href="index.html"], .logout-btn, #logoutBtn, [data-logout], .btn-outline-danger');
+    
+    logoutLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Clear session data ONLY
+            sessionStorage.clear();
+            
+            // Clear remember me token only - DO NOT delete library_users!
+            localStorage.removeItem('library_remember_token');
+            localStorage.removeItem('remembered_email');
+            
+            // IMPORTANT: 'library_users' stays in localStorage - keeps registered accounts!
+            
+            // Clear cookies
+            document.cookie.split(";").forEach(function(c) {
+                document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
+            });
+            
+            // Redirect to login page
+            window.location.href = 'index.html';
+        });
+    });
+});
 </script>
 </body>
 </html>
