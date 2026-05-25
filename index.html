@@ -253,6 +253,13 @@
                 </div>
                 <div class="col-md-6">
                     <form id="loginForm">
+    <input type="text" id="username" required>
+    <input type="password" id="password" required>
+
+    <button type="submit">
+        Login
+    </button>
+</form>
                         <div class="mb-3">
                             <label for="Email" class="form-label">
                                 <i class="bi bi-envelope"></i> Email Address
@@ -652,5 +659,6 @@ const style = document.createElement('style');
 style.textContent = `.password-strength { height: 4px; border-radius: 2px; margin-top: 5px; transition: all 0.3s ease; }`;
 document.head.appendChild(style);
 </script>
+<script src="auth.js"></script>
 </body>
 </html>
