@@ -3,40 +3,282 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <meta name="description" content="SmartLib - Advanced Library Management System with Secure Authentication">
-    <meta name="theme-color" content="#667eea">
-    <title>SmartLib - Library Management</title>
+    <title>SmartLib - Library Management System</title>
     
+    <!-- Bootstrap 5.3 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=Saira+Stencil:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/stylee.css">
-    <link rel="stylesheet" href="css/login.css">
     
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&family=Saira+Stencil:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- AOS Animation -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- Custom CSS -->
     <style>
-        .password-wrapper { position: relative; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%);
+        }
+
+        #bg-vanta {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        .login-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px);
+            border-radius: 28px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            width: 100%;
+            max-width: 950px;
+            z-index: 1;
+        }
+
+        .login-card .card-body {
+            padding: 2rem;
+        }
+
+        .logo-icon {
+            font-size: 1.75rem;
+        }
+
+        .nav-tabs {
+            border-bottom: none;
+            gap: 0.5rem;
+        }
+
+        .nav-tabs .nav-link {
+            background: rgba(255, 255, 255, 0.05);
+            border: none;
+            border-radius: 50px;
+            padding: 0.6rem 1rem;
+            color: rgba(255, 255, 255, 0.7);
+            transition: all 0.3s;
+        }
+
+        .nav-tabs .nav-link:hover {
+            background: rgba(99, 102, 241, 0.2);
+            color: white;
+        }
+
+        .nav-tabs .nav-link.active {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .form-control, .form-select {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: white;
+            padding: 0.6rem 1rem;
+        }
+
+        .form-control:focus, .form-select:focus {
+            background: rgba(0, 0, 0, 0.5);
+            border-color: #667eea;
+            box-shadow: none;
+            color: white;
+        }
+
+        .form-control::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .form-label {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.8rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .password-wrapper {
+            position: relative;
+        }
+
         .password-toggle {
             position: absolute;
-            right: 10px;
+            right: 12px;
             top: 50%;
             transform: translateY(-50%);
-            cursor: pointer;
-            color: #888;
             background: transparent;
             border: none;
-            z-index: 10;
+            color: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
         }
-        .password-toggle:hover { color: #667eea; }
-        .attempt-warning {
-            display: none;
-            margin-top: 10px;
-            padding: 5px;
-            background: rgba(255, 193, 7, 0.2);
-            border-radius: 8px;
+
+        .password-toggle:hover {
+            color: #667eea;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border: none;
+            border-radius: 12px;
+            padding: 0.7rem;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            border: none;
+            border-radius: 12px;
+            padding: 0.7rem;
+            font-weight: 600;
+        }
+
+        .role-selector {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin: 1rem 0;
+        }
+
+        .role-option {
+            cursor: pointer;
             text-align: center;
-            font-size: 12px;
-            color: #ffc107;
+            transition: transform 0.2s;
+        }
+
+        .role-option:hover {
+            transform: translateY(-3px);
+        }
+
+        .role-dot {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 8px;
+            transition: all 0.2s;
+            font-size: 1.5rem;
+        }
+
+        .staff-dot {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .student-dot {
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            color: white;
+        }
+
+        .guest-dot {
+            background: linear-gradient(135deg, #4facfe, #00f2fe);
+            color: white;
+        }
+
+        .role-option.active .role-dot {
+            box-shadow: 0 0 0 3px white, 0 0 0 6px #667eea;
+            transform: scale(1.05);
+        }
+
+        .role-label {
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .password-strength {
+            height: 4px;
+            border-radius: 4px;
+            margin-top: 5px;
+            transition: all 0.3s;
+        }
+
+        .strength-weak {
+            width: 25%;
+            background: #ef4444;
+        }
+
+        .strength-medium {
+            width: 50%;
+            background: #f59e0b;
+        }
+
+        .strength-strong {
+            width: 100%;
+            background: #22c55e;
+        }
+
+        .toast-notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 9999;
+            min-width: 280px;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .login-card .card-body {
+                padding: 1.2rem;
+            }
+            
+            .role-dot {
+                width: 45px;
+                height: 45px;
+                font-size: 1.2rem;
+            }
+            
+            .border-end {
+                border-right: none !important;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+                padding-bottom: 1rem;
+                margin-bottom: 1rem;
+            }
+        }
+
+        .alert {
+            border-radius: 12px;
+            font-size: 0.8rem;
+            padding: 0.6rem 1rem;
+        }
+
+        .alert-danger {
+            background: rgba(239, 68, 68, 0.2);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #f87171;
+        }
+
+        .alert-success {
+            background: rgba(34, 197, 94, 0.2);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            color: #4ade80;
         }
     </style>
 </head>
@@ -54,8 +296,8 @@
         <div class="card login-card shadow-lg border-0" data-aos="zoom-in" data-aos-duration="800" data-aos-once="true">
             <div class="card-body p-3 p-md-4">
                 <div class="text-center mb-3">
-                    <div class="d-inline-block bg-gradient-primary p-2 rounded-circle mb-2" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
-                        <i class="bi bi-book-half text-white logo-icon" style="font-size: 1.75rem;"></i>
+                    <div class="d-inline-block p-2 rounded-circle mb-2" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                        <i class="bi bi-book-half text-white logo-icon"></i>
                     </div>
                     <h3 class="mb-0" style="font-family: 'Saira Stencil', cursive;">SmartLib</h3>
                     <p class="text-muted small">Library Management System</p>
@@ -72,11 +314,6 @@
                             <i class="bi bi-person-plus me-1"></i> Register
                         </button>
                     </li>
-                    <li class="nav-item">
-                        <button class="nav-link fw-semibold" id="forgot-tab" data-bs-toggle="tab" data-bs-target="#forgot" type="button" role="tab">
-                            <i class="bi bi-key me-1"></i> Reset
-                        </button>
-                    </li>
                 </ul>
 
                 <div class="tab-content">
@@ -88,15 +325,15 @@
                                 <i class="bi bi-shield-lock" style="font-size: 40px; color: #667eea;"></i>
                                 <p class="mt-1 text-muted small">Secure Access</p>
                                 <div class="role-selector mt-2" id="roleSelector">
-                                    <div class="role-option" data-role="staff" data-email="staff@library.com" data-password="staff123" data-name="Staff User" data-role-name="Staff">
+                                    <div class="role-option" data-email="staff@library.com" data-password="staff123" data-name="Staff User" data-role="Staff">
                                         <div class="role-dot staff-dot"><i class="bi bi-person-badge"></i></div>
                                         <span class="role-label">Staff</span>
                                     </div>
-                                    <div class="role-option" data-role="student" data-email="student@library.com" data-password="student123" data-name="Student User" data-role-name="Student">
+                                    <div class="role-option" data-email="student@library.com" data-password="student123" data-name="Student User" data-role="Student">
                                         <div class="role-dot student-dot"><i class="bi bi-mortarboard"></i></div>
                                         <span class="role-label">Student</span>
                                     </div>
-                                    <div class="role-option" data-role="guest" data-email="guest@library.com" data-password="guest123" data-name="Guest User" data-role-name="Guest">
+                                    <div class="role-option" data-email="guest@library.com" data-password="guest123" data-name="Guest User" data-role="Guest">
                                         <div class="role-dot guest-dot"><i class="bi bi-person"></i></div>
                                         <span class="role-label">Guest</span>
                                     </div>
@@ -107,34 +344,33 @@
                             </div>
                             <div class="col-md-7" data-aos="fade-left" data-aos-delay="300">
                                 <form id="loginForm">
-                                    <input type="hidden" name="csrf_token" id="csrf_token_login" value="">
                                     <label class="form-label fw-semibold small"><i class="bi bi-envelope"></i> Email Address</label>
-                                    <input type="email" name="email" id="login_email" class="form-control form-control-sm mb-2" required placeholder="Enter your email" autocomplete="email">
+                                    <input type="email" id="login_email" class="form-control form-control-sm mb-2" required placeholder="Enter your email">
+                                    
                                     <label class="form-label fw-semibold small"><i class="bi bi-lock"></i> Password</label>
                                     <div class="password-wrapper">
-                                        <input type="password" name="password" id="login_password" class="form-control form-control-sm mb-2" required placeholder="••••••" autocomplete="current-password">
+                                        <input type="password" id="login_password" class="form-control form-control-sm mb-2" required placeholder="••••••">
                                         <button type="button" class="password-toggle" onclick="togglePassword('login_password')">
                                             <i class="bi bi-eye-slash" id="login_password_icon"></i>
                                         </button>
                                     </div>
+                                    
                                     <div class="d-flex justify-content-between align-items-center mb-2">
                                         <div class="form-check">
-                                            <input type="checkbox" class="form-check-input" id="remember_me" name="remember_me">
+                                            <input type="checkbox" class="form-check-input" id="remember_me">
                                             <label class="form-check-label small" for="remember_me"><i class="bi bi-check-square"></i> Remember Me</label>
                                         </div>
                                         <small class="text-muted"><i class="bi bi-shield-check"></i> Secure</small>
                                     </div>
+                                    
                                     <button type="submit" class="btn btn-primary w-100 py-1 fw-semibold btn-sm" id="loginBtn">
                                         <i class="bi bi-box-arrow-in-right"></i> Login
                                     </button>
                                 </form>
-                                <div class="attempt-warning" id="attemptWarning">
-                                    <i class="bi bi-exclamation-triangle"></i> Multiple failed attempts! Please wait.
-                                </div>
                                 <div id="loginErrorMessage" class="mt-2"></div>
                                 <div class="mt-2 text-center small text-muted">
                                     <hr class="my-1">
-                                    <span class="text-muted">Click on role dots above</span>
+                                    <span class="text-muted">Click on role dots above to load demo accounts</span>
                                 </div>
                             </div>
                         </div>
@@ -154,90 +390,50 @@
                             </div>
                             <div class="col-md-7" data-aos="fade-left" data-aos-delay="300">
                                 <form id="registerForm" novalidate>
-                                    <input type="hidden" name="csrf_token" id="csrf_token_reg" value="">
                                     <label class="form-label fw-semibold small"><i class="bi bi-person"></i> Full Name</label>
-                                    <input type="text" name="fullname" id="reg_name" class="form-control form-control-sm mb-2" required placeholder="Full name">
+                                    <input type="text" id="reg_name" class="form-control form-control-sm mb-2" required placeholder="Full name">
                                     <div class="invalid-feedback small" id="nameFeedback"></div>
+                                    
                                     <label class="form-label fw-semibold small"><i class="bi bi-envelope"></i> Email Address</label>
-                                    <input type="email" name="email" id="reg_email" class="form-control form-control-sm mb-1" required placeholder="your@email.com" autocomplete="off">
+                                    <input type="email" id="reg_email" class="form-control form-control-sm mb-1" required placeholder="your@email.com">
                                     <div class="small text-muted" id="emailAvailability"></div>
+                                    
                                     <label class="form-label fw-semibold small"><i class="bi bi-lock"></i> Password</label>
                                     <div class="password-wrapper">
-                                        <input type="password" name="password" id="reg_password" class="form-control form-control-sm mb-1" required placeholder="Min 8 chars">
+                                        <input type="password" id="reg_password" class="form-control form-control-sm mb-1" required placeholder="Min 8 chars">
                                         <button type="button" class="password-toggle" onclick="togglePassword('reg_password')">
                                             <i class="bi bi-eye-slash" id="reg_password_icon"></i>
                                         </button>
                                     </div>
                                     <div id="passwordStrength"></div>
                                     <div class="password-hint small text-muted" id="passwordHint"></div>
+                                    
                                     <label class="form-label fw-semibold small"><i class="bi bi-shield-lock"></i> Confirm Password</label>
                                     <div class="password-wrapper">
-                                        <input type="password" name="confirm_password" id="reg_confirm" class="form-control form-control-sm mb-2" required placeholder="Confirm password">
+                                        <input type="password" id="reg_confirm" class="form-control form-control-sm mb-2" required placeholder="Confirm password">
                                         <button type="button" class="password-toggle" onclick="togglePassword('reg_confirm')">
                                             <i class="bi bi-eye-slash" id="reg_confirm_icon"></i>
                                         </button>
                                     </div>
                                     <div class="small" id="passwordMatch"></div>
+                                    
                                     <label class="form-label fw-semibold small"><i class="bi bi-person-badge"></i> Role</label>
-                                    <select name="role" id="reg_role" class="form-select form-select-sm mb-2" required>
+                                    <select id="reg_role" class="form-select form-select-sm mb-2" required>
                                         <option value="Student">🎓 Student</option>
                                         <option value="Staff">👔 Staff</option>
                                         <option value="Guest">🌐 Guest</option>
                                     </select>
+                                    
                                     <div class="form-check mb-2">
                                         <input type="checkbox" class="form-check-input" id="termsCheck" required>
-                                        <label class="form-check-label small" for="termsCheck">I agree to <a href="#" data-bs-toggle="modal" data-bs-target="#termsModal">Terms</a></label>
+                                        <label class="form-check-label small" for="termsCheck">I agree to the Terms</label>
                                     </div>
+                                    
                                     <button type="submit" class="btn btn-success w-100 py-1 fw-semibold btn-sm" id="registerBtn" disabled>
                                         <i class="bi bi-person-plus"></i> Create Account
                                     </button>
                                 </form>
                                 <div id="regErrorMessage" class="mt-2"></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- FORGOT PASSWORD TAB -->
-                    <div class="tab-pane fade" id="forgot" role="tabpanel">
-                        <div class="row align-items-center g-2">
-                            <div class="col-md-5 text-center border-end" data-aos="fade-right" data-aos-delay="200">
-                                <i class="bi bi-key" style="font-size: 40px; color: #ffc107;"></i>
-                                <p class="mt-1 text-muted small">Reset password</p>
-                                <div class="mt-2">
-                                    <i class="bi bi-envelope-check"></i> Email reset<br>
-                                    <i class="bi bi-shield-check"></i> Secure
-                                </div>
-                            </div>
-                            <div class="col-md-7" data-aos="fade-left" data-aos-delay="300">
-                                <form id="forgotForm">
-                                    <input type="hidden" name="csrf_token" id="csrf_token_fp" value="">
-                                    <div class="alert alert-info small py-1 mb-2">
-                                        <i class="bi bi-info-circle-fill"></i> Enter registered email
-                                    </div>
-                                    <label class="form-label fw-semibold small"><i class="bi bi-envelope"></i> Email Address</label>
-                                    <input type="email" name="email" id="fp_email" class="form-control form-control-sm mb-2" required placeholder="registered@email.com">
-                                    <div id="emailCheckResult" class="small mb-1"></div>
-                                    <label class="form-label fw-semibold small"><i class="bi bi-lock"></i> New Password</label>
-                                    <div class="password-wrapper">
-                                        <input type="password" name="new_password" id="fp_new_password" class="form-control form-control-sm mb-1" required placeholder="Min 8 chars">
-                                        <button type="button" class="password-toggle" onclick="togglePassword('fp_new_password')">
-                                            <i class="bi bi-eye-slash" id="fp_new_password_icon"></i>
-                                        </button>
-                                    </div>
-                                    <div id="fpPasswordStrength"></div>
-                                    <label class="form-label fw-semibold small"><i class="bi bi-shield-lock"></i> Confirm Password</label>
-                                    <div class="password-wrapper">
-                                        <input type="password" name="confirm_password" id="fp_confirm" class="form-control form-control-sm mb-2" required placeholder="Confirm">
-                                        <button type="button" class="password-toggle" onclick="togglePassword('fp_confirm')">
-                                            <i class="bi bi-eye-slash" id="fp_confirm_icon"></i>
-                                        </button>
-                                    </div>
-                                    <div class="small" id="fpPasswordMatch"></div>
-                                    <button type="submit" class="btn btn-warning w-100 py-1 fw-semibold btn-sm">
-                                        <i class="bi bi-arrow-repeat"></i> Reset Password
-                                    </button>
-                                </form>
-                                <div id="fpErrorMessage" class="mt-2"></div>
                             </div>
                         </div>
                     </div>
@@ -250,35 +446,16 @@
         </div>
     </div>
 
-    <!-- Terms Modal -->
-    <div class="modal fade" id="termsModal" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header bg-primary text-white py-2">
-                    <h5 class="modal-title small"><i class="bi bi-file-text"></i> Terms</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body small">
-                    <p><strong>Library Usage Policy</strong> - Respect materials and return on time.</p>
-                    <p><strong>Privacy Policy</strong> - Your data is encrypted and private.</p>
-                    <p><strong>Code of Conduct</strong> - Respectful behavior required.</p>
-                </div>
-                <div class="modal-footer py-2">
-                    <button type="button" class="btn btn-primary btn-sm" data-bs-dismiss="modal">Accept</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     
     <script>
-    // Initialize
+    // Initialize animations
     AOS.init({ once: true, duration: 800 });
 
+    // Vanta.js Background
     VANTA.NET({
         el: "#bg-vanta",
         mouseControls: true,
@@ -310,17 +487,19 @@
     }
 
     // ============================================
-    // USER MANAGEMENT - PERSISTENT STORAGE (FIXED)
+    // USER MANAGEMENT - PERSISTENT STORAGE
     // ============================================
     
     const STORAGE_KEY = 'smartlib_registered_users';
     
+    // Demo accounts (can't be modified)
     const DEMO_ACCOUNTS = [
         { id: "STAFF001", fullname: "Staff User", email: "staff@library.com", password: "staff123", role: "Staff", isDemo: true },
         { id: "STU002", fullname: "Student User", email: "student@library.com", password: "student123", role: "Student", isDemo: true },
         { id: "GUEST003", fullname: "Guest User", email: "guest@library.com", password: "guest123", role: "Guest", isDemo: true }
     ];
 
+    // Load registered users from localStorage
     function loadRegisteredUsers() {
         const saved = localStorage.getItem(STORAGE_KEY);
         if (saved) {
@@ -333,32 +512,37 @@
         return [];
     }
 
+    // Save registered users to localStorage
     function saveRegisteredUsers(users) {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(users));
-        console.log('✅ Saved', users.length, 'users to localStorage');
+        console.log('✅ Saved', users.length, 'users');
     }
 
+    // Get all users (demo + registered)
     function getAllUsers() {
         const registered = loadRegisteredUsers();
         return [...DEMO_ACCOUNTS, ...registered];
     }
 
+    // Authenticate user
     function authenticateUser(email, password) {
         const allUsers = getAllUsers();
         const user = allUsers.find(u => u.email === email && u.password === password);
         if (user) {
-            console.log('✅ User authenticated:', email);
+            console.log('✅ Authenticated:', email);
             return { id: user.id, fullname: user.fullname, email: user.email, role: user.role };
         }
-        console.log('❌ Authentication failed for:', email);
+        console.log('❌ Failed:', email);
         return null;
     }
 
+    // Check if email exists
     function emailExists(email) {
         const allUsers = getAllUsers();
         return allUsers.some(u => u.email === email);
     }
 
+    // Register new user
     function registerUser(name, email, password, role) {
         if (DEMO_ACCOUNTS.some(u => u.email === email)) {
             return { success: false, message: 'Cannot register demo email!' };
@@ -382,92 +566,12 @@
         registered.push(newUser);
         saveRegisteredUsers(registered);
         console.log('✅ New user registered:', email);
-        console.log('📦 Total registered users:', registered.length);
         
         return { success: true, message: 'Registration successful!' };
     }
 
-    function resetPassword(email, newPassword) {
-        const registered = loadRegisteredUsers();
-        const userIndex = registered.findIndex(u => u.email === email);
-        if (userIndex !== -1) {
-            registered[userIndex].password = newPassword;
-            saveRegisteredUsers(registered);
-            return { success: true, message: 'Password reset successful!' };
-        }
-        return { success: false, message: 'Email not found!' };
-    }
-
     // ============================================
-    // CSRF TOKEN
-    // ============================================
-    function generateCsrfToken() {
-        return [...Array(64)].map(() => Math.random().toString(36)[2]).join('');
-    }
-    
-    function setCsrfTokens() {
-        const token = generateCsrfToken();
-        sessionStorage.setItem('csrf_token', token);
-        const loginField = document.getElementById('csrf_token_login');
-        const regField = document.getElementById('csrf_token_reg');
-        const fpField = document.getElementById('csrf_token_fp');
-        if (loginField) loginField.value = token;
-        if (regField) regField.value = token;
-        if (fpField) fpField.value = token;
-    }
-    setCsrfTokens();
-
-    // ============================================
-    // RATE LIMITING
-    // ============================================
-    let loginAttempts = parseInt(sessionStorage.getItem('login_attempts') || '0');
-    let lastAttemptTime = parseInt(sessionStorage.getItem('last_attempt_time') || '0');
-    const MAX_ATTEMPTS = 5;
-    const LOCKOUT_TIME = 300;
-    
-    function isLockedOut() {
-        if (loginAttempts >= MAX_ATTEMPTS) {
-            const now = Math.floor(Date.now() / 1000);
-            if (now - lastAttemptTime < LOCKOUT_TIME) return true;
-            else { resetAttempts(); return false; }
-        }
-        return false;
-    }
-    
-    function incrementAttempts() {
-        loginAttempts++;
-        sessionStorage.setItem('login_attempts', loginAttempts);
-        sessionStorage.setItem('last_attempt_time', Math.floor(Date.now() / 1000));
-        const warning = document.getElementById('attemptWarning');
-        if (warning && loginAttempts >= 3) warning.style.display = 'block';
-    }
-    
-    function resetAttempts() {
-        loginAttempts = 0;
-        sessionStorage.setItem('login_attempts', 0);
-        const warning = document.getElementById('attemptWarning');
-        if (warning) warning.style.display = 'none';
-    }
-
-    // ============================================
-    // ROLE SELECTOR
-    // ============================================
-    const roleOptions = document.querySelectorAll('.role-option');
-    const loginEmail = document.getElementById('login_email');
-    const loginPassword = document.getElementById('login_password');
-    
-    roleOptions.forEach(option => {
-        option.addEventListener('click', function() {
-            roleOptions.forEach(opt => opt.classList.remove('active'));
-            this.classList.add('active');
-            if (loginEmail) loginEmail.value = this.getAttribute('data-email');
-            if (loginPassword) loginPassword.value = this.getAttribute('data-password');
-            showToast(`${this.getAttribute('data-role')} credentials loaded!`, 'info');
-        });
-    });
-
-    // ============================================
-    // PASSWORD STRENGTH
+    // PASSWORD STRENGTH METER
     // ============================================
     function checkPasswordStrength(password) {
         let strength = 0;
@@ -475,95 +579,86 @@
         if (password.match(/[a-z]/) && password.match(/[A-Z]/)) strength++;
         if (password.match(/\d/)) strength++;
         if (password.match(/[^a-zA-Z\d]/)) strength++;
-        return { strength, score: Math.min(3, strength) };
+        return Math.min(3, strength);
     }
     
-    function updatePasswordStrength() {
-        const password = document.getElementById('reg_password')?.value || '';
+    document.getElementById('reg_password')?.addEventListener('input', function() {
+        const password = this.value;
         const strengthDiv = document.getElementById('passwordStrength');
         const hintDiv = document.getElementById('passwordHint');
-        if (!strengthDiv) return;
-        if (password.length === 0) { strengthDiv.innerHTML = ''; if(hintDiv) hintDiv.innerHTML = ''; return; }
-        const result = checkPasswordStrength(password);
-        const strengthClass = result.score === 0 ? 'strength-weak' : result.score === 1 ? 'strength-weak' : result.score === 2 ? 'strength-medium' : 'strength-strong';
-        strengthDiv.innerHTML = '<div class="password-strength ' + strengthClass + '" style="height:4px; margin-top:4px; border-radius:4px;"></div>';
-        if (hintDiv) {
-            hintDiv.innerHTML = result.score <= 1 ? '<span class="text-danger small"><i class="bi bi-exclamation-triangle"></i> Weak</span>' : result.score === 2 ? '<span class="text-warning small"><i class="bi bi-shield"></i> Medium</span>' : '<span class="text-success small"><i class="bi bi-shield-check"></i> Strong!</span>';
-        }
-    }
-    
-    function checkPasswordMatch() {
-        const password = document.getElementById('reg_password')?.value || '';
-        const confirm = document.getElementById('reg_confirm')?.value || '';
-        const matchDiv = document.getElementById('passwordMatch');
-        if (confirm.length === 0) { if(matchDiv) matchDiv.innerHTML = ''; return; }
-        if (matchDiv) {
-            matchDiv.innerHTML = password === confirm ? '<span class="text-success small"><i class="bi bi-check-circle-fill"></i> Match</span>' : '<span class="text-danger small"><i class="bi bi-x-circle-fill"></i> No match</span>';
-        }
-        validateRegisterForm();
-    }
-    
-    function updateFpPasswordStrength() {
-        const password = document.getElementById('fp_new_password')?.value || '';
-        const strengthDiv = document.getElementById('fpPasswordStrength');
-        if (!strengthDiv) return;
-        if (password.length === 0) { strengthDiv.innerHTML = ''; return; }
-        const result = checkPasswordStrength(password);
-        const strengthClass = result.score === 0 ? 'strength-weak' : result.score === 1 ? 'strength-weak' : result.score === 2 ? 'strength-medium' : 'strength-strong';
-        strengthDiv.innerHTML = '<div class="password-strength ' + strengthClass + '" style="height:4px; margin-top:4px; border-radius:4px;"></div>';
-        checkFpPasswordMatch();
-    }
-    
-    function checkFpPasswordMatch() {
-        const password = document.getElementById('fp_new_password')?.value || '';
-        const confirm = document.getElementById('fp_confirm')?.value || '';
-        const matchDiv = document.getElementById('fpPasswordMatch');
-        if (confirm.length === 0) { if(matchDiv) matchDiv.innerHTML = ''; return; }
-        if (matchDiv) {
-            matchDiv.innerHTML = password === confirm ? '<span class="text-success small"><i class="bi bi-check-circle-fill"></i> Match</span>' : '<span class="text-danger small"><i class="bi bi-x-circle-fill"></i> No match</span>';
-        }
-    }
-    
-    function validateRegisterForm() {
-        const name = document.getElementById('reg_name')?.value || '';
-        const email = document.getElementById('reg_email')?.value || '';
-        const password = document.getElementById('reg_password')?.value || '';
-        const confirm = document.getElementById('reg_confirm')?.value || '';
-        const terms = document.getElementById('termsCheck')?.checked || false;
-        const registerBtn = document.getElementById('registerBtn');
-        
-        let isValid = name.length >= 2 && email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/) && password.length >= 8 && password === confirm && terms;
-        if (registerBtn) registerBtn.disabled = !isValid;
-    }
-    
-    function checkEmailAvailability() {
-        const email = document.getElementById('reg_email')?.value || '';
-        const resultDiv = document.getElementById('emailAvailability');
-        if (email.length < 5 || !email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
-            if (resultDiv) resultDiv.innerHTML = '';
+        if (password.length === 0) {
+            strengthDiv.innerHTML = '';
+            hintDiv.innerHTML = '';
             return;
         }
-        if (emailExists(email)) {
-            if (resultDiv) resultDiv.innerHTML = '<span class="text-danger small"><i class="bi bi-x-circle"></i> Already registered</span>';
-            document.getElementById('reg_email')?.classList.add('is-invalid');
-        } else {
-            if (resultDiv) resultDiv.innerHTML = '<span class="text-success small"><i class="bi bi-check-circle"></i> Available</span>';
-            document.getElementById('reg_email')?.classList.remove('is-invalid');
-            document.getElementById('reg_email')?.classList.add('is-valid');
-        }
+        const score = checkPasswordStrength(password);
+        const classes = ['strength-weak', 'strength-weak', 'strength-medium', 'strength-strong'];
+        const texts = ['Weak', 'Weak', 'Medium', 'Strong'];
+        const colors = ['danger', 'danger', 'warning', 'success'];
+        strengthDiv.innerHTML = '<div class="password-strength ' + classes[score] + '"></div>';
+        hintDiv.innerHTML = '<span class="text-' + colors[score] + ' small">' + texts[score] + '</span>';
         validateRegisterForm();
+    });
+    
+    document.getElementById('reg_confirm')?.addEventListener('input', function() {
+        const password = document.getElementById('reg_password').value;
+        const confirm = this.value;
+        const matchDiv = document.getElementById('passwordMatch');
+        if (confirm.length === 0) { matchDiv.innerHTML = ''; return; }
+        matchDiv.innerHTML = password === confirm ? 
+            '<span class="text-success small"><i class="bi bi-check-circle-fill"></i> Match</span>' : 
+            '<span class="text-danger small"><i class="bi bi-x-circle-fill"></i> No match</span>';
+        validateRegisterForm();
+    });
+    
+    function validateRegisterForm() {
+        const name = document.getElementById('reg_name').value;
+        const email = document.getElementById('reg_email').value;
+        const password = document.getElementById('reg_password').value;
+        const confirm = document.getElementById('reg_confirm').value;
+        const terms = document.getElementById('termsCheck').checked;
+        const isValid = name.length >= 2 && email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/) && password.length >= 8 && password === confirm && terms;
+        document.getElementById('registerBtn').disabled = !isValid;
     }
     
-    // ============================================
-    // EVENT LISTENERS
-    // ============================================
-    document.getElementById('reg_password')?.addEventListener('input', updatePasswordStrength);
-    document.getElementById('reg_confirm')?.addEventListener('input', checkPasswordMatch);
-    document.getElementById('reg_email')?.addEventListener('input', checkEmailAvailability);
     document.getElementById('reg_name')?.addEventListener('input', validateRegisterForm);
     document.getElementById('termsCheck')?.addEventListener('change', validateRegisterForm);
-    document.getElementById('fp_new_password')?.addEventListener('input', updateFpPasswordStrength);
-    document.getElementById('fp_confirm')?.addEventListener('input', checkFpPasswordMatch);
+    
+    // Email availability check (real-time)
+    let emailTimeout;
+    document.getElementById('reg_email')?.addEventListener('input', function() {
+        const email = this.value;
+        const resultDiv = document.getElementById('emailAvailability');
+        clearTimeout(emailTimeout);
+        if (!email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+            resultDiv.innerHTML = '';
+            return;
+        }
+        emailTimeout = setTimeout(() => {
+            if (emailExists(email)) {
+                resultDiv.innerHTML = '<span class="text-danger small"><i class="bi bi-x-circle"></i> Already registered</span>';
+                document.getElementById('reg_email').classList.add('is-invalid');
+            } else {
+                resultDiv.innerHTML = '<span class="text-success small"><i class="bi bi-check-circle"></i> Available</span>';
+                document.getElementById('reg_email').classList.remove('is-invalid');
+                document.getElementById('reg_email').classList.add('is-valid');
+            }
+            validateRegisterForm();
+        }, 500);
+    });
+    
+    // ============================================
+    // ROLE SELECTOR
+    // ============================================
+    document.querySelectorAll('.role-option').forEach(option => {
+        option.addEventListener('click', function() {
+            document.querySelectorAll('.role-option').forEach(opt => opt.classList.remove('active'));
+            this.classList.add('active');
+            document.getElementById('login_email').value = this.dataset.email;
+            document.getElementById('login_password').value = this.dataset.password;
+            showToast(this.querySelector('.role-label').textContent + ' credentials loaded!', 'info');
+        });
+    });
     
     // ============================================
     // LOGIN FORM SUBMIT
@@ -575,13 +670,6 @@
         btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span> Logging in...';
         btn.disabled = true;
         
-        if (isLockedOut()) {
-            showToast('Too many failed attempts. Please wait 5 minutes.', 'error');
-            btn.innerHTML = originalHtml;
-            btn.disabled = false;
-            return;
-        }
-        
         const email = document.getElementById('login_email').value;
         const password = document.getElementById('login_password').value;
         const rememberMe = document.getElementById('remember_me')?.checked || false;
@@ -590,8 +678,7 @@
         
         setTimeout(() => {
             if (user) {
-                resetAttempts();
-                
+                // Store session data
                 sessionStorage.setItem('logged_in', 'true');
                 sessionStorage.setItem('user_id', user.id);
                 sessionStorage.setItem('user_name', user.fullname);
@@ -600,24 +687,21 @@
                 sessionStorage.setItem('last_activity', Date.now().toString());
                 
                 if (rememberMe) {
-                    const rememberToken = generateCsrfToken();
-                    sessionStorage.setItem('remember_token', rememberToken);
-                    const expiryDate = new Date();
-                    expiryDate.setDate(expiryDate.getDate() + 30);
-                    document.cookie = `remember_token=${rememberToken}; expires=${expiryDate.toUTCString()}; path=/`;
+                    localStorage.setItem('remember_user', user.email);
+                } else {
+                    localStorage.removeItem('remember_user');
                 }
                 
-                showToast(`Welcome ${user.fullname}! Redirecting to dashboard...`, 'success');
+                showToast('Welcome ' + user.fullname + '!', 'success');
                 
                 setTimeout(() => {
                     window.location.href = 'dashboard.html';
                 }, 1000);
             } else {
-                incrementAttempts();
                 showToast('Invalid email or password!', 'error');
                 const errorDiv = document.getElementById('loginErrorMessage');
-                if (errorDiv) errorDiv.innerHTML = '<div class="alert alert-danger small py-1 text-center"><i class="bi bi-exclamation-triangle-fill"></i> Invalid credentials</div>';
-                setTimeout(() => { if(errorDiv) errorDiv.innerHTML = ''; }, 3000);
+                errorDiv.innerHTML = '<div class="alert alert-danger small py-1 text-center"><i class="bi bi-exclamation-triangle-fill"></i> Invalid credentials</div>';
+                setTimeout(() => { errorDiv.innerHTML = ''; }, 3000);
             }
             btn.innerHTML = originalHtml;
             btn.disabled = false;
@@ -646,52 +730,9 @@
             document.getElementById('emailAvailability').innerHTML = '';
             
             setTimeout(() => {
-                const loginTab = document.querySelector('button[data-bs-target="#login"]');
-                if (loginTab) bootstrap.Tab.getOrCreateInstance(loginTab).show();
+                document.querySelector('#login-tab').click();
                 document.getElementById('login_email').value = email;
-                document.getElementById('login_password').value = '';
                 showToast('Account created! Please login.', 'success');
-            }, 1500);
-        } else {
-            showToast(result.message, 'error');
-        }
-    });
-    
-    // ============================================
-    // FORGOT PASSWORD SUBMIT
-    // ============================================
-    document.getElementById('forgotForm')?.addEventListener('submit', function(e) {
-        e.preventDefault();
-        const email = document.getElementById('fp_email').value;
-        const newPassword = document.getElementById('fp_new_password').value;
-        const confirm = document.getElementById('fp_confirm').value;
-        
-        if (newPassword !== confirm) {
-            showToast('Passwords do not match!', 'error');
-            return;
-        }
-        
-        if (newPassword.length < 8) {
-            showToast('Password must be at least 8 characters!', 'error');
-            return;
-        }
-        
-        const isDemo = DEMO_ACCOUNTS.some(u => u.email === email);
-        if (isDemo) {
-            showToast('Demo account passwords cannot be changed!', 'warning');
-            return;
-        }
-        
-        const result = resetPassword(email, newPassword);
-        
-        if (result.success) {
-            showToast(result.message, 'success');
-            setTimeout(() => {
-                const loginTab = document.querySelector('button[data-bs-target="#login"]');
-                if (loginTab) bootstrap.Tab.getOrCreateInstance(loginTab).show();
-                document.getElementById('forgotForm').reset();
-                document.getElementById('fpPasswordStrength').innerHTML = '';
-                document.getElementById('fpPasswordMatch').innerHTML = '';
             }, 1500);
         } else {
             showToast(result.message, 'error');
@@ -704,53 +745,38 @@
     function showToast(message, type = 'success') {
         const toast = document.getElementById('liveToast');
         const toastMessage = document.getElementById('toastMessage');
-        if (toast && toastMessage) {
-            toast.className = `toast-notification toast bg-${type === 'success' ? 'success' : type === 'error' ? 'danger' : 'info'} text-white`;
-            toastMessage.innerHTML = `<i class="bi bi-${type === 'success' ? 'check-circle-fill' : 'exclamation-triangle-fill'} me-2"></i> ${message}`;
-            toast.style.display = 'block';
-            setTimeout(() => { toast.style.display = 'none'; }, 3000);
-        } else {
-            alert(message);
-        }
+        toast.className = `toast-notification toast bg-${type === 'success' ? 'success' : type === 'error' ? 'danger' : 'info'} text-white`;
+        toastMessage.innerHTML = `<i class="bi bi-${type === 'success' ? 'check-circle-fill' : 'exclamation-triangle-fill'} me-2"></i> ${message}`;
+        toast.style.display = 'block';
+        setTimeout(() => toast.style.display = 'none', 3000);
     }
     
     // ============================================
-    // SESSION CHECK - FIXED (DOES NOT CLEAR STORAGE)
+    // CHECK EXISTING SESSION
     // ============================================
     function checkExistingSession() {
         const isLoggedIn = sessionStorage.getItem('logged_in') === 'true';
-        const userName = sessionStorage.getItem('user_name');
-        
-        if (isLoggedIn && userName) {
-            console.log('User already logged in, redirecting to dashboard');
+        if (isLoggedIn) {
             window.location.href = 'dashboard.html';
         }
     }
-    setTimeout(checkExistingSession, 100);
+    checkExistingSession();
     
     // ============================================
-    // URL HASH HANDLING
+    // REMEMBER ME AUTO-FILL
     // ============================================
-    const urlHash = window.location.hash;
-    if (urlHash === '#register') {
-        const registerTab = document.querySelector('button[data-bs-target="#register"]');
-        if (registerTab) bootstrap.Tab.getOrCreateInstance(registerTab).show();
-    } else if (urlHash === '#forgot') {
-        const forgotTab = document.querySelector('button[data-bs-target="#forgot"]');
-        if (forgotTab) bootstrap.Tab.getOrCreateInstance(forgotTab).show();
+    function checkRememberMe() {
+        const rememberedEmail = localStorage.getItem('remember_user');
+        if (rememberedEmail) {
+            document.getElementById('login_email').value = rememberedEmail;
+            document.getElementById('remember_me').checked = true;
+        }
     }
-    
-    document.querySelectorAll('#authTab button').forEach(btn => {
-        btn.addEventListener('shown.bs.tab', function(e) {
-            const target = e.target.getAttribute('data-bs-target').substring(1);
-            window.history.replaceState(null, null, '#' + target);
-        });
-    });
+    checkRememberMe();
     
     console.log('=== SmartLib Login System Ready ===');
     console.log('Demo Accounts: staff@library.com, student@library.com, guest@library.com');
     console.log('Registered users:', loadRegisteredUsers().length);
-    console.log('✅ Users will persist after logout!');
     </script>
 </body>
 </html>
