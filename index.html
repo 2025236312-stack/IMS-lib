@@ -69,7 +69,7 @@
         
         /* Login Card */
         .login-card {
-            background: rgba(255, 255, 255, 0.98);
+            background: rgba(30, 27, 75, 0.95);
             backdrop-filter: blur(10px);
             border-radius: 24px;
             width: 100%;
@@ -78,11 +78,57 @@
             position: relative;
             z-index: 10;
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
         
         .login-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.3);
+        }
+        
+        .login-card h2, .login-card h3, .login-card p, .login-card label {
+            color: white !important;
+        }
+        
+        .login-card .text-muted {
+            color: rgba(255, 255, 255, 0.7) !important;
+        }
+        
+        .login-card .border-end {
+            border-right-color: rgba(255, 255, 255, 0.2) !important;
+        }
+        
+        .login-card .border-top {
+            border-top-color: rgba(255, 255, 255, 0.2) !important;
+        }
+        
+        .login-card .nav-link {
+            color: rgba(255, 255, 255, 0.7) !important;
+        }
+        
+        .login-card .nav-link.active {
+            color: white !important;
+            background: linear-gradient(135deg, #667eea, #764ba2) !important;
+        }
+        
+        .login-card .form-control {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+        
+        .login-card .form-control:focus {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: #667eea;
+            color: white;
+        }
+        
+        .login-card .form-control::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+        
+        .login-card .form-check-label {
+            color: rgba(255, 255, 255, 0.8);
         }
         
         /* Role Selector */
@@ -103,11 +149,11 @@
         
         .role-option:hover {
             transform: scale(1.05);
-            background: rgba(102, 126, 234, 0.1);
+            background: rgba(255, 255, 255, 0.1);
         }
         
         .role-option.active {
-            background: rgba(102, 126, 234, 0.15);
+            background: rgba(102, 126, 234, 0.3);
             border-radius: 12px;
         }
         
@@ -141,7 +187,7 @@
         .role-label {
             font-size: 12px;
             font-weight: 500;
-            color: #4a5568;
+            color: rgba(255, 255, 255, 0.9);
         }
         
         /* Password Strength */
@@ -188,7 +234,7 @@
             }
         }
         
-        /* Dashboard Styles (shown after login) */
+        /* Dashboard Styles */
         .dashboard-container {
             display: none;
             min-height: 100vh;
@@ -340,13 +386,20 @@
                 font-size: 18px;
             }
         }
+        
+        /* Login section wrapper */
+        #loginSection {
+            display: flex;
+            position: relative;
+            z-index: 10;
+        }
     </style>
 </head>
 <body>
 
 <!-- Toast Notification -->
 <div id="toastNotification" class="toast-notification" style="display: none;">
-    <div class="toast bg-success text-white" role="alert">
+    <div class="toast text-white bg-success" role="alert">
         <div class="toast-body d-flex align-items-center justify-content-between">
             <span id="toastMessage"><i class="bi bi-check-circle-fill me-2"></i> Message</span>
             <button type="button" class="btn-close btn-close-white" onclick="hideToast()"></button>
@@ -366,8 +419,8 @@
                 <div class="d-inline-block p-3 rounded-circle mb-2" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
                     <i class="bi bi-book-half text-white" style="font-size: 2rem;"></i>
                 </div>
-                <h2 class="mb-0" style="font-family: 'Saira Stencil', cursive;">SmartLib</h2>
-                <p class="text-muted small">Library Management System</p>
+                <h2 class="mb-0" style="font-family: 'Saira Stencil', cursive; color: white;">SmartLib</h2>
+                <p class="text-white-50 small">Library Management System</p>
             </div>
 
             <!-- Tab Navigation -->
@@ -395,8 +448,8 @@
                 <div class="tab-pane fade show active" id="login" role="tabpanel">
                     <div class="row align-items-center">
                         <div class="col-md-5 text-center border-end">
-                            <i class="bi bi-shield-lock" style="font-size: 48px; color: #667eea;"></i>
-                            <p class="mt-2 text-muted small">Secure Access</p>
+                            <i class="bi bi-shield-lock" style="font-size: 48px; color: #a78bfa;"></i>
+                            <p class="mt-2 text-white-50 small">Secure Access</p>
                             
                             <!-- Role Selector -->
                             <div class="role-selector" id="roleSelector">
@@ -429,9 +482,9 @@
                                         <input type="checkbox" class="form-check-input" id="rememberMe">
                                         <label class="form-check-label small">Remember Me</label>
                                     </div>
-                                    <small class="text-muted"><i class="bi bi-shield-check"></i> Secure</small>
+                                    <small class="text-white-50"><i class="bi bi-shield-check"></i> Secure</small>
                                 </div>
-                                <button type="submit" class="btn btn-primary w-100 py-2 fw-semibold">
+                                <button type="submit" class="btn w-100 py-2 fw-semibold" style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none;">
                                     <i class="bi bi-box-arrow-in-right"></i> Login
                                 </button>
                             </form>
@@ -444,12 +497,12 @@
                 <div class="tab-pane fade" id="register" role="tabpanel">
                     <div class="row align-items-center">
                         <div class="col-md-5 text-center border-end">
-                            <i class="bi bi-person-plus" style="font-size: 48px; color: #28a745;"></i>
-                            <p class="mt-2 text-muted small">Join our community</p>
+                            <i class="bi bi-person-plus" style="font-size: 48px; color: #4ade80;"></i>
+                            <p class="mt-2 text-white-50 small">Join our community</p>
                             <div class="mt-2">
-                                <div><i class="bi bi-check-circle-fill text-success"></i> Free</div>
-                                <div><i class="bi bi-book"></i> 10k+ books</div>
-                                <div><i class="bi bi-headset"></i> 24/7 Support</div>
+                                <div class="text-white-50 small"><i class="bi bi-check-circle-fill text-success"></i> Free</div>
+                                <div class="text-white-50 small"><i class="bi bi-book"></i> 10k+ books</div>
+                                <div class="text-white-50 small"><i class="bi bi-headset"></i> 24/7 Support</div>
                             </div>
                         </div>
                         <div class="col-md-7">
@@ -461,7 +514,7 @@
                                 <div class="mb-2">
                                     <label class="form-label fw-semibold small"><i class="bi bi-envelope"></i> Email</label>
                                     <input type="email" id="regEmail" class="form-control" placeholder="your@email.com" required>
-                                    <small id="emailAvailability" class="text-muted"></small>
+                                    <small id="emailAvailability" class="text-white-50"></small>
                                 </div>
                                 <div class="mb-2">
                                     <label class="form-label fw-semibold small"><i class="bi bi-lock"></i> Password</label>
@@ -471,19 +524,19 @@
                                 <div class="mb-2">
                                     <label class="form-label fw-semibold small"><i class="bi bi-shield-lock"></i> Confirm</label>
                                     <input type="password" id="regConfirm" class="form-control" placeholder="Confirm password" required>
-                                    <small id="passwordMatch" class="text-muted"></small>
+                                    <small id="passwordMatch" class="text-white-50"></small>
                                 </div>
                                 <div class="mb-2">
                                     <label class="form-label fw-semibold small"><i class="bi bi-person-badge"></i> Role</label>
-                                    <select id="regRole" class="form-select">
-                                        <option value="Student">🎓 Student</option>
-                                        <option value="Staff">👔 Staff</option>
-                                        <option value="Guest">🌐 Guest</option>
+                                    <select id="regRole" class="form-select" style="background: rgba(255,255,255,0.1); color: white; border-color: rgba(255,255,255,0.2);">
+                                        <option value="Student" style="background: #1e1b4b;">🎓 Student</option>
+                                        <option value="Staff" style="background: #1e1b4b;">👔 Staff</option>
+                                        <option value="Guest" style="background: #1e1b4b;">🌐 Guest</option>
                                     </select>
                                 </div>
                                 <div class="form-check mb-3">
                                     <input type="checkbox" class="form-check-input" id="termsCheck" required>
-                                    <label class="form-check-label small">I agree to the Terms & Conditions</label>
+                                    <label class="form-check-label small text-white-50">I agree to the Terms & Conditions</label>
                                 </div>
                                 <button type="submit" class="btn btn-success w-100 py-2 fw-semibold" id="registerBtn" disabled>
                                     <i class="bi bi-person-plus"></i> Create Account
@@ -498,12 +551,12 @@
                 <div class="tab-pane fade" id="forgot" role="tabpanel">
                     <div class="row align-items-center">
                         <div class="col-md-5 text-center border-end">
-                            <i class="bi bi-key" style="font-size: 48px; color: #ffc107;"></i>
-                            <p class="mt-2 text-muted small">Reset your password</p>
+                            <i class="bi bi-key" style="font-size: 48px; color: #fbbf24;"></i>
+                            <p class="mt-2 text-white-50 small">Reset your password</p>
                         </div>
                         <div class="col-md-7">
                             <form id="forgotForm">
-                                <div class="alert alert-info small py-2 mb-3">
+                                <div class="alert alert-info small py-2 mb-3" style="background: rgba(59,130,246,0.2); color: #93c5fd; border: none;">
                                     <i class="bi bi-info-circle-fill"></i> Enter your registered email
                                 </div>
                                 <div class="mb-3">
@@ -518,7 +571,7 @@
                                 <div class="mb-3">
                                     <label class="form-label fw-semibold small"><i class="bi bi-shield-lock"></i> Confirm</label>
                                     <input type="password" id="fpConfirm" class="form-control" placeholder="Confirm" required>
-                                    <small id="fpPasswordMatch" class="text-muted"></small>
+                                    <small id="fpPasswordMatch" class="text-white-50"></small>
                                 </div>
                                 <button type="submit" class="btn btn-warning w-100 py-2 fw-semibold">
                                     <i class="bi bi-arrow-repeat"></i> Reset Password
@@ -531,13 +584,13 @@
             </div>
             
             <div class="text-center mt-3 pt-2 border-top">
-                <small class="text-muted"><i class="bi bi-c-circle"></i> 2025 SmartLib System</small>
+                <small class="text-white-50"><i class="bi bi-c-circle"></i> 2025 SmartLib System</small>
             </div>
         </div>
     </div>
 </div>
 
-<!-- DASHBOARD SECTION (Hidden until login) -->
+<!-- DASHBOARD SECTION -->
 <div id="dashboardSection" class="dashboard-container" style="display: none;">
     <!-- Sidebar -->
     <div class="sidebar" id="sidebar">
@@ -551,9 +604,9 @@
             </div>
         </div>
         <ul class="nav flex-column">
-            <li class="nav-item"><a class="nav-link active" href="#" onclick="showDashboardPage('dashboard')"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
-            <li class="nav-item"><a class="nav-link" href="#" onclick="showDashboardPage('books')"><i class="bi bi-journal-bookmark-fill"></i> Books</a></li>
-            <li class="nav-item"><a class="nav-link" href="#" onclick="showDashboardPage('transactions')"><i class="bi bi-arrow-left-right"></i> Transactions</a></li>
+            <li class="nav-item"><a class="nav-link active" href="#" onclick="showDashboardPage('dashboard'); return false;"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
+            <li class="nav-item"><a class="nav-link" href="#" onclick="showDashboardPage('books'); return false;"><i class="bi bi-journal-bookmark-fill"></i> Books</a></li>
+            <li class="nav-item"><a class="nav-link" href="#" onclick="showDashboardPage('transactions'); return false;"><i class="bi bi-arrow-left-right"></i> Transactions</a></li>
         </ul>
         <div class="position-absolute bottom-0 w-100 p-3" style="border-top: 1px solid rgba(255,255,255,0.1);">
             <div class="d-flex align-items-center gap-2 mb-2">
@@ -561,8 +614,8 @@
                     <i class="bi bi-person-fill text-white"></i>
                 </div>
                 <div>
-                    <div class="fw-semibold small" id="dashboardUserName">User</div>
-                    <small class="opacity-75" id="dashboardUserRole">Role</small>
+                    <div class="fw-semibold small text-white" id="dashboardUserName">User</div>
+                    <small class="opacity-75 text-white-50" id="dashboardUserRole">Role</small>
                 </div>
             </div>
             <button class="btn btn-outline-danger btn-sm w-100" onclick="logout()">
@@ -640,6 +693,7 @@ AOS.init({ once: true, duration: 800 });
 // Create floating particles
 function createParticles() {
     const particlesContainer = document.getElementById('particles');
+    if (!particlesContainer) return;
     for (let i = 0; i < 30; i++) {
         const particle = document.createElement('div');
         particle.className = 'particle';
@@ -655,14 +709,12 @@ function createParticles() {
 createParticles();
 
 // ==================== USER STORAGE ====================
-// Demo accounts
 const demoAccounts = [
     { id: "STAFF001", fullname: "Staff User", email: "staff@library.com", password: "staff123", role: "Staff" },
     { id: "STU002", fullname: "Student User", email: "student@library.com", password: "student123", role: "Student" },
     { id: "GUEST003", fullname: "Guest User", email: "guest@library.com", password: "guest123", role: "Guest" }
 ];
 
-// Load registered users from localStorage
 let registeredUsers = JSON.parse(localStorage.getItem('library_users') || '[]');
 
 function saveUsers() {
@@ -716,7 +768,6 @@ function hideToast() {
     document.getElementById('toastNotification').style.display = 'none';
 }
 
-// Password strength checker
 function checkPasswordStrength(password) {
     let strength = 0;
     if (password.length >= 8) strength++;
@@ -749,7 +800,6 @@ document.getElementById('loginForm').addEventListener('submit', function(e) {
     const user = authenticateUser(email, password);
     
     if (user) {
-        // Store user session
         sessionStorage.setItem('logged_in', 'true');
         sessionStorage.setItem('user_name', user.fullname);
         sessionStorage.setItem('user_email', user.email);
@@ -761,11 +811,9 @@ document.getElementById('loginForm').addEventListener('submit', function(e) {
         
         showToast(`Welcome ${user.fullname}!`, 'success');
         
-        // Show dashboard
         document.getElementById('loginSection').style.display = 'none';
         document.getElementById('dashboardSection').style.display = 'block';
         
-        // Load dashboard data
         loadDashboard();
     } else {
         showToast('Invalid email or password!', 'error');
@@ -839,12 +887,10 @@ document.getElementById('registerForm').addEventListener('submit', function(e) {
     
     showToast('Registration successful! Please login.', 'success');
     
-    // Switch to login tab
     const loginTab = document.querySelector('#login-tab');
     bootstrap.Tab.getOrCreateInstance(loginTab).show();
     document.getElementById('loginEmail').value = email;
     
-    // Clear form
     document.getElementById('registerForm').reset();
     document.getElementById('registerBtn').disabled = true;
 });
@@ -888,7 +934,6 @@ document.getElementById('forgotForm').addEventListener('submit', function(e) {
         return;
     }
     
-    // Check registered users
     let found = false;
     for (let i = 0; i < registeredUsers.length; i++) {
         if (registeredUsers[i].email === email) {
@@ -904,13 +949,10 @@ document.getElementById('forgotForm').addEventListener('submit', function(e) {
         const loginTab = document.querySelector('#login-tab');
         bootstrap.Tab.getOrCreateInstance(loginTab).show();
         document.getElementById('loginEmail').value = email;
+    } else if (demoAccounts.some(u => u.email === email)) {
+        showToast('Demo account password cannot be changed!', 'error');
     } else {
-        // Check demo accounts
-        if (demoAccounts.some(u => u.email === email)) {
-            showToast('Demo account password cannot be changed!', 'error');
-        } else {
-            showToast('Email not found! Please register first.', 'error');
-        }
+        showToast('Email not found! Please register first.', 'error');
     }
 });
 
@@ -928,7 +970,6 @@ function loadDashboard() {
     updateDateTime();
     setInterval(updateDateTime, 1000);
     
-    // Update stats
     const borrowed = transactionsData.filter(t => t.status === 'borrowed').length;
     const returned = transactionsData.filter(t => t.status === 'returned').length;
     const overdue = transactionsData.filter(t => t.status === 'overdue').length;
@@ -942,7 +983,6 @@ function loadDashboard() {
         <div class="col-md-3"><div class="stat-card"><div class="stat-number">${overdue}</div><div class="text-muted small">Overdue</div></div></div>
     `;
     
-    // Recent transactions
     document.getElementById('recentTransactions').innerHTML = transactionsData.slice(0, 4).map(t => `
         <tr>
             <td>${t.id}</td>
@@ -954,15 +994,13 @@ function loadDashboard() {
         </tr>
     `).join('');
     
-    // Books list
     renderBooksList();
-    
-    // All transactions
     renderAllTransactions();
 }
 
 function renderBooksList() {
-    const search = document.getElementById('bookSearch')?.value.toLowerCase() || '';
+    const searchInput = document.getElementById('bookSearch');
+    const search = searchInput ? searchInput.value.toLowerCase() : '';
     const filtered = booksData.filter(b => b.title.toLowerCase().includes(search) || b.author.toLowerCase().includes(search));
     document.getElementById('booksList').innerHTML = filtered.map(b => `
         <tr>
@@ -1002,29 +1040,53 @@ function showDashboardPage(page) {
         document.getElementById('booksPage').style.display = 'block';
         document.getElementById('pageTitle').innerHTML = '📚 Books Collection';
         renderBooksList();
-        document.getElementById('bookSearch')?.addEventListener('input', renderBooksList);
+        const bookSearch = document.getElementById('bookSearch');
+        if (bookSearch) {
+            bookSearch.removeEventListener('input', renderBooksList);
+            bookSearch.addEventListener('input', renderBooksList);
+        }
     } else if (page === 'transactions') {
         document.getElementById('transactionsPage').style.display = 'block';
         document.getElementById('pageTitle').innerHTML = '📋 Transactions';
         renderAllTransactions();
     }
     
-    // Update active nav link
     document.querySelectorAll('.sidebar .nav-link').forEach(link => link.classList.remove('active'));
-    event.target.classList.add('active');
+    if (event && event.target) {
+        event.target.classList.add('active');
+    }
 }
 
 function updateDateTime() {
     const now = new Date();
-    document.getElementById('currentDateTime').innerHTML = now.toLocaleDateString() + ' ' + now.toLocaleTimeString();
+    const dateTimeSpan = document.getElementById('currentDateTime');
+    if (dateTimeSpan) {
+        dateTimeSpan.innerHTML = now.toLocaleDateString() + ' ' + now.toLocaleTimeString();
+    }
 }
 
 function logout() {
     sessionStorage.clear();
     localStorage.removeItem('remembered_email');
+    
+    // Reset login form
+    document.getElementById('loginForm').reset();
+    document.getElementById('loginEmail').value = '';
+    document.getElementById('loginPassword').value = '';
+    
+    // Remove active class from role options
+    document.querySelectorAll('.role-option').forEach(opt => opt.classList.remove('active'));
+    
+    // Show login section with proper display
     document.getElementById('loginSection').style.display = 'flex';
     document.getElementById('dashboardSection').style.display = 'none';
-    document.getElementById('loginForm').reset();
+    
+    // Reset to login tab
+    const loginTab = document.querySelector('#login-tab');
+    if (loginTab) {
+        bootstrap.Tab.getOrCreateInstance(loginTab).show();
+    }
+    
     showToast('Logged out successfully!', 'success');
 }
 
@@ -1038,14 +1100,12 @@ document.querySelectorAll('.role-option').forEach(option => {
     });
 });
 
-// Check for remembered email
 const rememberedEmail = localStorage.getItem('remembered_email');
 if (rememberedEmail) {
     document.getElementById('loginEmail').value = rememberedEmail;
     document.getElementById('rememberMe').checked = true;
 }
 
-// URL hash handling
 const hash = window.location.hash;
 if (hash === '#register') {
     const registerTab = document.querySelector('#register-tab');
@@ -1062,7 +1122,6 @@ document.querySelectorAll('#authTab button').forEach(btn => {
     });
 });
 
-// Check if already logged in
 if (sessionStorage.getItem('logged_in') === 'true') {
     document.getElementById('loginSection').style.display = 'none';
     document.getElementById('dashboardSection').style.display = 'block';
