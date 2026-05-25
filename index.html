@@ -396,7 +396,7 @@
 
 <script>
 // ============================================
-// SMARTLIB LOGIN SYSTEM - FULLY FUNCTIONAL
+// SMARTLIB LOGIN SYSTEM - FIXED VERSION
 // ============================================
 
 // Initialize Vanta.js Background
@@ -453,7 +453,6 @@ const demoAccounts = [
     { id: "GUEST003", fullname: "Guest User", email: "guest@library.com", password: "guest123", role: "Guest" }
 ];
 
-// Load registered users - IMPORTANT: This matches your dashboard
 let registeredUsers = JSON.parse(localStorage.getItem('library_users') || '[]');
 
 function saveUsers() {
@@ -471,37 +470,41 @@ function authenticateUser(email, password) {
     return regUser || null;
 }
 
-// This is the CRITICAL function - stores data exactly as dashboard expects
+// FIXED: Redirect to dashboard with proper session storage
 function redirectToDashboard(user) {
-    // Clear any existing session
+    // Clear any existing session first
     sessionStorage.clear();
     
-    // Store session data - THESE ARE THE EXACT KEYS YOUR DASHBOARD LOOKS FOR
+    // Store session data
     sessionStorage.setItem('logged_in', 'true');
-    sessionStorage.setItem('user_id', user.id || 'USER_' + Date.now());
+    sessionStorage.setItem('user_id', user.id);
     sessionStorage.setItem('user_name', user.fullname);
     sessionStorage.setItem('user_email', user.email);
     sessionStorage.setItem('user_role', user.role);
     sessionStorage.setItem('last_activity', new Date().toISOString());
     
-    // Save registered users to localStorage (your dashboard reads this)
+    // Debug: Verify storage
+    console.log('Session data stored:');
+    console.log('logged_in:', sessionStorage.getItem('logged_in'));
+    console.log('user_name:', sessionStorage.getItem('user_name'));
+    console.log('user_role:', sessionStorage.getItem('user_role'));
+    
+    // Save registered users
     localStorage.setItem('library_users', JSON.stringify(registeredUsers));
     
     // Handle remember me
     const remember = document.getElementById('rememberMe').checked;
     if (remember) {
         localStorage.setItem('remembered_email', user.email);
-        localStorage.setItem('library_remember_token', 'true');
     } else {
         localStorage.removeItem('remembered_email');
-        localStorage.removeItem('library_remember_token');
     }
     
     showToast(`Welcome ${user.fullname}! Redirecting to dashboard...`, 'success');
     
-    // Force redirect to dashboard
-    setTimeout(() => {
-        window.location.replace('dashboard.html');
+    // Redirect to dashboard
+    setTimeout(function() {
+        window.location.href = 'dashboard.html';
     }, 1000);
 }
 
@@ -605,12 +608,7 @@ if (rememberedEmail) {
     document.getElementById('rememberMe').checked = true;
 }
 
-// If already logged in, go to dashboard
-if (sessionStorage.getItem('logged_in') === 'true') {
-    window.location.replace('dashboard.html');
-}
-
-// Password strength meter
+// Password strength meter functions
 function updateRegPasswordStrength() {
     const password = document.getElementById('regPassword').value;
     const strengthDiv = document.getElementById('regPasswordStrength');
@@ -652,6 +650,5 @@ const style = document.createElement('style');
 style.textContent = `.password-strength { height: 4px; border-radius: 2px; margin-top: 5px; transition: all 0.3s ease; }`;
 document.head.appendChild(style);
 </script>
-<script src="auth.js"></script>
 </body>
 </html>
