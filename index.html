@@ -6,7 +6,7 @@
     <title>4a Repository - SmartLib Login</title>
     
     <!-- Bootstrap 5.3 -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
@@ -14,7 +14,7 @@
     <!-- Google Font API -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=Saira+Stencil:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700&family=Saira+Stencil:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
         * {
@@ -395,6 +395,7 @@
 <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"></script>
 
 <script>
+// Initialize Vanta.js Background
 VANTA.NET({
     el: "#bg-vanta",
     mouseControls: true,
@@ -408,6 +409,7 @@ VANTA.NET({
     backgroundColor: 0x0a0a2a
 });
 
+// Create floating particles
 function createParticles() {
     const particlesContainer = document.getElementById('particles');
     if (!particlesContainer) return;
@@ -425,6 +427,7 @@ function createParticles() {
 }
 createParticles();
 
+// Toast notification
 function showToast(message, type = 'success') {
     const toast = document.getElementById('toastNotification');
     const toastMessage = document.getElementById('toastMessage');
@@ -439,6 +442,7 @@ function hideToast() {
     document.getElementById('toastNotification').style.display = 'none';
 }
 
+// Demo accounts
 const demoAccounts = [
     { id: "STAFF001", fullname: "Staff User", email: "staff@library.com", password: "staff123", role: "Staff" },
     { id: "STU002", fullname: "Student User", email: "student@library.com", password: "student123", role: "Student" },
@@ -462,23 +466,65 @@ function authenticateUser(email, password) {
     return regUser || null;
 }
 
+function checkPasswordStrength(password) {
+    let strength = 0;
+    if (password.length >= 8) strength++;
+    if (password.match(/[a-z]/) && password.match(/[A-Z]/)) strength++;
+    if (password.match(/\d/)) strength++;
+    if (password.match(/[^a-zA-Z\d]/)) strength++;
+    return strength;
+}
+
+function updateRegPasswordStrength() {
+    const password = document.getElementById('regPassword').value;
+    const strengthDiv = document.getElementById('regPasswordStrength');
+    if (!password) { strengthDiv.innerHTML = ''; return; }
+    const strength = checkPasswordStrength(password);
+    let text = '';
+    if (strength <= 1) text = '<small class="text-danger">Weak</small>';
+    else if (strength === 2) text = '<small class="text-warning">Medium</small>';
+    else text = '<small class="text-success">Strong</small>';
+    strengthDiv.innerHTML = `<div class="password-strength" style="height:4px; border-radius:2px; margin-top:5px; width:${strength <= 1 ? '33%' : strength === 2 ? '66%' : '100%'}; background:${strength <= 1 ? '#ef4444' : strength === 2 ? '#f59e0b' : '#10b981'};"></div>${text}`;
+}
+
+function checkRegPasswordMatch() {
+    const password = document.getElementById('regPassword').value;
+    const confirm = document.getElementById('regConfirm').value;
+    const matchSpan = document.getElementById('regPasswordMatch');
+    if (confirm === '') { matchSpan.innerHTML = ''; return; }
+    matchSpan.innerHTML = password === confirm ? '<span class="text-success">✓ Match</span>' : '<span class="text-danger">✗ No match</span>';
+}
+
+function checkEmailAvailability() {
+    const email = document.getElementById('regEmail').value;
+    const availabilitySpan = document.getElementById('regEmailAvailability');
+    if (userExists(email)) {
+        availabilitySpan.innerHTML = '<span class="text-danger">✗ Email already taken</span>';
+    } else if (email.includes('@')) {
+        availabilitySpan.innerHTML = '<span class="text-success">✓ Available</span>';
+    } else {
+        availabilitySpan.innerHTML = '';
+    }
+}
+
+// Redirect to dashboard with user data
 function redirectToDashboard(user) {
-    // Store session data
-    sessionStorage.setItem('smartlib_logged_in', 'true');
-    sessionStorage.setItem('smartlib_user_id', user.id);
-    sessionStorage.setItem('smartlib_user_name', user.fullname);
-    sessionStorage.setItem('smartlib_user_email', user.email);
-    sessionStorage.setItem('smartlib_user_role', user.role);
-    sessionStorage.setItem('smartlib_login_time', new Date().toISOString());
+    // Store complete session data
+    sessionStorage.setItem('logged_in', 'true');
+    sessionStorage.setItem('user_id', user.id || 'USER_' + Date.now());
+    sessionStorage.setItem('user_name', user.fullname);
+    sessionStorage.setItem('user_email', user.email);
+    sessionStorage.setItem('user_role', user.role);
+    sessionStorage.setItem('last_activity', new Date().toISOString());
     
     // Also store in localStorage for persistence
-    localStorage.setItem('smartlib_user_name', user.fullname);
-    localStorage.setItem('smartlib_user_email', user.email);
-    localStorage.setItem('smartlib_user_role', user.role);
-    localStorage.setItem('smartlib_logged_in', 'true');
+    localStorage.setItem('library_user_name', user.fullname);
+    localStorage.setItem('library_user_email', user.email);
+    localStorage.setItem('library_user_role', user.role);
     
-    if (document.getElementById('rememberMe').checked) {
-        localStorage.setItem('smartlib_remember_email', user.email);
+    const remember = document.getElementById('rememberMe').checked;
+    if (remember) {
+        localStorage.setItem('remembered_email', user.email);
     }
     
     showToast(`Welcome ${user.fullname}! Redirecting to dashboard...`, 'success');
@@ -487,6 +533,7 @@ function redirectToDashboard(user) {
     }, 1000);
 }
 
+// Login form submit
 document.getElementById('loginForm').addEventListener('submit', function(e) {
     e.preventDefault();
     const email = document.getElementById('loginEmail').value;
@@ -500,6 +547,7 @@ document.getElementById('loginForm').addEventListener('submit', function(e) {
     }
 });
 
+// Register form submit
 document.getElementById('registerForm').addEventListener('submit', function(e) {
     e.preventDefault();
     const name = document.getElementById('regName').value;
@@ -536,6 +584,7 @@ document.getElementById('registerForm').addEventListener('submit', function(e) {
     document.getElementById('registerForm').reset();
 });
 
+// Forgot password form submit
 document.getElementById('forgotForm').addEventListener('submit', function(e) {
     e.preventDefault();
     const email = document.getElementById('fpEmail').value;
@@ -558,14 +607,14 @@ document.getElementById('forgotForm').addEventListener('submit', function(e) {
     }
     
     if (found) {
-        showToast('Password reset successful!', 'success');
+        showToast('Password reset successful! Please login.', 'success');
         const forgotModal = bootstrap.Modal.getInstance(document.getElementById('forgotModal'));
         forgotModal.hide();
         document.getElementById('loginEmail').value = email;
     } else if (demoAccounts.some(u => u.email === email)) {
         showToast('Demo account password cannot be changed!', 'error');
     } else {
-        showToast('Email not found!', 'error');
+        showToast('Email not found! Please register first.', 'error');
     }
 });
 
@@ -577,11 +626,33 @@ function showForgotPassword() {
     new bootstrap.Modal(document.getElementById('forgotModal')).show();
 }
 
-const rememberedEmail = localStorage.getItem('smartlib_remember_email');
+// Check remembered email
+const rememberedEmail = localStorage.getItem('remembered_email');
 if (rememberedEmail) {
     document.getElementById('loginEmail').value = rememberedEmail;
     document.getElementById('rememberMe').checked = true;
 }
+
+// If already logged in, redirect to dashboard
+if (sessionStorage.getItem('logged_in') === 'true') {
+    window.location.href = 'dashboard.html';
+}
+
+// Add password strength styles
+const style = document.createElement('style');
+style.textContent = `
+    .password-strength {
+        height: 4px;
+        border-radius: 2px;
+        margin-top: 5px;
+        transition: all 0.3s ease;
+    }
+`;
+document.head.appendChild(style);
+
+document.getElementById('regPassword')?.addEventListener('input', updateRegPasswordStrength);
+document.getElementById('regConfirm')?.addEventListener('input', checkRegPasswordMatch);
+document.getElementById('regEmail')?.addEventListener('input', checkEmailAvailability);
 </script>
 </body>
 </html>

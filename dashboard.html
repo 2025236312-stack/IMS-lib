@@ -45,7 +45,6 @@
             min-height: 100vh;
         }
         
-        /* Sidebar */
         .sidebar {
             width: 280px;
             background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
@@ -130,14 +129,12 @@
             margin-bottom: 1rem;
         }
         
-        /* Main Content */
         .main-content {
             flex: 1;
             margin-left: 280px;
             min-height: 100vh;
         }
         
-        /* Dashboard Header */
         .dashboard-header {
             display: flex;
             justify-content: space-between;
@@ -159,7 +156,6 @@
             font-size: 0.85rem;
         }
         
-        /* User Avatar Dropdown */
         .user-avatar-dropdown {
             display: flex;
             align-items: center;
@@ -204,7 +200,6 @@
             color: white;
         }
         
-        /* Welcome Banner */
         .welcome-banner {
             background: linear-gradient(135deg, #667eea, #764ba2);
             border-radius: 16px;
@@ -232,7 +227,6 @@
             gap: 8px;
         }
         
-        /* Stats Cards */
         .stats-row {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -269,6 +263,13 @@
             margin: 0.5rem 0;
         }
         
+        .stat-trend {
+            font-size: 0.75rem;
+        }
+        
+        .trend-up { color: #28a745; }
+        .trend-down { color: #dc3545; }
+        
         .stat-icon {
             width: 55px;
             height: 55px;
@@ -284,7 +285,6 @@
         .stat-icon-warning { background: rgba(255,193,7,0.2); color: #ffc107; }
         .stat-icon-info { background: rgba(23,162,184,0.2); color: #17a2b8; }
         
-        /* Content Grid */
         .content-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -304,7 +304,6 @@
             font-weight: 600;
         }
         
-        /* Chart Row */
         .chart-row {
             display: grid;
             grid-template-columns: 2fr 1fr;
@@ -312,7 +311,6 @@
             margin-bottom: 1.5rem;
         }
         
-        /* Footer */
         .footer {
             background: var(--bs-body-bg);
             padding: 1rem;
@@ -347,6 +345,17 @@
             border-bottom: 1px solid rgba(102,126,234,0.1);
         }
         
+        .section-badge {
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+        }
+        
+        .section-badge-primary { background: rgba(102,126,234,0.2); color: #667eea; }
+        .section-badge-secondary { background: rgba(108,117,125,0.2); color: #6c757d; }
+        .section-badge-info { background: rgba(23,162,184,0.2); color: #17a2b8; }
+        .section-badge-success { background: rgba(40,167,69,0.2); color: #28a745; }
+        
         .profile-avatar {
             width: 80px;
             height: 80px;
@@ -363,8 +372,35 @@
             color: white;
         }
         
+        .profile-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+        
+        .profile-details {
+            font-size: 0.8rem;
+            opacity: 0.7;
+        }
+        
+        .profile-divider {
+            margin: 1rem 0;
+            border-color: rgba(102,126,234,0.2);
+        }
+        
+        .profile-stats {
+            display: flex;
+            justify-content: space-around;
+        }
+        
         .engagement-item {
             margin-bottom: 1rem;
+        }
+        
+        .engagement-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            margin-bottom: 0.5rem;
         }
         
         .progress-bar-custom {
@@ -372,7 +408,6 @@
             background: rgba(102,126,234,0.2);
             border-radius: 4px;
             overflow: hidden;
-            margin-top: 0.5rem;
         }
         
         .progress-fill {
@@ -383,6 +418,25 @@
         .progress-fill-success { background: #28a745; }
         .progress-fill-info { background: #17a2b8; }
         .progress-fill-warning { background: #ffc107; }
+        
+        .engagement-note {
+            display: block;
+            margin-top: 1rem;
+            font-size: 0.7rem;
+            opacity: 0.6;
+        }
+        
+        .session-value {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #667eea;
+        }
+        
+        .session-stats {
+            display: flex;
+            justify-content: space-around;
+            margin: 1rem 0;
+        }
         
         .actions-buttons {
             display: flex;
@@ -397,6 +451,33 @@
             display: inline-flex;
             align-items: center;
             gap: 8px;
+        }
+        
+        .action-btn-primary { background: #667eea; color: white; }
+        .action-btn-success { background: #28a745; color: white; }
+        .action-btn-info { background: #17a2b8; color: white; }
+        .action-btn-secondary { background: #6c757d; color: white; }
+        
+        .world-map-row {
+            margin-bottom: 1.5rem;
+        }
+        
+        .world-map-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .badge-global {
+            background: rgba(102,126,234,0.2);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+        
+        .quick-actions-row {
+            margin-bottom: 1.5rem;
         }
     </style>
 </head>
@@ -456,7 +537,7 @@
                 </div>
                 <i class="bi bi-moon-fill"></i>
             </div>
-            <a href="index.html" class="btn btn-outline-danger btn-sm w-100 mt-2" id="logoutBtn">
+            <a href="#" class="btn btn-outline-danger btn-sm w-100 mt-2" id="logoutBtn">
                 <i class="bi bi-box-arrow-right"></i> Logout
             </a>
         </div>
@@ -474,20 +555,23 @@
                 </div>
                 
                 <div class="dropdown">
-                    <div class="user-avatar-dropdown" data-bs-toggle="dropdown">
+                    <div class="user-avatar-dropdown" data-bs-toggle="dropdown" aria-expanded="false">
                         <div class="user-info">
                             <div class="user-name" id="userName">Loading...</div>
-                            <div class="user-role" id="userRole">Loading...</div>
+                            <div class="user-role" id="userRole">
+                                <i class="bi bi-briefcase"></i> Loading...
+                            </div>
                         </div>
                         <div class="avatar-circle">
                             <i class="bi bi-person-fill avatar-icon"></i>
                         </div>
                     </div>
                     <ul class="dropdown-menu dropdown-menu-end">
-                        <li><a class="dropdown-item" href="#"><i class="bi bi-person"></i> My Profile</a></li>
-                        <li><a class="dropdown-item" href="#"><i class="bi bi-gear"></i> Settings</a></li>
+                        <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#profileModal"><i class="bi bi-person"></i> My Profile</a></li>
+                        <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#settingsModal"><i class="bi bi-gear"></i> Settings</a></li>
+                        <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#notificationsModal"><i class="bi bi-bell"></i> Notifications <span class="badge bg-danger ms-2" id="notificationCountBadge">8</span></a></li>
                         <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item text-danger" href="index.html" id="logoutDropdown"><i class="bi bi-box-arrow-right"></i> Logout</a></li>
+                        <li><a class="dropdown-item text-danger" href="#" id="logoutDropdown"><i class="bi bi-box-arrow-right"></i> Logout</a></li>
                     </ul>
                 </div>
             </div>
@@ -497,8 +581,12 @@
                     <div>
                         <i class="bi bi-emoji-smile welcome-icon"></i>
                         <strong>Hello, <span id="welcomeUserName">Loading...</span>!</strong> 
-                        Welcome back to your library dashboard.
+                        Welcome back to your library dashboard. You have <span id="welcomeNotificationCount">8</span> new notifications.
                     </div>
+                    <a href="#" class="btn-update" data-bs-toggle="modal" data-bs-target="#notificationsModal">
+                        <i class="bi bi-bell"></i> View Updates
+                        <span class="notification-badge" id="updateBadge">8</span>
+                    </a>
                 </div>
             </div>
 
@@ -509,7 +597,8 @@
                             <div class="stat-content">
                                 <div>
                                     <span class="stat-label">Total Books</span>
-                                    <h2 class="stat-value">5,678</h2>
+                                    <h2 class="stat-value" id="totalBooks">5,678</h2>
+                                    <small class="stat-trend trend-up"><i class="bi bi-arrow-up"></i> +5.2%</small>
                                 </div>
                                 <div class="stat-icon stat-icon-primary">
                                     <i class="bi bi-journal-bookmark-fill"></i>
@@ -524,7 +613,8 @@
                             <div class="stat-content">
                                 <div>
                                     <span class="stat-label">Active Members</span>
-                                    <h2 class="stat-value">2,345</h2>
+                                    <h2 class="stat-value" id="activeMembers">2,345</h2>
+                                    <small class="stat-trend trend-up"><i class="bi bi-arrow-up"></i> +12%</small>
                                 </div>
                                 <div class="stat-icon stat-icon-success">
                                     <i class="bi bi-people-fill"></i>
@@ -539,7 +629,8 @@
                             <div class="stat-content">
                                 <div>
                                     <span class="stat-label">Books Borrowed</span>
-                                    <h2 class="stat-value">1,234</h2>
+                                    <h2 class="stat-value" id="booksBorrowed">1,234</h2>
+                                    <small class="stat-trend trend-down"><i class="bi bi-arrow-down"></i> -3%</small>
                                 </div>
                                 <div class="stat-icon stat-icon-warning">
                                     <i class="bi bi-bookmark-check"></i>
@@ -554,7 +645,8 @@
                             <div class="stat-content">
                                 <div>
                                     <span class="stat-label">Pending Returns</span>
-                                    <h2 class="stat-value">45</h2>
+                                    <h2 class="stat-value" id="pendingReturns">45</h2>
+                                    <small class="stat-trend trend-warning"><i class="bi bi-clock"></i> Due soon</small>
                                 </div>
                                 <div class="stat-icon stat-icon-info">
                                     <i class="bi bi-clock-history"></i>
@@ -565,11 +657,78 @@
                 </div>
             </div>
 
+            <div class="content-grid">
+                <div class="grid-col-4">
+                    <div class="card section-card">
+                        <div class="card-header-custom">
+                            <i class="bi bi-bar-chart-steps"></i> Top Library Sections
+                        </div>
+                        <div class="card-body">
+                            <ul class="section-list">
+                                <li class="section-item">Fiction <span class="section-badge section-badge-primary">5,678 <i class="bi bi-arrow-up-short"></i> +12%</span></li>
+                                <li class="section-item">Non-Fiction <span class="section-badge section-badge-secondary">2,345 <i class="bi bi-arrow-down-short"></i> -2%</span></li>
+                                <li class="section-item">Reference <span class="section-badge section-badge-info">3,456 <i class="bi bi-arrow-up-short"></i> +6%</span></li>
+                                <li class="section-item">E-Resources <span class="section-badge section-badge-success">1,132 <i class="bi bi-arrow-up-short"></i> +3%</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="grid-col-4">
+                    <div class="card profile-card">
+                        <div class="card-header-custom">
+                            <i class="bi bi-person-badge"></i> Librarian Profile
+                        </div>
+                        <div class="card-body text-center">
+                            <div class="profile-avatar">
+                                <i class="bi bi-person-fill"></i>
+                            </div>
+                            <h5 class="profile-name" id="profileName">Loading...</h5>
+                            <p class="profile-details" id="profileDetails">Loading...</p>
+                            <hr class="profile-divider">
+                            <div class="profile-stats">
+                                <div class="profile-stat">
+                                    <small>Today's Checkouts</small>
+                                    <h6 class="stat-success">148 <i class="bi bi-arrow-up-short"></i> +7%</h6>
+                                </div>
+                                <div class="profile-stat">
+                                    <small>Pending Returns</small>
+                                    <h6 class="stat-warning">23 books</h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="grid-col-4">
+                    <div class="card engagement-card">
+                        <div class="card-header-custom">
+                            <i class="bi bi-graph-up"></i> Library Engagement
+                        </div>
+                        <div class="card-body">
+                            <div class="engagement-item">
+                                <div class="engagement-label"> New registrations <span>57%</span></div>
+                                <div class="progress-bar-custom"><div class="progress-fill progress-fill-success" style="width:57%"></div></div>
+                            </div>
+                            <div class="engagement-item">
+                                <div class="engagement-label"> Active Borrowers <span>32%</span></div>
+                                <div class="progress-bar-custom"><div class="progress-fill progress-fill-info" style="width:32%"></div></div>
+                            </div>
+                            <div class="engagement-item">
+                                <div class="engagement-label"> Newsletter Subs <span>31%</span></div>
+                                <div class="progress-bar-custom"><div class="progress-fill progress-fill-warning" style="width:31%"></div></div>
+                            </div>
+                            <small class="engagement-note"><i class="bi bi-envelope"></i> We'll send email when new conversion occurs</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="chart-row">
                 <div class="chart-col">
                     <div class="card chart-card">
                         <div class="card-header-custom">
-                            <i class="bi bi-people-fill"></i> Total Visitors (Monthly)
+                            <i class="bi bi-people-fill"></i> Total Visitors (Monthly Library Footfall)
                         </div>
                         <div class="card-body">
                             <canvas id="visitorsLineChart"></canvas>
@@ -579,22 +738,67 @@
                 <div class="stats-col">
                     <div class="card session-card">
                         <div class="card-header-custom">
-                            <i class="bi bi-clock-history"></i> Quick Stats
+                            <i class="bi bi-clock-history"></i> Average Session Duration
                         </div>
                         <div class="card-body text-center">
-                            <h3>Library Active</h3>
-                            <p>System running smoothly</p>
-                            <hr>
-                            <div class="d-flex justify-content-around">
-                                <div>
-                                    <h5>98%</h5>
-                                    <small>Satisfaction</small>
+                            <div class="session-value">55</div>
+                            <p class="session-label">minutes average session</p>
+                            <hr class="session-divider">
+                            <div class="session-stats">
+                                <div class="session-stat">
+                                    <i class="bi bi-people"></i>
+                                    <h5 class="mb-0">3,500</h5>
+                                    <small>Total visitors</small>
                                 </div>
-                                <div>
-                                    <h5>24/7</h5>
-                                    <small>Support</small>
+                                <div class="session-stat">
+                                    <i class="bi bi-person-plus"></i>
+                                    <h5 class="mb-0">2,100</h5>
+                                    <small>New visitors</small>
                                 </div>
                             </div>
+                            <div class="session-location">
+                                <i class="bi bi-geo-alt-fill"></i> Top city: Melbourne, AUS
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="world-map-row">
+                <div class="card world-map-card">
+                    <div class="card-body">
+                        <div class="world-map-content">
+                            <div>
+                                <i class="bi bi-pin-map-fill"></i>
+                                <strong>Global Reach:</strong> Melbourne AUS, London UK, New York US, Tokyo JP
+                            </div>
+                            <div>
+                                <span class="badge-global">Total visitors: 12.4k</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="quick-actions-row">
+                <div class="card actions-card">
+                    <div class="card-header-custom">
+                        <i class="bi bi-lightning-charge"></i> Quick Actions
+                    </div>
+                    <div class="card-body">
+                        <div class="actions-buttons">
+                            <a href="#" class="action-btn action-btn-primary">
+                                <i class="bi bi-journal-plus"></i> Add New Book
+                            </a>
+                            <a href="#" class="action-btn action-btn-success">
+                                <i class="bi bi-person-plus"></i> Register Member
+                            </a>
+                            <a href="#" class="action-btn action-btn-info">
+                                <i class="bi bi-arrow-left-right"></i> New Transaction
+                            </a>
+                            <a href="#" class="action-btn action-btn-secondary" id="generateReportBtn">
+                                <i class="bi bi-printer"></i> Generate Report
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -603,48 +807,147 @@
         
         <footer class="footer">
             <div class="container">
-                <span>© 2025 SmartLib System — Integrated Library Management</span>
+                <span>© 2025 SmartLib System — Integrated Library Management | v3.0 | Secure Session</span>
             </div>
         </footer>
     </main>
 </div>
 
+<!-- Profile Modal -->
+<div class="modal fade" id="profileModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header" style="background: linear-gradient(135deg, #667eea, #764ba2);">
+                <h5 class="modal-title text-white"><i class="bi bi-person-circle"></i> My Profile</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-4 text-center border-end">
+                        <div class="profile-avatar-large" style="width: 100px; height: 100px; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto;">
+                            <i class="bi bi-person-fill" style="font-size: 3rem; color: white;"></i>
+                        </div>
+                        <h5 class="mt-3" id="modalProfileName">Loading...</h5>
+                        <p class="text-muted small" id="modalProfileRole">Loading...</p>
+                    </div>
+                    <div class="col-md-8">
+                        <h6><i class="bi bi-info-circle"></i> Personal Information</h6>
+                        <div class="info-row mb-2"><strong>Full Name:</strong> <span id="modalDisplayName">Loading...</span></div>
+                        <div class="info-row mb-2"><strong>Email:</strong> <span id="modalDisplayEmail">Loading...</span></div>
+                        <div class="info-row mb-2"><strong>Role:</strong> <span id="modalDisplayRole">Loading...</span></div>
+                        <div class="info-row mb-2"><strong>Member Since:</strong> January 15, 2025</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Settings Modal -->
+<div class="modal fade" id="settingsModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header" style="background: linear-gradient(135deg, #667eea, #764ba2);">
+                <h5 class="modal-title text-white"><i class="bi bi-gear-fill"></i> Settings</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="setting-item mb-3">
+                    <label>Email Notifications</label>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" id="emailNotifications" checked>
+                    </div>
+                </div>
+                <div class="setting-item mb-3">
+                    <label>Push Notifications</label>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" id="pushNotifications" checked>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Notifications Modal -->
+<div class="modal fade" id="notificationsModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header" style="background: linear-gradient(135deg, #667eea, #764ba2);">
+                <h5 class="modal-title text-white"><i class="bi bi-bell-fill"></i> Notifications</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="notification-item p-2 border-bottom">Welcome to SmartLib!</div>
+                <div class="notification-item p-2 border-bottom">New books added to collection</div>
+                <div class="notification-item p-2">Your library card is ready</div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-// FIXED: Dashboard session check and user data loading
+// Dashboard initialization - FIXED to prevent redirect loops
 (function() {
-    // Check if user is logged in - using the smartlib_ prefix
-    const isLoggedIn = sessionStorage.getItem('smartlib_logged_in') === 'true' || 
-                       localStorage.getItem('smartlib_logged_in') === 'true';
+    // Check if user is logged in
+    const isLoggedIn = sessionStorage.getItem('logged_in') === 'true';
     
     if (!isLoggedIn) {
-        // Redirect to login page
         window.location.href = 'index.html';
         return;
     }
     
-    // Get user data from sessionStorage or localStorage
-    const userName = sessionStorage.getItem('smartlib_user_name') || localStorage.getItem('smartlib_user_name') || 'User';
-    const userEmail = sessionStorage.getItem('smartlib_user_email') || localStorage.getItem('smartlib_user_email') || 'user@library.com';
-    const userRole = sessionStorage.getItem('smartlib_user_role') || localStorage.getItem('smartlib_user_role') || 'Member';
+    // Get user data from sessionStorage
+    const userName = sessionStorage.getItem('user_name') || 'User';
+    const userEmail = sessionStorage.getItem('user_email') || 'user@library.com';
+    const userRole = sessionStorage.getItem('user_role') || 'Member';
     
     // Update all user name elements
-    const userNameElements = ['userName', 'welcomeUserName'];
+    const userNameElements = ['userName', 'welcomeUserName', 'profileName', 'modalProfileName', 'modalDisplayName'];
     userNameElements.forEach(id => {
         const element = document.getElementById(id);
         if (element) element.textContent = userName;
     });
     
-    // Update user role
-    const userRoleElement = document.getElementById('userRole');
-    if (userRoleElement) userRoleElement.innerHTML = `<i class="bi bi-briefcase"></i> ${userRole}`;
+    // Update user role elements
+    const userRoleElements = ['userRole', 'modalProfileRole', 'modalDisplayRole'];
+    userRoleElements.forEach(id => {
+        const element = document.getElementById(id);
+        if (element) {
+            if (id === 'userRole') {
+                element.innerHTML = `<i class="bi bi-briefcase"></i> ${userRole}`;
+            } else {
+                element.textContent = userRole;
+            }
+        }
+    });
+    
+    // Update email elements
+    const emailElements = ['modalDisplayEmail', 'profileDetails'];
+    emailElements.forEach(id => {
+        const element = document.getElementById(id);
+        if (element) {
+            if (id === 'profileDetails') {
+                element.textContent = `${userRole} · ${userEmail}`;
+            } else {
+                element.textContent = userEmail;
+            }
+        }
+    });
+    
+    // Update profile details
+    const profileDetails = document.getElementById('profileDetails');
+    if (profileDetails) {
+        profileDetails.textContent = `${userRole} · ${userEmail}`;
+    }
     
     // Update date/time
     function updateDateTime() {
         const now = new Date();
         const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
         const dateStr = now.toLocaleDateString('en-US', options);
-        document.getElementById('currentDateTime').innerHTML = `<i class="bi bi-calendar3"></i> ${dateStr} | <i class="bi bi-clock"></i> Welcome, ${userName}!`;
+        document.getElementById('currentDateTime').innerHTML = `<i class="bi bi-calendar3"></i> ${dateStr} | <i class="bi bi-clock"></i> Welcome back!`;
     }
     updateDateTime();
     
@@ -654,14 +957,19 @@
         new Chart(ctx, {
             type: 'line',
             data: {
-                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                labels: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
                 datasets: [{ 
                     label: 'Library Visitors', 
-                    data: [65, 72, 88, 95, 110, 125], 
+                    data: [85, 92, 108, 115, 120, 132], 
                     borderColor: '#667eea', 
                     backgroundColor: 'rgba(102,126,234,0.05)', 
                     fill: true, 
-                    tension: 0.4
+                    tension: 0.4,
+                    pointBackgroundColor: '#667eea',
+                    pointBorderColor: '#fff',
+                    pointBorderWidth: 2,
+                    pointRadius: 5,
+                    pointHoverRadius: 7
                 }]
             },
             options: { responsive: true, maintainAspectRatio: true }
@@ -683,26 +991,35 @@
     
     if (toggleSwitch) toggleSwitch.addEventListener('change', (e) => setTheme(e.target.checked));
     
-    // Logout function
-    function logout() {
+    // Logout function - clears session only
+    function logoutUser() {
         sessionStorage.clear();
-        localStorage.removeItem('smartlib_logged_in');
-        localStorage.removeItem('smartlib_user_name');
-        localStorage.removeItem('smartlib_user_email');
-        localStorage.removeItem('smartlib_user_role');
+        localStorage.removeItem('remembered_email');
         window.location.href = 'index.html';
     }
     
     // Attach logout handlers
-    document.getElementById('logoutBtn')?.addEventListener('click', (e) => {
-        e.preventDefault();
-        logout();
-    });
+    const logoutBtn = document.getElementById('logoutBtn');
+    const logoutDropdown = document.getElementById('logoutDropdown');
     
-    document.getElementById('logoutDropdown')?.addEventListener('click', (e) => {
-        e.preventDefault();
-        logout();
-    });
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            logoutUser();
+        });
+    }
+    
+    if (logoutDropdown) {
+        logoutDropdown.addEventListener('click', function(e) {
+            e.preventDefault();
+            logoutUser();
+        });
+    }
+    
+    // Notification count
+    document.getElementById('welcomeNotificationCount').textContent = '8';
+    document.getElementById('notificationCountBadge').textContent = '8';
+    document.getElementById('updateBadge').textContent = '8';
 })();
 </script>
 </body>
