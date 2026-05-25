@@ -6,7 +6,7 @@
     <title>4a Repository - SmartLib Login</title>
     
     <!-- Bootstrap 5.3 -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
@@ -14,7 +14,7 @@
     <!-- Google Font API -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700&family=Saira+Stencil:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=Saira+Stencil:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
         * {
@@ -442,7 +442,7 @@ function hideToast() {
     document.getElementById('toastNotification').style.display = 'none';
 }
 
-// Demo accounts
+// Demo accounts (matching your dashboard expectations)
 const demoAccounts = [
     { id: "STAFF001", fullname: "Staff User", email: "staff@library.com", password: "staff123", role: "Staff" },
     { id: "STU002", fullname: "Student User", email: "student@library.com", password: "student123", role: "Student" },
@@ -507,9 +507,9 @@ function checkEmailAvailability() {
     }
 }
 
-// Redirect to dashboard with user data
+// IMPORTANT: This matches what your dashboard expects
 function redirectToDashboard(user) {
-    // Store complete session data
+    // Store session data exactly as your dashboard expects
     sessionStorage.setItem('logged_in', 'true');
     sessionStorage.setItem('user_id', user.id || 'USER_' + Date.now());
     sessionStorage.setItem('user_name', user.fullname);
@@ -517,14 +517,17 @@ function redirectToDashboard(user) {
     sessionStorage.setItem('user_role', user.role);
     sessionStorage.setItem('last_activity', new Date().toISOString());
     
-    // Also store in localStorage for persistence
-    localStorage.setItem('library_user_name', user.fullname);
-    localStorage.setItem('library_user_email', user.email);
-    localStorage.setItem('library_user_role', user.role);
+    // Save registered users to localStorage (your dashboard reads this)
+    localStorage.setItem('library_users', JSON.stringify(registeredUsers));
     
+    // Handle remember me
     const remember = document.getElementById('rememberMe').checked;
     if (remember) {
         localStorage.setItem('remembered_email', user.email);
+        localStorage.setItem('library_remember_token', 'true');
+    } else {
+        localStorage.removeItem('remembered_email');
+        localStorage.removeItem('library_remember_token');
     }
     
     showToast(`Welcome ${user.fullname}! Redirecting to dashboard...`, 'success');
