@@ -57,7 +57,7 @@
         
         .particle {
             position: absolute;
-            background: rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.4);
             border-radius: 50%;
             animation: float 6s infinite ease-in-out;
         }
@@ -67,39 +67,43 @@
             50% { transform: translateY(-20px) translateX(10px); opacity: 0.8; }
         }
         
-        /* Login Card */
+        /* Login Card - Glassmorphism */
         .login-card {
-            background: rgba(30, 27, 75, 0.95);
-            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(12px);
             border-radius: 24px;
             width: 100%;
             max-width: 900px;
             transition: all 0.3s ease;
             position: relative;
             z-index: 10;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.3);
         }
         
         .login-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.4);
         }
         
-        .login-card h2, .login-card h3, .login-card p, .login-card label {
+        .login-card .card-body {
+            padding: 2rem;
+        }
+        
+        /* White text for login section */
+        .login-card,
+        .login-card .text-muted,
+        .login-card .form-label,
+        .login-card .form-check-label,
+        .login-card small,
+        .login-card p,
+        .login-card .role-label {
             color: white !important;
         }
         
-        .login-card .text-muted {
-            color: rgba(255, 255, 255, 0.7) !important;
-        }
-        
-        .login-card .border-end {
-            border-right-color: rgba(255, 255, 255, 0.2) !important;
-        }
-        
-        .login-card .border-top {
-            border-top-color: rgba(255, 255, 255, 0.2) !important;
+        .login-card h2,
+        .login-card h3 {
+            color: white !important;
         }
         
         .login-card .nav-link {
@@ -108,27 +112,36 @@
         
         .login-card .nav-link.active {
             color: white !important;
-            background: linear-gradient(135deg, #667eea, #764ba2) !important;
+            background: rgba(255, 255, 255, 0.2) !important;
+            border-color: transparent !important;
         }
         
         .login-card .form-control {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.15);
             border: 1px solid rgba(255, 255, 255, 0.2);
             color: white;
         }
         
+        .login-card .form-control::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
         .login-card .form-control:focus {
-            background: rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.2);
             border-color: #667eea;
             color: white;
         }
         
-        .login-card .form-control::placeholder {
-            color: rgba(255, 255, 255, 0.5);
+        .login-card .border-end {
+            border-color: rgba(255, 255, 255, 0.2) !important;
         }
         
-        .login-card .form-check-label {
-            color: rgba(255, 255, 255, 0.8);
+        .login-card .border-top {
+            border-color: rgba(255, 255, 255, 0.2) !important;
+        }
+        
+        .login-card hr {
+            border-color: rgba(255, 255, 255, 0.2);
         }
         
         /* Role Selector */
@@ -149,11 +162,11 @@
         
         .role-option:hover {
             transform: scale(1.05);
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.15);
         }
         
         .role-option.active {
-            background: rgba(102, 126, 234, 0.3);
+            background: rgba(255, 255, 255, 0.2);
             border-radius: 12px;
         }
         
@@ -187,7 +200,7 @@
         .role-label {
             font-size: 12px;
             font-weight: 500;
-            color: rgba(255, 255, 255, 0.9);
+            color: white !important;
         }
         
         /* Password Strength */
@@ -238,103 +251,153 @@
         .dashboard-container {
             display: none;
             min-height: 100vh;
-            background: #f0f2f5;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
         }
         
+        /* Sidebar */
         .sidebar {
-            width: 260px;
-            background: linear-gradient(135deg, #1e1b4b, #2d1b69);
-            color: white;
+            width: 280px;
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a3e 100%);
+            backdrop-filter: blur(10px);
             position: fixed;
             height: 100vh;
             padding: 20px 0;
             transition: all 0.3s ease;
             z-index: 100;
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
         }
         
         .sidebar-header {
             padding: 0 20px 20px 20px;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             margin-bottom: 20px;
         }
         
         .logo-icon {
-            width: 40px;
-            height: 40px;
-            background: rgba(255,255,255,0.2);
-            border-radius: 10px;
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
         }
         
+        .sidebar h5 {
+            color: white;
+            margin: 0;
+        }
+        
+        .sidebar small {
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
         .sidebar .nav-link {
             padding: 12px 20px;
-            color: rgba(255,255,255,0.8);
+            color: rgba(255, 255, 255, 0.8);
             display: flex;
             align-items: center;
             gap: 12px;
             text-decoration: none;
             transition: all 0.2s;
+            font-size: 14px;
         }
         
         .sidebar .nav-link:hover {
-            background: rgba(255,255,255,0.1);
+            background: linear-gradient(90deg, rgba(102, 126, 234, 0.2), transparent);
             color: white;
         }
         
         .sidebar .nav-link.active {
-            background: rgba(255,255,255,0.15);
+            background: linear-gradient(90deg, rgba(102, 126, 234, 0.3), transparent);
             border-right: 3px solid #667eea;
             color: white;
         }
         
+        .sidebar .nav-link i {
+            font-size: 1.2rem;
+        }
+        
+        /* Main Content */
         .main-content {
-            margin-left: 260px;
-            padding: 20px;
+            margin-left: 280px;
+            padding: 25px;
+            min-height: 100vh;
         }
         
         /* Stats Cards */
         .stat-card {
-            background: white;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
             border-radius: 16px;
             padding: 20px;
             text-align: center;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
             transition: transform 0.2s;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
         
         .stat-card:hover {
-            transform: translateY(-3px);
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.12);
         }
         
         .stat-number {
-            font-size: 2rem;
+            font-size: 2.2rem;
             font-weight: 700;
-            color: #667eea;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .stat-card .text-muted {
+            color: rgba(255, 255, 255, 0.7) !important;
+        }
+        
+        /* Cards */
+        .card {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+        }
+        
+        .card-header {
+            background: rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            font-weight: 600;
+            padding: 15px 20px;
+        }
+        
+        .card-body {
+            padding: 20px;
         }
         
         /* Table Styles */
         .transactions-table {
             width: 100%;
             border-collapse: collapse;
-            background: white;
-            border-radius: 12px;
-            overflow: hidden;
         }
         
         .transactions-table th,
         .transactions-table td {
             padding: 12px;
-            border: 1px solid #e5e7eb;
+            border: 1px solid rgba(255, 255, 255, 0.1);
             text-align: left;
+            color: rgba(255, 255, 255, 0.9);
         }
         
         .transactions-table th {
-            background: #f9fafb;
+            background: rgba(255, 255, 255, 0.05);
             font-weight: 600;
             font-size: 12px;
             text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        .transactions-table td {
+            background: transparent;
         }
         
         .status-badge {
@@ -346,18 +409,79 @@
         }
         
         .status-borrowed {
-            background: rgba(245, 158, 11, 0.15);
+            background: rgba(245, 158, 11, 0.2);
             color: #f59e0b;
         }
         
         .status-returned {
-            background: rgba(34, 197, 94, 0.15);
+            background: rgba(34, 197, 94, 0.2);
             color: #22c55e;
         }
         
         .status-overdue {
-            background: rgba(239, 68, 68, 0.15);
+            background: rgba(239, 68, 68, 0.2);
             color: #ef4444;
+        }
+        
+        /* Form Controls in Dashboard */
+        .dashboard-container .form-control {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: white;
+        }
+        
+        .dashboard-container .form-control::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+        
+        .dashboard-container .form-control:focus {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: #667eea;
+            color: white;
+        }
+        
+        /* Page Title */
+        #pageTitle {
+            color: white;
+            font-weight: 700;
+        }
+        
+        #currentDateTime {
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        /* Buttons */
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border: none;
+            padding: 10px;
+            font-weight: 600;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-success {
+            background: linear-gradient(135deg, #11998e, #38ef7d);
+            border: none;
+        }
+        
+        .btn-warning {
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            border: none;
+            color: white;
+        }
+        
+        .btn-outline-danger {
+            border-color: rgba(239, 68, 68, 0.5);
+            color: #ef4444;
+        }
+        
+        .btn-outline-danger:hover {
+            background: #ef4444;
+            color: white;
         }
         
         /* Responsive */
@@ -377,6 +501,9 @@
                 margin: 20px;
                 max-width: 95%;
             }
+            .login-card .card-body {
+                padding: 1.5rem;
+            }
             .role-selector {
                 gap: 10px;
             }
@@ -385,13 +512,48 @@
                 height: 40px;
                 font-size: 18px;
             }
+            .stat-card {
+                margin-bottom: 15px;
+            }
         }
         
-        /* Login section wrapper */
-        #loginSection {
-            display: flex;
-            position: relative;
-            z-index: 10;
+        /* Alert styles */
+        .alert-info {
+            background: rgba(102, 126, 234, 0.2);
+            border: 1px solid rgba(102, 126, 234, 0.3);
+            color: white;
+        }
+        
+        .text-danger {
+            color: #f87171 !important;
+        }
+        
+        .text-success {
+            color: #4ade80 !important;
+        }
+        
+        .text-warning {
+            color: #fbbf24 !important;
+        }
+        
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #667eea;
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #764ba2;
         }
     </style>
 </head>
@@ -399,7 +561,7 @@
 
 <!-- Toast Notification -->
 <div id="toastNotification" class="toast-notification" style="display: none;">
-    <div class="toast text-white bg-success" role="alert">
+    <div class="toast bg-success text-white" role="alert">
         <div class="toast-body d-flex align-items-center justify-content-between">
             <span id="toastMessage"><i class="bi bi-check-circle-fill me-2"></i> Message</span>
             <button type="button" class="btn-close btn-close-white" onclick="hideToast()"></button>
@@ -419,8 +581,8 @@
                 <div class="d-inline-block p-3 rounded-circle mb-2" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
                     <i class="bi bi-book-half text-white" style="font-size: 2rem;"></i>
                 </div>
-                <h2 class="mb-0" style="font-family: 'Saira Stencil', cursive; color: white;">SmartLib</h2>
-                <p class="text-white-50 small">Library Management System</p>
+                <h2 class="mb-0" style="font-family: 'Saira Stencil', cursive;">SmartLib</h2>
+                <p class="small" style="color: rgba(255,255,255,0.8);">Library Management System</p>
             </div>
 
             <!-- Tab Navigation -->
@@ -449,7 +611,7 @@
                     <div class="row align-items-center">
                         <div class="col-md-5 text-center border-end">
                             <i class="bi bi-shield-lock" style="font-size: 48px; color: #a78bfa;"></i>
-                            <p class="mt-2 text-white-50 small">Secure Access</p>
+                            <p class="mt-2 small">Secure Access</p>
                             
                             <!-- Role Selector -->
                             <div class="role-selector" id="roleSelector">
@@ -482,9 +644,9 @@
                                         <input type="checkbox" class="form-check-input" id="rememberMe">
                                         <label class="form-check-label small">Remember Me</label>
                                     </div>
-                                    <small class="text-white-50"><i class="bi bi-shield-check"></i> Secure</small>
+                                    <small class="text-muted"><i class="bi bi-shield-check"></i> Secure</small>
                                 </div>
-                                <button type="submit" class="btn w-100 py-2 fw-semibold" style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none;">
+                                <button type="submit" class="btn btn-primary w-100 py-2 fw-semibold">
                                     <i class="bi bi-box-arrow-in-right"></i> Login
                                 </button>
                             </form>
@@ -498,11 +660,11 @@
                     <div class="row align-items-center">
                         <div class="col-md-5 text-center border-end">
                             <i class="bi bi-person-plus" style="font-size: 48px; color: #4ade80;"></i>
-                            <p class="mt-2 text-white-50 small">Join our community</p>
+                            <p class="mt-2 small">Join our community</p>
                             <div class="mt-2">
-                                <div class="text-white-50 small"><i class="bi bi-check-circle-fill text-success"></i> Free</div>
-                                <div class="text-white-50 small"><i class="bi bi-book"></i> 10k+ books</div>
-                                <div class="text-white-50 small"><i class="bi bi-headset"></i> 24/7 Support</div>
+                                <div><i class="bi bi-check-circle-fill text-success"></i> Free</div>
+                                <div><i class="bi bi-book"></i> 10k+ books</div>
+                                <div><i class="bi bi-headset"></i> 24/7 Support</div>
                             </div>
                         </div>
                         <div class="col-md-7">
@@ -514,7 +676,7 @@
                                 <div class="mb-2">
                                     <label class="form-label fw-semibold small"><i class="bi bi-envelope"></i> Email</label>
                                     <input type="email" id="regEmail" class="form-control" placeholder="your@email.com" required>
-                                    <small id="emailAvailability" class="text-white-50"></small>
+                                    <small id="emailAvailability" class="text-muted"></small>
                                 </div>
                                 <div class="mb-2">
                                     <label class="form-label fw-semibold small"><i class="bi bi-lock"></i> Password</label>
@@ -524,19 +686,19 @@
                                 <div class="mb-2">
                                     <label class="form-label fw-semibold small"><i class="bi bi-shield-lock"></i> Confirm</label>
                                     <input type="password" id="regConfirm" class="form-control" placeholder="Confirm password" required>
-                                    <small id="passwordMatch" class="text-white-50"></small>
+                                    <small id="passwordMatch" class="text-muted"></small>
                                 </div>
                                 <div class="mb-2">
                                     <label class="form-label fw-semibold small"><i class="bi bi-person-badge"></i> Role</label>
-                                    <select id="regRole" class="form-select" style="background: rgba(255,255,255,0.1); color: white; border-color: rgba(255,255,255,0.2);">
-                                        <option value="Student" style="background: #1e1b4b;">🎓 Student</option>
-                                        <option value="Staff" style="background: #1e1b4b;">👔 Staff</option>
-                                        <option value="Guest" style="background: #1e1b4b;">🌐 Guest</option>
+                                    <select id="regRole" class="form-select" style="background: rgba(255,255,255,0.15); color: white; border: 1px solid rgba(255,255,255,0.2);">
+                                        <option value="Student" style="background: #1a1a2e;">🎓 Student</option>
+                                        <option value="Staff" style="background: #1a1a2e;">👔 Staff</option>
+                                        <option value="Guest" style="background: #1a1a2e;">🌐 Guest</option>
                                     </select>
                                 </div>
                                 <div class="form-check mb-3">
                                     <input type="checkbox" class="form-check-input" id="termsCheck" required>
-                                    <label class="form-check-label small text-white-50">I agree to the Terms & Conditions</label>
+                                    <label class="form-check-label small">I agree to the Terms & Conditions</label>
                                 </div>
                                 <button type="submit" class="btn btn-success w-100 py-2 fw-semibold" id="registerBtn" disabled>
                                     <i class="bi bi-person-plus"></i> Create Account
@@ -552,11 +714,11 @@
                     <div class="row align-items-center">
                         <div class="col-md-5 text-center border-end">
                             <i class="bi bi-key" style="font-size: 48px; color: #fbbf24;"></i>
-                            <p class="mt-2 text-white-50 small">Reset your password</p>
+                            <p class="mt-2 small">Reset your password</p>
                         </div>
                         <div class="col-md-7">
                             <form id="forgotForm">
-                                <div class="alert alert-info small py-2 mb-3" style="background: rgba(59,130,246,0.2); color: #93c5fd; border: none;">
+                                <div class="alert alert-info small py-2 mb-3">
                                     <i class="bi bi-info-circle-fill"></i> Enter your registered email
                                 </div>
                                 <div class="mb-3">
@@ -571,7 +733,7 @@
                                 <div class="mb-3">
                                     <label class="form-label fw-semibold small"><i class="bi bi-shield-lock"></i> Confirm</label>
                                     <input type="password" id="fpConfirm" class="form-control" placeholder="Confirm" required>
-                                    <small id="fpPasswordMatch" class="text-white-50"></small>
+                                    <small id="fpPasswordMatch" class="text-muted"></small>
                                 </div>
                                 <button type="submit" class="btn btn-warning w-100 py-2 fw-semibold">
                                     <i class="bi bi-arrow-repeat"></i> Reset Password
@@ -584,7 +746,7 @@
             </div>
             
             <div class="text-center mt-3 pt-2 border-top">
-                <small class="text-white-50"><i class="bi bi-c-circle"></i> 2025 SmartLib System</small>
+                <small class="text-muted"><i class="bi bi-c-circle"></i> 2025 SmartLib System</small>
             </div>
         </div>
     </div>
@@ -599,7 +761,7 @@
                 <div class="logo-icon"><i class="bi bi-book-half fs-4"></i></div>
                 <div>
                     <h5 class="mb-0">SmartLib</h5>
-                    <small class="opacity-75">Library System</small>
+                    <small>Library System</small>
                 </div>
             </div>
         </div>
@@ -615,7 +777,7 @@
                 </div>
                 <div>
                     <div class="fw-semibold small text-white" id="dashboardUserName">User</div>
-                    <small class="opacity-75 text-white-50" id="dashboardUserRole">Role</small>
+                    <small class="opacity-75 text-white" id="dashboardUserRole">Role</small>
                 </div>
             </div>
             <button class="btn btn-outline-danger btn-sm w-100" onclick="logout()">
@@ -629,15 +791,15 @@
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h2 id="pageTitle">Dashboard</h2>
             <div>
-                <span id="currentDateTime" class="text-muted small"></span>
+                <span id="currentDateTime" class="small"></span>
             </div>
         </div>
         
-        <!-- Dashboard Content -->
+        <!-- Dashboard Page -->
         <div id="dashboardPage">
             <div class="row g-4 mb-4" id="statsRow"></div>
             <div class="card">
-                <div class="card-header bg-white fw-semibold">Recent Transactions</div>
+                <div class="card-header bg-white bg-opacity-10 fw-semibold">📋 Recent Transactions</div>
                 <div class="card-body p-0">
                     <div class="table-responsive">
                         <table class="transactions-table">
@@ -654,9 +816,9 @@
         <!-- Books Page -->
         <div id="booksPage" style="display: none;">
             <div class="card">
-                <div class="card-header bg-white fw-semibold">📚 Book Collection</div>
+                <div class="card-header bg-white bg-opacity-10 fw-semibold">📚 Book Collection</div>
                 <div class="card-body">
-                    <input type="text" id="bookSearch" class="form-control mb-3" placeholder="Search books...">
+                    <input type="text" id="bookSearch" class="form-control mb-3" placeholder="🔍 Search books...">
                     <div class="table-responsive">
                         <table class="transactions-table">
                             <thead><tr><th>ID</th><th>Title</th><th>Author</th><th>Genre</th><th>Status</th></tr></thead>
@@ -670,7 +832,7 @@
         <!-- Transactions Page -->
         <div id="transactionsPage" style="display: none;">
             <div class="card">
-                <div class="card-header bg-white fw-semibold">📋 All Transactions</div>
+                <div class="card-header bg-white bg-opacity-10 fw-semibold">📋 All Transactions</div>
                 <div class="card-body">
                     <div class="table-responsive">
                         <table class="transactions-table">
@@ -693,8 +855,7 @@ AOS.init({ once: true, duration: 800 });
 // Create floating particles
 function createParticles() {
     const particlesContainer = document.getElementById('particles');
-    if (!particlesContainer) return;
-    for (let i = 0; i < 30; i++) {
+    for (let i = 0; i < 40; i++) {
         const particle = document.createElement('div');
         particle.className = 'particle';
         particle.style.width = Math.random() * 8 + 2 + 'px';
@@ -741,7 +902,9 @@ const booksData = [
     { id: 5, title: "To Kill a Mockingbird", author: "Harper Lee", genre: "Classic", available: true },
     { id: 6, title: "The Alchemist", author: "Paulo Coelho", genre: "Adventure", available: true },
     { id: 7, title: "Dune", author: "Frank Herbert", genre: "Sci-Fi", available: true },
-    { id: 8, title: "The Hobbit", author: "J.R.R. Tolkien", genre: "Fantasy", available: false }
+    { id: 8, title: "The Hobbit", author: "J.R.R. Tolkien", genre: "Fantasy", available: false },
+    { id: 9, title: "The Great Gatsby", author: "F. Scott Fitzgerald", genre: "Classic", available: true },
+    { id: 10, title: "Pride and Prejudice", author: "Jane Austen", genre: "Romance", available: true }
 ];
 
 // ==================== TRANSACTIONS DATA ====================
@@ -749,7 +912,9 @@ let transactionsData = [
     { id: "TRX001", book: "The Psychology of Money", member: "Ahmad Faiz", borrow: "2025-05-01", due: "2025-05-15", return: null, status: "borrowed", fine: 0 },
     { id: "TRX002", book: "Rich Dad Poor Dad", member: "Nurul Izzati", borrow: "2025-05-02", due: "2025-05-16", return: null, status: "borrowed", fine: 0 },
     { id: "TRX003", book: "Atomic Habits", member: "Tan Wei Ming", borrow: "2025-04-20", due: "2025-05-04", return: "2025-05-03", status: "returned", fine: 0 },
-    { id: "TRX004", book: "1984", member: "Siti Aisyah", borrow: "2025-04-25", due: "2025-05-09", return: null, status: "overdue", fine: 15 }
+    { id: "TRX004", book: "1984", member: "Siti Aisyah", borrow: "2025-04-25", due: "2025-05-09", return: null, status: "overdue", fine: 15 },
+    { id: "TRX005", book: "The Alchemist", member: "Raj Kumar", borrow: "2025-05-03", due: "2025-05-17", return: null, status: "borrowed", fine: 0 },
+    { id: "TRX006", book: "Dune", member: "Lim Su Yin", borrow: "2025-04-28", due: "2025-05-12", return: "2025-05-10", status: "returned", fine: 0 }
 ];
 
 // ==================== UI FUNCTIONS ====================
@@ -784,9 +949,9 @@ function updatePasswordStrength() {
     const strength = checkPasswordStrength(password);
     let className = '';
     let text = '';
-    if (strength <= 1) { className = 'strength-weak'; text = '<small class="text-danger">Weak</small>'; }
-    else if (strength === 2) { className = 'strength-medium'; text = '<small class="text-warning">Medium</small>'; }
-    else { className = 'strength-strong'; text = '<small class="text-success">Strong</small>'; }
+    if (strength <= 1) { className = 'strength-weak'; text = '<small class="text-danger">⚠️ Weak</small>'; }
+    else if (strength === 2) { className = 'strength-medium'; text = '<small class="text-warning">⚡ Medium</small>'; }
+    else { className = 'strength-strong'; text = '<small class="text-success">✅ Strong</small>'; }
     strengthDiv.innerHTML = `<div class="password-strength ${className}"></div>${text}`;
 }
 
@@ -977,10 +1142,10 @@ function loadDashboard() {
     const availableBooks = booksData.filter(b => b.available).length;
     
     document.getElementById('statsRow').innerHTML = `
-        <div class="col-md-3"><div class="stat-card"><div class="stat-number">${totalBooks}</div><div class="text-muted small">Total Books</div></div></div>
-        <div class="col-md-3"><div class="stat-card"><div class="stat-number">${availableBooks}</div><div class="text-muted small">Available</div></div></div>
-        <div class="col-md-3"><div class="stat-card"><div class="stat-number">${borrowed}</div><div class="text-muted small">Borrowed</div></div></div>
-        <div class="col-md-3"><div class="stat-card"><div class="stat-number">${overdue}</div><div class="text-muted small">Overdue</div></div></div>
+        <div class="col-md-3"><div class="stat-card"><div class="stat-number">${totalBooks}</div><div class="text-white-50 small">Total Books</div></div></div>
+        <div class="col-md-3"><div class="stat-card"><div class="stat-number">${availableBooks}</div><div class="text-white-50 small">Available</div></div></div>
+        <div class="col-md-3"><div class="stat-card"><div class="stat-number">${borrowed}</div><div class="text-white-50 small">Borrowed</div></div></div>
+        <div class="col-md-3"><div class="stat-card"><div class="stat-number">${overdue}</div><div class="text-white-50 small">Overdue</div></div></div>
     `;
     
     document.getElementById('recentTransactions').innerHTML = transactionsData.slice(0, 4).map(t => `
@@ -999,8 +1164,7 @@ function loadDashboard() {
 }
 
 function renderBooksList() {
-    const searchInput = document.getElementById('bookSearch');
-    const search = searchInput ? searchInput.value.toLowerCase() : '';
+    const search = document.getElementById('bookSearch')?.value.toLowerCase() || '';
     const filtered = booksData.filter(b => b.title.toLowerCase().includes(search) || b.author.toLowerCase().includes(search));
     document.getElementById('booksList').innerHTML = filtered.map(b => `
         <tr>
@@ -1040,11 +1204,7 @@ function showDashboardPage(page) {
         document.getElementById('booksPage').style.display = 'block';
         document.getElementById('pageTitle').innerHTML = '📚 Books Collection';
         renderBooksList();
-        const bookSearch = document.getElementById('bookSearch');
-        if (bookSearch) {
-            bookSearch.removeEventListener('input', renderBooksList);
-            bookSearch.addEventListener('input', renderBooksList);
-        }
+        document.getElementById('bookSearch')?.addEventListener('input', renderBooksList);
     } else if (page === 'transactions') {
         document.getElementById('transactionsPage').style.display = 'block';
         document.getElementById('pageTitle').innerHTML = '📋 Transactions';
@@ -1052,45 +1212,24 @@ function showDashboardPage(page) {
     }
     
     document.querySelectorAll('.sidebar .nav-link').forEach(link => link.classList.remove('active'));
-    if (event && event.target) {
-        event.target.classList.add('active');
-    }
+    event.target.classList.add('active');
 }
 
 function updateDateTime() {
     const now = new Date();
-    const dateTimeSpan = document.getElementById('currentDateTime');
-    if (dateTimeSpan) {
-        dateTimeSpan.innerHTML = now.toLocaleDateString() + ' ' + now.toLocaleTimeString();
-    }
+    document.getElementById('currentDateTime').innerHTML = now.toLocaleDateString() + ' ' + now.toLocaleTimeString();
 }
 
 function logout() {
     sessionStorage.clear();
     localStorage.removeItem('remembered_email');
-    
-    // Reset login form
-    document.getElementById('loginForm').reset();
-    document.getElementById('loginEmail').value = '';
-    document.getElementById('loginPassword').value = '';
-    
-    // Remove active class from role options
-    document.querySelectorAll('.role-option').forEach(opt => opt.classList.remove('active'));
-    
-    // Show login section with proper display
     document.getElementById('loginSection').style.display = 'flex';
     document.getElementById('dashboardSection').style.display = 'none';
-    
-    // Reset to login tab
-    const loginTab = document.querySelector('#login-tab');
-    if (loginTab) {
-        bootstrap.Tab.getOrCreateInstance(loginTab).show();
-    }
-    
+    document.getElementById('loginForm').reset();
     showToast('Logged out successfully!', 'success');
 }
 
-// Role selector click handler
+// Role selector
 document.querySelectorAll('.role-option').forEach(option => {
     option.addEventListener('click', function() {
         document.querySelectorAll('.role-option').forEach(opt => opt.classList.remove('active'));
@@ -1100,12 +1239,14 @@ document.querySelectorAll('.role-option').forEach(option => {
     });
 });
 
+// Remembered email
 const rememberedEmail = localStorage.getItem('remembered_email');
 if (rememberedEmail) {
     document.getElementById('loginEmail').value = rememberedEmail;
     document.getElementById('rememberMe').checked = true;
 }
 
+// URL hash handling
 const hash = window.location.hash;
 if (hash === '#register') {
     const registerTab = document.querySelector('#register-tab');
@@ -1122,6 +1263,7 @@ document.querySelectorAll('#authTab button').forEach(btn => {
     });
 });
 
+// Check existing session
 if (sessionStorage.getItem('logged_in') === 'true') {
     document.getElementById('loginSection').style.display = 'none';
     document.getElementById('dashboardSection').style.display = 'block';
