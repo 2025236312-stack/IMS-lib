@@ -5,91 +5,106 @@
 // Current page
 const currentPage = window.location.pathname.split("/").pop();
 
+// Pages that require login
+const protectedPages = [
+    "dashboard.html",
+    "books.html",
+    "members.html",
+    "transactions.html",
+    "insights.html"
+];
+
 // ============================================
 // CHECK LOGIN STATUS
 // ============================================
-const isLoggedIn = localStorage.getItem("smartlib_logged_in");
+function isLoggedIn() {
+    return localStorage.getItem("smartlib_logged_in") === "true";
+}
 
 // ============================================
-// LOGIN PAGE LOGIC
+// LOGIN FUNCTION
 // ============================================
-if (currentPage === "index.html" || currentPage === "") {
+function login(email, password) {
 
-    // If already logged in -> go dashboard
-    if (isLoggedIn === "true") {
-        window.location.href = "dashboard.html";
+    // Demo login
+    if (email && password) {
+
+        // SAVE LOGIN STATUS
+        localStorage.setItem("smartlib_logged_in", "true");
+        localStorage.setItem("smartlib_user", email);
+
+        // PREVENT LOOP
+        setTimeout(() => {
+            window.location.href = "dashboard.html";
+        }, 300);
+
+        return true;
     }
 
-    // Login form
+    return false;
+}
+
+// ============================================
+// LOGOUT FUNCTION
+// ============================================
+function logout() {
+    localStorage.removeItem("smartlib_logged_in");
+    localStorage.removeItem("smartlib_user");
+
+    window.location.href = "index.html";
+}
+
+// ============================================
+// PAGE PROTECTION
+// ============================================
+
+// If user is NOT logged in and tries protected page
+if (protectedPages.includes(currentPage)) {
+
+    if (!isLoggedIn()) {
+        window.location.href = "index.html";
+    }
+}
+
+// If already logged in and opens login page
+if (
+    (currentPage === "index.html" || currentPage === "") &&
+    isLoggedIn()
+) {
+    window.location.href = "dashboard.html";
+}
+
+// ============================================
+// LOGIN FORM HANDLER
+// ============================================
+
+document.addEventListener("DOMContentLoaded", () => {
+
     const loginForm = document.getElementById("loginForm");
 
     if (loginForm) {
 
-        loginForm.addEventListener("submit", function (e) {
-
+        loginForm.addEventListener("submit", (e) => {
             e.preventDefault();
 
-            // Example demo login
-            const username =
-                document.getElementById("username")?.value;
+            const email =
+                document.getElementById("email")?.value || "";
 
             const password =
-                document.getElementById("password")?.value;
+                document.getElementById("password")?.value || "";
 
-            // Demo credentials
-            if (username === "admin" && password === "admin123") {
+            const success = login(email, password);
 
-                localStorage.setItem(
-                    "smartlib_logged_in",
-                    "true"
-                );
-
-                window.location.href = "dashboard.html";
-
-            } else {
-
-                alert("Invalid username or password");
-
+            if (!success) {
+                alert("Invalid login!");
             }
-
         });
-
     }
 
-}
-
-// ============================================
-// PROTECTED PAGES
-// ============================================
-else {
-
-    // If NOT logged in -> back to login
-    if (isLoggedIn !== "true") {
-
-        window.location.href = "index.html";
-
-    }
-
-}
-
-// ============================================
-// LOGOUT BUTTON
-// ============================================
-document.addEventListener("DOMContentLoaded", () => {
-
-    const logoutBtns =
-        document.querySelectorAll('[href="index.html"]');
+    // Logout buttons
+    const logoutBtns = document.querySelectorAll(".logout-btn");
 
     logoutBtns.forEach(btn => {
-
-        btn.addEventListener("click", function () {
-
-            localStorage.removeItem(
-                "smartlib_logged_in"
-            );
-
-        });
-
+        btn.addEventListener("click", logout);
     });
-
 });
