@@ -322,16 +322,6 @@
         duration: 800
     });
 
-    // FORCE CLEAN LOGIN STATE - Add at the beginning of your login page script
-// This ensures any stale session data is cleared before showing login page
-(function() {
-    // Check if we came from logout
-    const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.get('logout') === 'success') {
-        // Already cleared, just remove the param
-        window.history.replaceState({}, document.title, window.location.pathname);
-    }
-})();
     // Vanta.js Background Configuration
     VANTA.NET({
         el: "#bg-vanta",
@@ -653,19 +643,12 @@
     }
     
     // Check for existing session and redirect if already logged in
-function checkExistingSession() {
-    // Check if user is logged in
-    const isLoggedIn = sessionStorage.getItem('logged_in') === 'true';
-    const userName = sessionStorage.getItem('user_name');
-    
-    if (isLoggedIn && userName) {
-        // User is logged in, redirect to dashboard
-        window.location.href = 'dashboard.html';
+    function checkExistingSession() {
+        if (sessionStorage.getItem('logged_in') === 'true') {
+            window.location.href = 'dashboard.html';
+        }
     }
-}
-
-// Call it - but add a small delay to ensure clean state
-setTimeout(checkExistingSession, 100);
+    checkExistingSession();
     
     // URL hash handling
     const urlHash = window.location.hash;
