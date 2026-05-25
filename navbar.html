@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Navigation Bar Component - SmartLib</title>
+    <!-- No CSS embedded - all styles are external -->
+    <!-- CSS files required: css/navbar-style.css -->
+    <!-- JS files required: js/navbar.js -->
+</head>
+<body>
+    <!-- This is the Navigation Bar Component -->
+    <!-- Include this HTML on all pages where you want the navigation bar -->
+    
+    <!-- Advanced Navigation Bar -->
+    <nav class="advanced-navbar">
+        <div class="container-fluid">
+            <div class="d-flex align-items-center justify-content-between w-100">
+                <!-- Brand Logo -->
+                <a href="dashboard.html" class="navbar-brand-custom">
+                    <div class="navbar-logo">
+                        <i class="bi bi-book-half"></i>
+                    </div>
+                    <div class="brand-text">
+                        <h3>SmartLib</h3>
+                        <p>Library Management System</p>
+                    </div>
+                </a>
+                
+                <!-- Search Bar (Desktop) -->
+                <div class="navbar-search d-none d-lg-block">
+                    <input type="text" class="search-input" placeholder="Search books, members..." id="globalSearch">
+                    <button class="search-btn">
+                        <i class="bi bi-search"></i>
+                    </button>
+                </div>
+                
+                <!-- User Dropdown & Mobile Toggle -->
+                <div class="d-flex align-items-center gap-3">
+                    <!-- User Dropdown -->
+                    <div class="user-dropdown-custom">
+                        <div class="user-trigger">
+                            <div class="user-avatar-small">
+                                <i class="bi bi-person-fill"></i>
+                            </div>
+                            <div class="user-info-small d-none d-md-block">
+                                <div class="user-name-small" id="navUserName">Guest</div>
+                                <div class="user-role-small" id="navUserRole">Member</div>
+                            </div>
+                            <i class="bi bi-chevron-down d-none d-md-block"></i>
+                        </div>
+                        
+                        <!-- Dropdown Menu -->
+                        <div class="user-dropdown-menu">
+                            <div class="dropdown-header-custom">
+                                <div class="dropdown-user-name" id="dropdownUserName">Guest</div>
+                                <div class="dropdown-user-email" id="dropdownUserEmail">guest@library.com</div>
+                                <div class="mt-2">
+                                    <span class="badge bg-primary" id="dropdownUserRole">Member</span>
+                                </div>
+                            </div>
+                            <div class="dropdown-divider-custom"></div>
+                            
+                            <a href="#" class="dropdown-item-custom" data-bs-toggle="modal" data-bs-target="#profileModal">
+                                <i class="bi bi-person"></i>
+                                <span>My Profile</span>
+                            </a>
+                            
+                            <a href="#" class="dropdown-item-custom" data-bs-toggle="modal" data-bs-target="#settingsModal">
+                                <i class="bi bi-gear"></i>
+                                <span>Settings</span>
+                            </a>
+                            
+                            <a href="#" class="dropdown-item-custom" data-bs-toggle="modal" data-bs-target="#notificationsModal">
+                                <i class="bi bi-bell"></i>
+                                <span>Notifications</span>
+                                <span class="badge bg-danger ms-auto" id="navNotificationBadge">0</span>
+                            </a>
+                            
+                            <div class="dropdown-divider-custom"></div>
+                            
+                            <div class="dropdown-item-custom" id="themeToggle">
+                                <i class="bi bi-moon-stars"></i>
+                                <span>Dark Mode</span>
+                                <div class="form-check form-switch ms-auto">
+                                    <input class="form-check-input" type="checkbox" id="navDarkModeSwitch">
+                                </div>
+                            </div>
+                            
+                            <div class="dropdown-divider-custom"></div>
+                            
+                            <a href="index.html" class="dropdown-item-custom text-danger" id="logoutNavLink">
+                                <i class="bi bi-box-arrow-right"></i>
+                                <span>Logout</span>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- Mobile Search Toggle -->
+                    <button class="btn btn-link text-white d-lg-none" id="mobileSearchToggle">
+                        <i class="bi bi-search fs-5"></i>
+                    </button>
+                    
+                    <!-- Hamburger Toggle -->
+                    <div class="navbar-toggler-custom d-lg-none">
+                        <div class="toggler-icon"></div>
+                        <div class="toggler-icon"></div>
+                        <div class="toggler-icon"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Mobile Search Bar -->
+            <div class="mobile-search-container d-lg-none" id="mobileSearchContainer" style="display: none;">
+                <div class="input-group mt-3">
+                    <input type="text" class="form-control" placeholder="Search books, members..." id="mobileSearchInput">
+                    <button class="btn btn-light" id="mobileSearchBtn">
+                        <i class="bi bi-search"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Navigation Links -->
+            <div class="navbar-collapse-custom">
+                <ul class="navbar-nav-custom">
+                    <li class="nav-item-custom">
+                        <a class="nav-link-custom" href="dashboard.html" data-page="dashboard.html">
+                            <i class="bi bi-speedometer2"></i>
+                            <span>Dashboard</span>
+                            <span class="tooltip-text">Overview</span>
+                        </a>
+                    </li>
+                    
+                    <li class="nav-item-custom">
+                        <a class="nav-link-custom" href="books.html" data-page="books.html">
+                            <i class="bi bi-journal-bookmark-fill"></i>
+                            <span>Books Collection</span>
+                            <span class="tooltip-text">Manage books</span>
+                        </a>
+                    </li>
+                    
+                    <li class="nav-item-custom">
+                        <a class="nav-link-custom" href="members.html" data-page="members.html">
+                            <i class="bi bi-people-fill"></i>
+                            <span>Active Members</span>
+                            <span class="tooltip-text">Member management</span>
+                        </a>
+                    </li>
+                    
+                    <li class="nav-item-custom">
+                        <a class="nav-link-custom" href="transactions.html" data-page="transactions.html">
+                            <i class="bi bi-arrow-left-right"></i>
+                            <span>Transactions</span>
+                            <span class="tooltip-text">Borrow/Return</span>
+                        </a>
+                    </li>
+                    
+                    <li class="nav-item-custom">
+                        <a class="nav-link-custom" href="insights.html" data-page="insights.html">
+                            <i class="bi bi-graph-up"></i>
+                            <span>Insights</span>
+                            <span class="tooltip-text">Analytics</span>
+                        </a>
+                    </li>
+                    
+                    <!-- Additional Links for Mobile -->
+                    <li class="nav-item-custom d-lg-none">
+                        <div class="dropdown-divider-custom my-2"></div>
+                    </li>
+                    
+                    <li class="nav-item-custom d-lg-none">
+                        <a href="#" class="nav-link-custom" data-bs-toggle="modal" data-bs-target="#profileModal">
+                            <i class="bi bi-person"></i>
+                            <span>My Profile</span>
+                        </a>
+                    </li>
+                    
+                    <li class="nav-item-custom d-lg-none">
+                        <a href="#" class="nav-link-custom" data-bs-toggle="modal" data-bs-target="#settingsModal">
+                            <i class="bi bi-gear"></i>
+                            <span>Settings</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Required CSS and JS files -->
+    <link rel="stylesheet" href="css/navbar-style.css">
+    
+    <script>
+// ============================================
+// NAVIGATION BAR JAVASCRIPT
+// Replaces PHP dynamic content
+// ============================================
+
+/**
+ * Get current user from sessionStorage
+ * @returns {object} User object with name, email, role
+ */
+function getCurrentUser() {
+    return {
+        name: sessionStorage.getItem('user_name') || 'Guest',
+        email: sessionStorage.getItem('user_email') || 'guest@library.com',
+        role: sessionStorage.getItem('user_role') || 'Member'
+    };
+}
+
+/**
+ * Get random notification count (simulates rand(2, 8))
+ * @returns {number} Random number between 2 and 8
+ */
+function getRandomNotificationCount() {
+    return Math.floor(Math.random() * (8 - 2 + 1)) + 2;
+}
+
+/**
+ * Update user information in the navbar
+ */
+function updateNavbarUserInfo() {
+    const user = getCurrentUser();
+    const notificationCount = getRandomNotificationCount();
+    
+    // Update user name and role
+    const userNameElements = ['navUserName', 'dropdownUserName'];
+    const userRoleElements = ['navUserRole', 'dropdownUserRole'];
+    const userEmailElements = ['dropdownUserEmail'];
+    
+    userNameElements.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = user.name;
+    });
+    
+    userRoleElements.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = user.role;
+    });
+    
+    userEmailElements.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = user.email;
+    });
+    
+    // Update notification badge
+    const badge = document.getElementById('navNotificationBadge');
+    if (badge) {
+        badge.textContent = notificationCount;
+        badge.style.display = notificationCount > 0 ? 'inline-block' : 'none';
+    }
+}
+
+/**
+ * Get current page filename from URL
+ * @returns {string} Current page filename
+ */
+function getCurrentPage() {
+    const path = window.location.pathname;
+    return path.substring(path.lastIndexOf('/') + 1);
+}
+
+/**
+ * Highlight active navigation link based on current page
+ */
+function highlightActiveNavLink() {
+    const currentPage = getCurrentPage();
+    const navLinks = document.querySelectorAll('.nav-link-custom');
+    
+    navLinks.forEach(link => {
+        const href = link.getAttribute('href');
+        if (href === currentPage) {
+            link.classList.add('active');
+        } else {
+            link.classList.remove('active');
+        }
+    });
+}
+
+/**
+ * Mobile search toggle functionality
+ */
+function setupMobileSearch() {
+    const toggleBtn = document.getElementById('mobileSearchToggle');
+    const container = document.getElementById('mobileSearchContainer');
+    
+    if (toggleBtn && container) {
+        toggleBtn.addEventListener('click', function() {
+            if (container.style.display === 'none' || !container.style.display) {
+                container.style.display = 'block';
+                const input = document.getElementById('mobileSearchInput');
+                if (input) input.focus();
+            } else {
+                container.style.display = 'none';
+            }
+        });
+    }
+}
+
+/**
+ * Global search functionality (can be extended)
+ */
+function setupGlobalSearch() {
+    const searchInput = document.getElementById('globalSearch');
+    const mobileSearchInput = document.getElementById('mobileSearchInput');
+    const searchBtn = document.querySelector('.search-btn');
+    const mobileSearchBtn = document.getElementById('mobileSearchBtn');
+    
+    const handleSearch = (searchTerm) => {
+        if (searchTerm && searchTerm.trim()) {
+            console.log('Searching for:', searchTerm);
+            // Implement your search logic here
+            // Could redirect to search results page or filter content
+            alert(`Search feature: "${searchTerm}"\n\nIn production, this would search books and members.`);
+        }
+    };
+    
+    if (searchInput && searchBtn) {
+        searchBtn.addEventListener('click', () => handleSearch(searchInput.value));
+        searchInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') handleSearch(searchInput.value);
+        });
+    }
+    
+    if (mobileSearchInput && mobileSearchBtn) {
+        mobileSearchBtn.addEventListener('click', () => handleSearch(mobileSearchInput.value));
+        mobileSearchInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') handleSearch(mobileSearchInput.value);
+        });
+    }
+}
+
+/**
+ * Hamburger menu toggle for mobile
+ */
+function setupMobileMenuToggle() {
+    const toggler = document.querySelector('.navbar-toggler-custom');
+    const navbarCollapse = document.querySelector('.navbar-collapse-custom');
+    
+    if (toggler && navbarCollapse) {
+        toggler.addEventListener('click', function() {
+            this.classList.toggle('active');
+            navbarCollapse.classList.toggle('show');
+        });
+    }
+}
+
+/**
+ * Dark mode sync with navbar switch
+ */
+function setupDarkModeSync() {
+    const navSwitch = document.getElementById('navDarkModeSwitch');
+    
+    if (navSwitch) {
+        // Initialize switch state
+        const savedTheme = localStorage.getItem('libTheme') || 'light';
+        navSwitch.checked = savedTheme === 'dark';
+        
+        // Handle switch change
+        navSwitch.addEventListener('change', function(e) {
+            const newTheme = e.target.checked ? 'dark' : 'light';
+            document.body.setAttribute('data-bs-theme', newTheme);
+            localStorage.setItem('libTheme', newTheme);
+            
+            // Sync with main dark mode switch if exists
+            const mainSwitch = document.getElementById('darkModeSwitch');
+            if (mainSwitch) mainSwitch.checked = e.target.checked;
+            
+            // Dispatch custom event for other components to sync
+            window.dispatchEvent(new CustomEvent('themeChanged', { detail: { theme: newTheme } }));
+        });
+    }
+}
+
+/**
+ * Close mobile menu when clicking outside
+ */
+function setupMobileMenuClose() {
+    document.addEventListener('click', function(event) {
+        const navbarCollapse = document.querySelector('.navbar-collapse-custom');
+        const toggler = document.querySelector('.navbar-toggler-custom');
+        
+        if (navbarCollapse && navbarCollapse.classList.contains('show')) {
+            if (!navbarCollapse.contains(event.target) && !toggler?.contains(event.target)) {
+                navbarCollapse.classList.remove('show');
+                toggler?.classList.remove('active');
+            }
+        }
+    });
+}
+
+/**
+ * Logout functionality
+ */
+function setupLogout() {
+    const logoutLink = document.getElementById('logoutNavLink');
+    if (logoutLink) {
+        logoutLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Clear session
+            sessionStorage.removeItem('logged_in');
+            sessionStorage.removeItem('user_id');
+            sessionStorage.removeItem('user_name');
+            sessionStorage.removeItem('user_email');
+            sessionStorage.removeItem('user_role');
+            sessionStorage.removeItem('last_activity');
+            sessionStorage.removeItem('csrf_token');
+            sessionStorage.removeItem('login_attempts');
+            sessionStorage.removeItem('last_attempt_time');
+            sessionStorage.removeItem('remember_token');
+            
+            // Clear remember me cookie
+            document.cookie = 'remember_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+            
+            // Redirect to login page
+            window.location.href = 'index.html';
+        });
+    }
+}
+
+/**
+ * Close dropdowns when clicking outside
+ */
+function setupDropdownClose() {
+    document.addEventListener('click', function(event) {
+        const userDropdown = document.querySelector('.user-dropdown-custom');
+        if (userDropdown && !userDropdown.contains(event.target)) {
+            userDropdown.classList.remove('show');
+        }
+    });
+    
+    // Toggle dropdown on trigger click
+    const userTrigger = document.querySelector('.user-trigger');
+    if (userTrigger) {
+        userTrigger.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const dropdown = this.closest('.user-dropdown-custom');
+            dropdown.classList.toggle('show');
+        });
+    }
+}
+
+/**
+ * Initialize all navbar functionality
+ */
+function initNavbar() {
+    updateNavbarUserInfo();
+    highlightActiveNavLink();
+    setupMobileSearch();
+    setupGlobalSearch();
+    setupMobileMenuToggle();
+    setupDarkModeSync();
+    setupMobileMenuClose();
+    setupLogout();
+    setupDropdownClose();
+}
+
+// Initialize when DOM is ready
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initNavbar);
+} else {
+    initNavbar();
+}
+
+// ============================================
+// EXPORTS (for use in other scripts)
+// ============================================
+window.Navbar = {
+    updateUserInfo: updateNavbarUserInfo,
+    getCurrentUser: getCurrentUser,
+    highlightActiveLink: highlightActiveNavLink,
+    getRandomNotificationCount: getRandomNotificationCount
+};
+
+console.log('Navigation Bar loaded successfully!');
+console.log('User:', getCurrentUser());
+</script>
+
+<script src="js/navbar.js"></script>
+</body>
+</html>

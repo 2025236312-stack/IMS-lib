@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logout Handler - SmartLib</title>
+    <!-- No CSS embedded - all styles are external -->
+</head>
+<body>
+    <!-- This script handles user logout functionality -->
+    <!-- It replaces logout.php with client-side JavaScript -->
+    
+    <script>
+// ============================================
+// LOGOUT HANDLER (Replaces logout.php)
+// ============================================
+
+// Storage keys that need to be cleared on logout
+const SESSION_STORAGE_KEYS = [
+    'csrf_token',
+    'logged_in',
+    'user_id',
+    'user_name',
+    'user_email',
+    'user_role',
+    'last_activity',
+    'login_attempts',
+    'last_attempt_time',
+    'remember_token'
+];
+
+const LOCAL_STORAGE_KEYS = [
+    // Add any app-specific keys that should be cleared on logout
+    // 'library_theme',
+    // 'user_preferences'
+];
+
+/**
+ * Clear all session data (simulates session_destroy())
+ * Removes all session-related items from sessionStorage
+ */
+function clearSession() {
+    // Clear specific session keys
+    SESSION_STORAGE_KEYS.forEach(key => {
+        sessionStorage.removeItem(key);
+    });
+    
+    // Alternative: Clear ALL sessionStorage (more aggressive)
+    // sessionStorage.clear();
+    
+    console.log('Session destroyed - all session data cleared');
+}
+
+/**
+ * Clear remember me cookie if it exists
+ * @param {string} cookieName - Name of the remember me cookie (default: 'remember_token')
+ */
+function clearRememberMeCookie(cookieName = 'remember_token') {
+    // Delete cookie by setting expiration to past date
+    document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+    document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=${window.location.hostname};`;
+    
+    console.log(`Cookie "${cookieName}" cleared`);
+}
+
+/**
+ * Clear all application data on logout
+ * This simulates session_destroy() plus additional cleanup
+ */
+function destroySession() {
+    // Clear sessionStorage data
+    clearSession();
+    
+    // Clear remember me cookie
+    clearRememberMeCookie('remember_token');
+    
+    // Clear any other auth-related cookies
+    clearRememberMeCookie('remember_me');
+    
+    // Optional: Clear localStorage items (uncomment if needed)
+    // LOCAL_STORAGE_KEYS.forEach(key => {
+    //     localStorage.removeItem(key);
+    // });
+    
+    // Alternative: Clear specific auth items from localStorage
+    localStorage.removeItem('library_remember_token');
+    
+    console.log('Full session destroyed - user logged out');
+}
+
+/**
+ * Perform logout and redirect to login page
+ * @param {string} redirectUrl - URL to redirect to after logout (default: 'index.html')
+ * @param {boolean} preserveMessages - Whether to preserve query messages (default: false)
+ */
+function logout(redirectUrl = 'index.html', preserveMessages = false) {
+    // Destroy all session data
+    destroySession();
+    
+    // Build redirect URL
+    let url = redirectUrl;
+    
+    // Add logout parameter to show logout message (optional)
+    if (!preserveMessages) {
+        const separator = url.includes('?') ? '&' : '?';
+        url = `${url}${separator}logout=success`;
+    }
+    
+    // Redirect to login page
+    console.log(`Redirecting to: ${url}`);
+    window.location.href = url;
+}
+
+/**
+ * Handle logout when logout link/button is clicked
+ * @param {Event} event - Click event
+ * @param {string} redirectUrl - URL to redirect to
+ */
+function handleLogoutClick(event, redirectUrl = 'index.html') {
+    event.preventDefault();
+    
+    // Optional: Show confirmation dialog before logout
+    // if (confirm('Are you sure you want to logout?')) {
+    //     logout(redirectUrl);
+    // }
+    
+    // Direct logout without confirmation (matches PHP behavior)
+    logout(redirectUrl);
+}
+
+/**
+ * Setup logout button/link event listeners automatically
+ * @param {string} selector - CSS selector for logout elements (default: '.logout-btn, a[href*="logout"], #logoutBtn')
+ * @param {string} redirectUrl - URL to redirect to after logout
+ */
+function setupLogoutButtons(selector = '.logout-btn, a[href*="logout"], #logoutBtn, [data-logout]', redirectUrl = 'index.html') {
+    const logoutElements = document.querySelectorAll(selector);
+    
+    if (logoutElements.length === 0) {
+        console.log('No logout buttons found with selector:', selector);
+        return;
+    }
+    
+    logoutElements.forEach(element => {
+        // Remove existing listener to prevent duplicates
+        element.removeEventListener('click', (e) => handleLogoutClick(e, redirectUrl));
+        
+        // Add click listener
+        element.addEventListener('click', (e) => {
+            e.preventDefault();
+            logout(redirectUrl);
+        });
+        
+        console.log('Logout handler attached to:', element);
+    });
+}
+
+/**
+ * Check if user is currently logged in
+ * @returns {boolean} True if user is logged in
+ */
+function isLoggedIn() {
+    return sessionStorage.getItem('logged_in') === 'true';
+}
+
+/**
+ * Get current user info from session (if logged in)
+ * @returns {object|null} User object or null if not logged in
+ */
+function getCurrentUser() {
+    if (!isLoggedIn()) {
+        return null;
+    }
+    
+    return {
+        id: sessionStorage.getItem('user_id'),
+        name: sessionStorage.getItem('user_name'),
+        email: sessionStorage.getItem('user_email'),
+        role: sessionStorage.getItem('user_role'),
+        lastActivity: sessionStorage.getItem('last_activity')
+    };
+}
+
+/**
+ * Auto-redirect if session expired (call this on protected pages)
+ * @param {string} loginUrl - URL to redirect to if not logged in
+ */
+function requireLogin(loginUrl = 'index.html') {
+    if (!isLoggedIn()) {
+        console.log('User not logged in - redirecting to login page');
+        window.location.href = loginUrl;
+        return false;
+    }
+    
+    // Check session timeout (30 minutes = 1800000 milliseconds)
+    const lastActivity = sessionStorage.getItem('last_activity');
+    if (lastActivity) {
+        const now = Date.now();
+        const inactiveTime = now - parseInt(lastActivity);
+        const timeout = 30 * 60 * 1000; // 30 minutes
+        
+        if (inactiveTime > timeout) {
+            console.log('Session expired due to inactivity - logging out');
+            logout(loginUrl);
+            return false;
+        }
+    }
+    
+    // Update last activity timestamp
+    sessionStorage.setItem('last_activity', Date.now().toString());
+    
+    return true;
+}
+
+// ============================================
+// AUTO-INITIALIZATION
+// ============================================
+
+// Auto-setup logout buttons when DOM is ready
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function() {
+        setupLogoutButtons();
+    });
+} else {
+    setupLogoutButtons();
+}
+
+// ============================================
+// EXPORTS (Global functions for use in other scripts)
+// ============================================
+
+window.LogoutHandler = {
+    logout,
+    destroySession,
+    clearSession,
+    clearRememberMeCookie,
+    isLoggedIn,
+    getCurrentUser,
+    requireLogin,
+    setupLogoutButtons
+};
+
+// ============================================
+// CONSOLE LOG FOR DEBUGGING
+// ============================================
+console.log('Logout Handler loaded successfully!');
+console.log('Available functions:');
+console.log('  - LogoutHandler.logout() - Logout and redirect to index.html');
+console.log('  - LogoutHandler.logout("dashboard.html") - Logout and redirect to custom URL');
+console.log('  - LogoutHandler.isLoggedIn() - Check if user is logged in');
+console.log('  - LogoutHandler.getCurrentUser() - Get current user info');
+console.log('  - LogoutHandler.requireLogin() - Protect page, redirect if not logged in');
+console.log('  - LogoutHandler.setupLogoutButtons() - Auto-attach logout handlers');
+
+// ============================================
+// USAGE EXAMPLE
+// ============================================
+/*
+To use this handler in your HTML:
+
+1. SIMPLE LOGOUT BUTTON:
+   <a href="#" class="logout-btn">Logout</a>
+   or
+   <button id="logoutBtn">Logout</button>
+   or
+   <a href="#" data-logout>Sign Out</a>
+
+   The handler will automatically attach to these elements.
+
+2. MANUAL LOGOUT CALL:
+   <button onclick="LogoutHandler.logout()">Logout</button>
+
+3. LOGOUT WITH CUSTOM REDIRECT:
+   <button onclick="LogoutHandler.logout('dashboard.html')">Logout</button>
+
+4. PROTECT A PAGE (require login):
+   Add this to your protected pages:
+   <script>
+       if (!LogoutHandler.requireLogin()) {
+           // The redirect happens automatically
+           // This code won't execute if not logged in
+       }
+   </script>
+
+5. CHECK LOGIN STATUS:
+   <script>
+       if (LogoutHandler.isLoggedIn()) {
+           const user = LogoutHandler.getCurrentUser();
+           console.log('Welcome back, ' + user.name);
+       }
+   </script>
+
+6. MANUAL SETUP (if auto-attach doesn't work):
+   <script>
+       document.addEventListener('DOMContentLoaded', function() {
+           LogoutHandler.setupLogoutButtons('.custom-logout-selector', 'index.html');
+       });
+   </script>
+
+What gets cleared on logout (simulates session_destroy):
+   - csrf_token
+   - logged_in
+   - user_id
+   - user_name
+   - user_email
+   - user_role
+   - last_activity
+   - login_attempts
+   - last_attempt_time
+   - remember_token
+   - remember_me cookie
+*/
+</script>
+</body>
+</html>

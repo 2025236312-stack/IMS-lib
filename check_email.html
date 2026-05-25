@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Check Endpoint Simulation</title>
+    <style>
+        /* Minimal styles for demo - you can remove this as requested */
+        body {
+            font-family: monospace;
+            padding: 20px;
+            background: #1a1a2e;
+            color: #fff;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .card {
+            background: rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 20px;
+        }
+        input, button {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 6px;
+            border: none;
+        }
+        input {
+            width: 70%;
+            background: rgba(255,255,255,0.2);
+            color: white;
+        }
+        button {
+            background: #6366f1;
+            color: white;
+            cursor: pointer;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 6px;
+        }
+        .available {
+            background: rgba(34,197,94,0.2);
+            color: #4ade80;
+        }
+        .taken {
+            background: rgba(239,68,68,0.2);
+            color: #f87171;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="card">
+        <h3>Email Availability Checker</h3>
+        <p>Simulates the check_email.php endpoint</p>
+        <input type="email" id="emailInput" placeholder="Enter email address...">
+        <button onclick="checkEmail()">Check Availability</button>
+        <div id="result" class="result"></div>
+        
+        <hr style="margin: 20px 0; border-color: rgba(255,255,255,0.2);">
+        <small>Demo accounts: staff@library.com, student@library.com, guest@library.com</small>
+    </div>
+</div>
+
+<script>
+// ============================================
+// EMAIL CHECK FUNCTION - REPLACES check_email.php
+// ============================================
+// This JavaScript function mimics the PHP endpoint behavior
+// It checks against localStorage (simulating users.json) and demo accounts
+
+// Demo accounts (same as PHP)
+const DEMO_EMAILS = ['staff@library.com', 'student@library.com', 'guest@library.com'];
+
+// Storage key for registered users
+const USERS_STORAGE_KEY = 'library_registered_users';
+
+/**
+ * Load users from localStorage (simulates config/users.json)
+ * @returns {Array} Array of user objects
+ */
+function loadUsers() {
+    const usersJson = localStorage.getItem(USERS_STORAGE_KEY);
+    if (usersJson) {
+        try {
+            const users = JSON.parse(usersJson);
+            return Array.isArray(users) ? users : [];
+        } catch (e) {
+            return [];
+        }
+    }
+    return [];
+}
+
+/**
+ * Save users to localStorage
+ * @param {Array} users - Array of user objects
+ */
+function saveUsers(users) {
+    localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(users));
+}
+
+/**
+ * Check if email exists in registered users or demo accounts
+ * @param {string} email - Email address to check
+ * @returns {boolean} True if email exists, false otherwise
+ */
+function emailExists(email) {
+    if (!email || email.trim() === '') return false;
+    
+    const normalizedEmail = email.trim().toLowerCase();
+    
+    // Check against demo accounts
+    if (DEMO_EMAILS.includes(normalizedEmail)) {
+        return true;
+    }
+    
+    // Check against registered users from localStorage
+    const users = loadUsers();
+    return users.some(user => user.email && user.email.toLowerCase() === normalizedEmail);
+}
+
+/**
+ * Get the complete check result with message
+ * @param {string} email - Email address to check
+ * @returns {object} { available: boolean, message: string }
+ */
+function checkEmailAvailability(email) {
+    const trimmedEmail = email ? email.trim() : '';
+    
+    if (trimmedEmail === '') {
+        return {
+            available: true,
+            message: 'Email is required'
+        };
+    }
+    
+    const exists = emailExists(trimmedEmail);
+    
+    return {
+        available: !exists,
+        message: exists ? 'Email already registered' : 'Email available'
+    };
+}
+
+/**
+ * AJAX-style callback function (replaces the PHP endpoint)
+ * This is what your frontend would call via fetch/XMLHttpRequest
+ * @param {string} email - Email to check
+ * @returns {Promise} Promise that resolves to the result object
+ */
+function checkEmailEndpoint(email) {
+    return new Promise((resolve) => {
+        // Simulate network delay (like a real AJAX request)
+        setTimeout(() => {
+            const result = checkEmailAvailability(email);
+            resolve(result);
+        }, 300);
+    });
+}
+
+// ============================================
+// DEMO FUNCTIONS FOR TESTING
+// ============================================
+
+// Register a test user (for demo purposes)
+function registerTestUser(email, name = 'Test User') {
+    const users = loadUsers();
+    
+    if (emailExists(email)) {
+        console.log(`Email ${email} already exists`);
+        return false;
+    }
+    
+    const newUser = {
+        id: 'USER' + Date.now(),
+        fullname: name,
+        email: email.trim().toLowerCase(),
+        password: 'hashed_password_placeholder',
+        role: 'Member',
+        registeredAt: new Date().toISOString()
+    };
+    
+    users.push(newUser);
+    saveUsers(users);
+    console.log(`User ${email} registered successfully`);
+    return true;
+}
+
+// Clear all registered users (for testing)
+function clearAllUsers() {
+    localStorage.removeItem(USERS_STORAGE_KEY);
+    console.log('All users cleared');
+}
+
+// List all registered users
+function listUsers() {
+    return loadUsers();
+}
+
+// ============================================
+// UI DEMO FUNCTIONS (for visual testing)
+// ============================================
+
+function displayResult(result) {
+    const resultDiv = document.getElementById('result');
+    if (result.available) {
+        resultDiv.innerHTML = `
+            <i class="bi bi-check-circle"></i> 
+            ✅ ${result.message}
+            <br><small>Email is available for registration</small>
+        `;
+        resultDiv.className = 'result available';
+    } else {
+        resultDiv.innerHTML = `
+            <i class="bi bi-x-circle"></i> 
+            ❌ ${result.message}
+            <br><small>Please use a different email address</small>
+        `;
+        resultDiv.className = 'result taken';
+    }
+}
+
+async function checkEmail() {
+    const emailInput = document.getElementById('emailInput');
+    const email = emailInput.value;
+    
+    if (!email) {
+        displayResult({ available: false, message: 'Please enter an email address' });
+        return;
+    }
+    
+    // Show loading state
+    const resultDiv = document.getElementById('result');
+    resultDiv.innerHTML = '⏳ Checking availability...';
+    resultDiv.className = 'result';
+    
+    // Call the endpoint simulation
+    const result = await checkEmailEndpoint(email);
+    displayResult(result);
+}
+
+// ============================================
+// EXPORTS (if using modules) - For reference only
+// ============================================
+// If you're using this in a module system, you would export:
+// export { checkEmailAvailability, emailExists, checkEmailEndpoint, registerTestUser, loadUsers, saveUsers, DEMO_EMAILS };
+
+// For demo purposes, expose functions globally
+window.checkEmailAvailability = checkEmailAvailability;
+window.emailExists = emailExists;
+window.checkEmailEndpoint = checkEmailEndpoint;
+window.registerTestUser = registerTestUser;
+window.clearAllUsers = clearAllUsers;
+window.listUsers = listUsers;
+
+// ============================================
+// SAMPLE USAGE (console commands)
+// ============================================
+console.log('Email Check Endpoint Simulation Loaded!');
+console.log('Available functions:');
+console.log('  - checkEmailAvailability("email@example.com")');
+console.log('  - emailExists("email@example.com")');
+console.log('  - checkEmailEndpoint("email@example.com").then(result => console.log(result))');
+console.log('  - registerTestUser("newuser@example.com", "John Doe")');
+console.log('  - listUsers()');
+console.log('  - clearAllUsers()');
+console.log('');
+console.log('Demo accounts (always taken): staff@library.com, student@library.com, guest@library.com');
+
+// ============================================
+// HTML RESPONSE FORMAT (as per PHP endpoint)
+// ============================================
+/*
+The PHP endpoint returns JSON in this format:
+
+When email is empty:
+{ "available": true, "message": "Email is required" }
+
+When email exists:
+{ "available": false, "message": "Email already registered" }
+
+When email is available:
+{ "available": true, "message": "Email available" }
+
+This JavaScript implementation returns the EXACT same format.
+*/
+</script>
+
+<!-- Optional: Bootstrap Icons for better UI (not required for functionality) -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+</body>
+</html>

@@ -1,0 +1,487 @@
+/* members-features.css - Creative Features Styles */
+
+/* ============================================
+   FEATURES SECTION CONTAINER
+============================================ */
+.features-section {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    padding: 0 0.5rem;
+}
+
+.feature-card {
+    background: rgba(15, 25, 35, 0.7);
+    backdrop-filter: blur(12px);
+    border-radius: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(99, 102, 241, 0.4);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+}
+
+.feature-header {
+    padding: 1rem 1.2rem;
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(139, 92, 246, 0.05));
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.feature-header i {
+    font-size: 1.4rem;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.feature-header h4 {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 600;
+    color: white;
+}
+
+.feature-body {
+    padding: 1.2rem;
+}
+
+/* ============================================
+   MINI CALENDAR STYLES
+============================================ */
+.mini-calendar {
+    width: 100%;
+}
+
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.calendar-month-year {
+    font-weight: 600;
+    color: white;
+    font-size: 0.9rem;
+}
+
+.calendar-nav-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    border-radius: 8px;
+    width: 28px;
+    height: 28px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: white;
+}
+
+.calendar-nav-btn:hover {
+    background: #6366f1;
+}
+
+.calendar-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    text-align: center;
+    margin-bottom: 0.5rem;
+}
+
+.calendar-weekday {
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.5);
+    padding: 0.3rem 0;
+}
+
+.calendar-days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 2px;
+}
+
+.calendar-day {
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.8);
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.calendar-day:hover {
+    background: rgba(99, 102, 241, 0.3);
+}
+
+.calendar-day.today {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    font-weight: 600;
+}
+
+.calendar-day.other-month {
+    color: rgba(255, 255, 255, 0.3);
+}
+
+.calendar-day.has-event {
+    position: relative;
+}
+
+.calendar-day.has-event::after {
+    content: '';
+    position: absolute;
+    bottom: 2px;
+    width: 4px;
+    height: 4px;
+    background: #4ade80;
+    border-radius: 50%;
+}
+
+/* ============================================
+   EVENTS LIST
+============================================ */
+.events-list {
+    margin-top: 1rem;
+    padding-top: 0.8rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.event-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0.6rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.event-item:last-child {
+    border-bottom: none;
+}
+
+.event-date {
+    background: rgba(99, 102, 241, 0.2);
+    border-radius: 12px;
+    padding: 0.3rem 0.6rem;
+    text-align: center;
+    min-width: 55px;
+}
+
+.event-day {
+    font-size: 1rem;
+    font-weight: 700;
+    color: white;
+    line-height: 1;
+}
+
+.event-month {
+    font-size: 0.6rem;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.event-info {
+    flex: 1;
+}
+
+.event-title {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: white;
+}
+
+.event-time {
+    font-size: 0.65rem;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+/* ============================================
+   FEEDBACK / COMMENTS SECTION
+============================================ */
+.feedback-stats {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    padding-bottom: 0.8rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.rating-stars {
+    display: flex;
+    gap: 3px;
+}
+
+.rating-stars i {
+    font-size: 0.8rem;
+    color: #fbbf24;
+}
+
+.rating-stars i.filled {
+    color: #fbbf24;
+}
+
+.rating-stars i.empty {
+    color: rgba(255, 255, 255, 0.2);
+}
+
+.avg-rating {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.comments-list {
+    max-height: 200px;
+    overflow-y: auto;
+    margin-bottom: 1rem;
+}
+
+.comment-item {
+    padding: 0.7rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.comment-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.3rem;
+}
+
+.comment-user {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #818cf8;
+}
+
+.comment-date {
+    font-size: 0.6rem;
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.comment-text {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.8);
+    line-height: 1.4;
+}
+
+.comment-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 0.3rem;
+}
+
+.comment-like {
+    font-size: 0.65rem;
+    color: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.comment-like:hover {
+    color: #ef4444;
+}
+
+.comment-reply {
+    font-size: 0.65rem;
+    color: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+}
+
+.comment-reply:hover {
+    color: #6366f1;
+}
+
+.feedback-input-area {
+    display: flex;
+    gap: 10px;
+    margin-top: 0.8rem;
+}
+
+.feedback-input-area input {
+    flex: 1;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 30px;
+    padding: 0.7rem 1rem;
+    color: white;
+    font-size: 0.8rem;
+}
+
+.feedback-input-area input:focus {
+    outline: none;
+    border-color: #6366f1;
+}
+
+.feedback-input-area button {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    border: none;
+    border-radius: 30px;
+    padding: 0.7rem 1.2rem;
+    color: white;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.feedback-input-area button:hover {
+    transform: scale(1.02);
+}
+
+/* Rating Selector */
+.rating-selector {
+    display: flex;
+    gap: 5px;
+    margin-bottom: 0.8rem;
+}
+
+.rating-star-select {
+    font-size: 1.2rem;
+    color: rgba(255, 255, 255, 0.2);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.rating-star-select:hover,
+.rating-star-select.active {
+    color: #fbbf24;
+}
+
+/* ============================================
+   ANNOUNCEMENTS SECTION
+============================================ */
+.announcement-item {
+    padding: 0.8rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    display: flex;
+    gap: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.announcement-item:hover {
+    background: rgba(255, 255, 255, 0.03);
+    margin: 0 -0.5rem;
+    padding: 0.8rem 0.5rem;
+    border-radius: 12px;
+}
+
+.announcement-icon {
+    width: 32px;
+    height: 32px;
+    background: rgba(99, 102, 241, 0.15);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.announcement-icon i {
+    font-size: 1rem;
+    color: #818cf8;
+}
+
+.announcement-content {
+    flex: 1;
+}
+
+.announcement-title {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: white;
+    margin-bottom: 0.2rem;
+}
+
+.announcement-text {
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.6);
+    line-height: 1.3;
+}
+
+.announcement-time {
+    font-size: 0.6rem;
+    color: rgba(255, 255, 255, 0.3);
+    margin-top: 0.3rem;
+    display: block;
+}
+
+.announcement-badge {
+    display: inline-block;
+    background: #ef4444;
+    font-size: 0.6rem;
+    padding: 0.1rem 0.4rem;
+    border-radius: 20px;
+    margin-left: 0.5rem;
+}
+
+/* View All Link */
+.view-all-link {
+    display: block;
+    text-align: center;
+    padding: 0.6rem;
+    margin-top: 0.5rem;
+    color: #818cf8;
+    font-size: 0.75rem;
+    text-decoration: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.view-all-link:hover {
+    color: #a78bfa;
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+============================================ */
+@media (max-width: 1024px) {
+    .features-section {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .features-section {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .feature-header h4 {
+        font-size: 0.9rem;
+    }
+    
+    .feature-body {
+        padding: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .feedback-stats {
+        flex-direction: column;
+        gap: 5px;
+    }
+    
+    .feedback-input-area {
+        flex-direction: column;
+    }
+    
+    .feedback-input-area button {
+        width: 100%;
+    }
+}

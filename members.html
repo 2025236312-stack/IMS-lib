@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Active Members | SmartLib - Library Management System</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="css/members.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/members-features.css">
+    <link rel="stylesheet" href="css/members-enhanced.css">
+</head>
+<body data-bs-theme="dark">
+
+<!-- Mobile Menu Toggle -->
+<button class="mobile-menu-toggle" id="mobileMenuToggle">
+    <i class="bi bi-list"></i>
+</button>
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<div class="wrapper">
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="d-flex align-items-center gap-2">
+                <div class="logo-icon-small"><i class="bi bi-book-half"></i></div>
+                <div><h3>SmartLib</h3><p>Library Management</p></div>
+            </div>
+        </div>
+        <ul class="nav flex-column">
+            <li class="nav-item"><a class="nav-link" href="dashboard.html"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
+            <li class="nav-item"><a class="nav-link" href="books.html"><i class="bi bi-journal-bookmark-fill"></i> Books Collection</a></li>
+            <li class="nav-item"><a class="nav-link active" href="members.html"><i class="bi bi-people-fill"></i> Active Members</a></li>
+            <li class="nav-item"><a class="nav-link" href="transactions.html"><i class="bi bi-arrow-left-right"></i> Transactions</a></li>
+            <li class="nav-item"><a class="nav-link" href="insights.html"><i class="bi bi-graph-up"></i> Insights</a></li>
+        </ul>
+        <div class="sidebar-footer">
+            <div class="theme-toggle-wrapper">
+                <i class="bi bi-sun-fill"></i>
+                <div class="form-check form-switch"><input class="form-check-input" type="checkbox" id="darkModeSwitch"></div>
+                <i class="bi bi-moon-fill"></i>
+            </div>
+            <a href="index.html" class="btn btn-outline-danger btn-sm w-100 mt-2"><i class="bi bi-box-arrow-right"></i> Logout</a>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <!-- Hero Section -->
+        <div class="futuristic-hero">
+            <div class="hero-background">
+                <div class="orb orb-1"></div>
+                <div class="orb orb-2"></div>
+                <div class="orb orb-3"></div>
+            </div>
+            <div class="hero-content">
+                <div class="hero-badge-glass"><span class="badge-dot"></span><span>✨ Welcome to Member Management ✨</span></div>
+                <h1 class="hero-title-glass">Active<br>Members <span style="font-size: 2rem;">🌟</span></h1>
+                <p class="hero-subtitle-glass">Manage and monitor your library's registered members with style</p>
+                <div class="hero-stats-glass">
+                    <div class="stat-glass" id="heroTotalStat"><span class="stat-number" id="totalMembersStat">28</span><span class="stat-label">Total Members</span></div>
+                    <div class="stat-glass" id="heroActiveStat"><span class="stat-number" id="activeMembersStat">24</span><span class="stat-label">Active</span></div>
+                    <div class="stat-glass"><span class="stat-number" id="newMembersStat">8</span><span class="stat-label">New This Month</span></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="members-container-glass">
+            <div id="successMessage" class="alert alert-success alert-dismissible fade show mb-3" style="display: none;" role="alert">
+                <i class="bi bi-check-circle-fill me-2"></i> <span id="successText"></span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+
+            <!-- Stats Cards with Animation -->
+            <div class="member-stats-grid">
+                <div class="stat-member-card" data-tooltip="Total registered members">
+                    <div class="stat-member-number" id="statTotal">28</div>
+                    <div class="stat-member-label">👥 Total Members</div>
+                    <i class="bi bi-arrow-up trend-up"></i>
+                </div>
+                <div class="stat-member-card" data-tooltip="Currently active members">
+                    <div class="stat-member-number" id="statActive">24</div>
+                    <div class="stat-member-label">🟢 Active Members</div>
+                    <i class="bi bi-arrow-up trend-up"></i>
+                </div>
+                <div class="stat-member-card" data-tooltip="Premium membership holders">
+                    <div class="stat-member-number" id="statPremium">12</div>
+                    <div class="stat-member-label">⭐ Premium Members</div>
+                    <i class="bi bi-star-fill"></i>
+                </div>
+                <div class="stat-member-card" data-tooltip="Total books currently borrowed">
+                    <div class="stat-member-number" id="statBorrowed">112</div>
+                    <div class="stat-member-label">📖 Books Borrowed</div>
+                    <i class="bi bi-bookmark-check"></i>
+                </div>
+            </div>
+
+            <!-- Search and Filter -->
+            <div class="search-filter-bar">
+                <div class="search-wrapper">
+                    <i class="bi bi-search"></i>
+                    <input type="text" id="searchInput" placeholder="🔍 Search by name, email, or ID...">
+                </div>
+                <div class="filter-group">
+                    <select id="statusFilter" class="filter-select">
+                        <option value="all">📊 All Status</option>
+                        <option value="active">🟢 Active</option>
+                        <option value="inactive">⚪ Inactive</option>
+                        <option value="suspended">⚠️ Suspended</option>
+                    </select>
+                    <select id="membershipFilter" class="filter-select">
+                        <option value="all">🎫 All Memberships</option>
+                        <option value="Premium">⭐ Premium</option>
+                        <option value="Standard">📘 Standard</option>
+                    </select>
+                    <button class="btn-reset-filters" id="resetFilters"><i class="bi bi-arrow-repeat"></i> Reset</button>
+                    <button class="btn-add-member" data-bs-toggle="modal" data-bs-target="#addMemberModal"><i class="bi bi-person-plus"></i> Add Member</button>
+                </div>
+            </div>
+
+            <!-- Members Table -->
+            <div class="members-table-wrapper">
+                <table class="members-table">
+                    <thead>
+                        <tr><th>ID</th><th>Member</th><th>Contact</th><th>Membership</th><th>Books</th><th>Status</th><th>Join Date</th><th>Actions</th></tr>
+                    </thead>
+                    <tbody id="membersTableBody"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ============================================ -->
+        <!-- ULTRA CREATIVE FEATURES SECTION -->
+        <!-- ============================================ -->
+        <div class="features-section">
+            
+            <!-- FEATURE 1: SMART CALENDAR with Weather Effect -->
+            <div class="feature-card">
+                <div class="feature-header">
+                    <i class="bi bi-calendar-heart"></i>
+                    <h4>📅 Smart Library Calendar</h4>
+                    <span class="badge bg-primary" id="weatherBadge">🌤️ Sunny</span>
+                </div>
+                <div class="feature-body">
+                    <div class="mini-calendar">
+                        <div class="calendar-header">
+                            <button class="calendar-nav-btn" id="prevMonthBtn"><i class="bi bi-chevron-left"></i></button>
+                            <span class="calendar-month-year" id="calendarMonthYear">March 2025</span>
+                            <button class="calendar-nav-btn" id="nextMonthBtn"><i class="bi bi-chevron-right"></i></button>
+                        </div>
+                        <div class="calendar-weekdays">
+                            <div class="calendar-weekday">S</div><div class="calendar-weekday">M</div><div class="calendar-weekday">T</div>
+                            <div class="calendar-weekday">W</div><div class="calendar-weekday">T</div><div class="calendar-weekday">F</div>
+                            <div class="calendar-weekday">S</div>
+                        </div>
+                        <div class="calendar-days" id="calendarDays"></div>
+                    </div>
+                    <div class="events-list" id="eventsList"></div>
+                    <div class="quote-of-day" style="margin-top: 12px; padding: 8px; background: rgba(99,102,241,0.1); border-radius: 12px;">
+                        <i class="bi bi-quote"></i> <span id="quoteOfDay">"Reading is to the mind what exercise is to the body."</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FEATURE 2: SOCIAL FEEDBACK HUB -->
+            <div class="feature-card">
+                <div class="feature-header">
+                    <i class="bi bi-chat-heart"></i>
+                    <h4>💬 Community Feedback Hub</h4>
+                    <span class="badge bg-success" id="activeUsersBadge">128 active</span>
+                </div>
+                <div class="feature-body">
+                    <div class="feedback-stats">
+                        <div class="rating-stars" id="avgRatingStars"></div>
+                        <div class="avg-rating" id="avgRatingText">4.8 ★ (156 reviews)</div>
+                    </div>
+                    <div class="rating-selector" id="ratingSelector">
+                        <i class="bi bi-star rating-star-select" data-rating="1"></i>
+                        <i class="bi bi-star rating-star-select" data-rating="2"></i>
+                        <i class="bi bi-star rating-star-select" data-rating="3"></i>
+                        <i class="bi bi-star rating-star-select" data-rating="4"></i>
+                        <i class="bi bi-star rating-star-select" data-rating="5"></i>
+                        <span style="margin-left: 10px; font-size: 12px;">Rate us!</span>
+                    </div>
+                    <div class="comments-list" id="commentsList"></div>
+                    <div class="feedback-input-area">
+                        <input type="text" id="commentInput" placeholder="💬 Share your library experience...">
+                        <button id="submitCommentBtn"><i class="bi bi-send"></i> Send</button>
+                    </div>
+                    <div class="feedback-tips" style="margin-top: 10px; font-size: 11px; color: rgba(255,255,255,0.4); text-align: center;">
+                        <i class="bi bi-info-circle"></i> Your feedback helps us improve!
+                    </div>
+                </div>
+            </div>
+
+            <!-- FEATURE 3: LIBRARY ANNOUNCEMENTS + TRIVIA -->
+            <div class="feature-card">
+                <div class="feature-header">
+                    <i class="bi bi-megaphone-fill"></i>
+                    <h4>📢 Library Buzz + Trivia</h4>
+                    <span class="badge bg-warning" id="newCountBadge">4 new</span>
+                </div>
+                <div class="feature-body">
+                    <div id="announcementsList"></div>
+                    
+                    <!-- Daily Trivia Section -->
+                    <div class="trivia-section" style="margin-top: 15px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.1);">
+                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+                            <i class="bi bi-lightbulb" style="color: #fbbf24;"></i>
+                            <span style="font-size: 12px; font-weight: 600;">📖 Daily Book Trivia</span>
+                        </div>
+                        <div id="dailyTrivia" style="font-size: 12px; color: rgba(255,255,255,0.7); line-height: 1.4;">
+                            Loading trivia...
+                        </div>
+                        <button class="btn-trivia" onclick="loadNewTrivia()" style="margin-top: 8px; background: none; border: none; color: #818cf8; font-size: 11px; cursor: pointer;">
+                            <i class="bi bi-arrow-repeat"></i> New Trivia
+                        </button>
+                    </div>
+                </div>
+                <a href="#" class="view-all-link" onclick="viewAllAnnouncements()">View All Announcements <i class="bi bi-arrow-right"></i></a>
+            </div>
+        </div>
+
+        <footer class="footer-glass">
+            <div class="container">
+                <span>© 2025 SmartLib System — Where Knowledge Meets Innovation ✨ | v4.0 | <span id="liveClock"></span></span>
+            </div>
+        </footer>
+    </main>
+</div>
+
+<!-- ============================================ -->
+<!-- MODALS (Enhanced) -->
+<!-- ============================================ -->
+
+<!-- Add Member Modal -->
+<div class="modal fade" id="addMemberModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content modal-glass">
+            <div class="modal-header modal-glass-header">
+                <h5 class="modal-title"><i class="bi bi-person-plus"></i> ✨ Add New Member</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <form id="addMemberForm">
+                <div class="modal-body modal-glass-body">
+                    <div class="mb-3"><label class="form-label"><i class="bi bi-person"></i> Full Name</label><input type="text" id="addName" class="form-control" placeholder="Enter full name" required></div>
+                    <div class="mb-3"><label class="form-label"><i class="bi bi-envelope"></i> Email</label><input type="email" id="addEmail" class="form-control" placeholder="email@example.com" required></div>
+                    <div class="mb-3"><label class="form-label"><i class="bi bi-phone"></i> Phone</label><input type="text" id="addPhone" class="form-control" placeholder="+60 XX XXX XXXX" required></div>
+                    <div class="mb-3"><label class="form-label"><i class="bi bi-gem"></i> Membership</label><select id="addMembership" class="form-select"><option value="Standard">📘 Standard</option><option value="Premium">⭐ Premium</option></select></div>
+                    <div class="mb-3"><label class="form-label"><i class="bi bi-geo-alt"></i> Address</label><input type="text" id="addAddress" class="form-control" placeholder="Your address"></div>
+                </div>
+                <div class="modal-footer modal-glass-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-success"><i class="bi bi-check-circle"></i> Add Member</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- View Member Modal -->
+<div class="modal fade" id="viewMemberModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content modal-glass">
+            <div class="modal-header modal-glass-header">
+                <h5 class="modal-title"><i class="bi bi-person-badge"></i> Member Profile</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body modal-glass-body" id="viewMemberContent"></div>
+            <div class="modal-footer modal-glass-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Member Modal -->
+<div class="modal fade" id="editMemberModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content modal-glass">
+            <div class="modal-header modal-glass-header">
+                <h5 class="modal-title"><i class="bi bi-pencil-square"></i> ✏️ Edit Member</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <form id="editMemberForm">
+                <div class="modal-body modal-glass-body">
+                    <input type="hidden" id="editId">
+                    <div class="mb-3"><label class="form-label">Full Name</label><input type="text" id="editName" class="form-control" required></div>
+                    <div class="mb-3"><label class="form-label">Email</label><input type="email" id="editEmail" class="form-control" required></div>
+                    <div class="mb-3"><label class="form-label">Phone</label><input type="text" id="editPhone" class="form-control" required></div>
+                    <div class="mb-3"><label class="form-label">Membership</label><select id="editMembership" class="form-select"><option value="Standard">Standard</option><option value="Premium">Premium</option></select></div>
+                    <div class="mb-3"><label class="form-label">Status</label><select id="editStatus" class="form-select"><option value="active">Active</option><option value="inactive">Inactive</option><option value="suspended">Suspended</option></select></div>
+                    <div class="mb-3"><label class="form-label">Address</label><input type="text" id="editAddress" class="form-control"></div>
+                </div>
+                <div class="modal-footer modal-glass-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Announcement Detail Modal -->
+<div class="modal fade" id="announcementModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content modal-glass">
+            <div class="modal-header modal-glass-header">
+                <h5 class="modal-title"><i class="bi bi-megaphone-fill"></i> <span id="announcementModalTitle">Announcement</span></h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body modal-glass-body" id="announcementModalContent"></div>
+            <div class="modal-footer modal-glass-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Event Modal -->
+<div class="modal fade" id="eventModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content modal-glass">
+            <div class="modal-header modal-glass-header">
+                <h5 class="modal-title"><i class="bi bi-calendar-event"></i> Event Details</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body modal-glass-body" id="eventModalContent"></div>
+            <div class="modal-footer modal-glass-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button class="btn btn-primary" onclick="registerForEvent()"><i class="bi bi-check-circle"></i> Register Interest</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// ============================================
+// COMPLETE ENHANCED JAVASCRIPT
+// ============================================
+
+// Live Clock
+function updateLiveClock() {
+    const now = new Date();
+    const timeStr = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+    document.getElementById('liveClock').textContent = timeStr;
+}
+setInterval(updateLiveClock, 1000);
+updateLiveClock();
+
+// Show Achievement Toast
+function showAchievement(message, icon = '🏆') {
+    const toast = document.createElement('div');
+    toast.className = 'achievement-toast';
+    toast.innerHTML = `<i class="bi bi-trophy-fill"></i><span>${icon} ${message}</span>`;
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), 3000);
+}
+
+// Confetti Effect
+function showConfetti() {
+    for (let i = 0; i < 50; i++) {
+        const confetti = document.createElement('div');
+        confetti.className = 'confetti';
+        confetti.style.left = Math.random() * 100 + '%';
+        confetti.style.animationDelay = Math.random() * 2 + 's';
+        confetti.style.background = `hsl(${Math.random() * 360}, 70%, 60%)`;
+        document.body.appendChild(confetti);
+        setTimeout(() => confetti.remove(), 2000);
+    }
+}
+
+// Member Data
+let membersData = [
+    { id: 'M001', name: 'Ahmad Faiz Bin Abdullah', email: 'ahmad.faiz@email.com', phone: '012-3456789', membership: 'Premium', books_borrowed: 3, status: 'active', join_date: '2024-01-15', address: 'Kuala Lumpur' },
+    { id: 'M002', name: 'Nurul Izzati Binti Hassan', email: 'nurul.izzati@email.com', phone: '013-4567890', membership: 'Standard', books_borrowed: 2, status: 'active', join_date: '2024-02-20', address: 'Selangor' },
+    { id: 'M003', name: 'Tan Wei Ming', email: 'weiming.tan@email.com', phone: '014-5678901', membership: 'Premium', books_borrowed: 5, status: 'active', join_date: '2023-11-10', address: 'Penang' },
+    { id: 'M004', name: 'Siti Aisyah Binti Omar', email: 'aisyah.omar@email.com', phone: '015-6789012', membership: 'Standard', books_borrowed: 1, status: 'active', join_date: '2024-03-05', address: 'Johor' },
+    { id: 'M005', name: 'Raj Kumar A/L Maniam', email: 'raj.kumar@email.com', phone: '016-7890123', membership: 'Premium', books_borrowed: 4, status: 'active', join_date: '2023-09-18', address: 'Kuala Lumpur' },
+    { id: 'M006', name: 'Lim Su Yin', email: 'suyin.lim@email.com', phone: '017-8901234', membership: 'Standard', books_borrowed: 2, status: 'active', join_date: '2024-01-22', address: 'Penang' },
+    { id: 'M007', name: 'Muhammad Ikhwan Bin Rosli', email: 'ikhwan.rosli@email.com', phone: '018-9012345', membership: 'Premium', books_borrowed: 3, status: 'active', join_date: '2023-12-01', address: 'Selangor' },
+    { id: 'M008', name: 'Pavitra A/P Selvam', email: 'pavitra.selvam@email.com', phone: '019-0123456', membership: 'Standard', books_borrowed: 0, status: 'inactive', join_date: '2024-02-14', address: 'Johor' },
+    { id: 'M009', name: 'Wong Kar Wai', email: 'karwai.wong@email.com', phone: '011-1234567', membership: 'Premium', books_borrowed: 7, status: 'active', join_date: '2023-08-01', address: 'Kuala Lumpur' },
+    { id: 'M010', name: 'Farah Syazwani', email: 'farah.syazwani@email.com', phone: '012-2345678', membership: 'Standard', books_borrowed: 2, status: 'active', join_date: '2024-03-10', address: 'Selangor' }
+];
+
+// Comments System
+let comments = [
+    { id: 1, user: 'Sarah Johnson', text: 'Great library! Love the new book collection and friendly staff! 📚', date: '2025-05-20T10:30:00', likes: 12, rating: 5, avatar: 'SJ' },
+    { id: 2, user: 'Ahmad Faiz', text: 'The online reservation system is very convenient. Highly recommend! 👍', date: '2025-05-19T15:45:00', likes: 8, rating: 4, avatar: 'AF' },
+    { id: 3, user: 'Tan Wei Ming', text: 'Excellent service and wide selection of books. Will come again! ⭐', date: '2025-05-18T09:20:00', likes: 15, rating: 5, avatar: 'TW' }
+];
+
+// Announcements
+const announcements = [
+    { id: 1, title: '📚 50+ New Books Arrived!', category: 'Collection Update', date: '2025-05-20T10:00:00', summary: 'Explore our latest collection including bestsellers and hidden gems!', content: '<h4>New Arrivals</h4><p>Over 50 new books added to our collection including bestselling titles, graphic novels, and educational resources.</p><ul><li>The Midnight Library</li><li>Project Hail Mary</li><li>Atomic Habits (New Edition)</li></ul>', icon: 'bi-newspaper', color: '#4ade80' },
+    { id: 2, title: '⚙️ System Upgrade Coming', category: 'Technical', date: '2025-05-19T14:30:00', summary: 'Scheduled maintenance on May 25th for system improvements.', content: '<h4>System Maintenance</h4><p>Date: May 25, 2025<br>Time: 2:00 AM - 4:00 AM<br>Online services may be temporarily unavailable.</p>', icon: 'bi-gear', color: '#f59e0b' },
+    { id: 3, title: '🏆 Summer Reading Challenge', category: 'Event', date: '2025-05-18T09:00:00', summary: 'Join our reading challenge and win exciting prizes!', content: '<h4>Summer Reading Challenge 2025</h4><p>June 1st - August 31st<br>Read books, earn badges, and win prizes!</p><ul><li>5 books → Bookmark + Sticker</li><li>10 books → Tote Bag</li><li>15+ books → Voucher + Certificate</li></ul>', icon: 'bi-trophy', color: '#fbbf24' }
+];
+
+// Daily Trivia
+const triviaList = [
+    { fact: "Did you know? The largest library in the world is the Library of Congress with over 170 million items! 📚" },
+    { fact: "The most borrowed book of all time is 'The Diary of Anne Frank'! 📖" },
+    { fact: "Reading for just 6 minutes can reduce stress by 68%! 🧘" },
+    { fact: "The word 'library' comes from the Latin word 'liber' meaning 'book'! 📕" },
+    { fact: "The first public library in the world was established in 1850 in Manchester, England! 🏛️" }
+];
+
+let currentTriviaIndex = 0;
+
+function loadDailyTrivia() {
+    currentTriviaIndex = (currentTriviaIndex + 1) % triviaList.length;
+    document.getElementById('dailyTrivia').innerHTML = `<i class="bi bi-lightbulb" style="color: #fbbf24;"></i> ${triviaList[currentTriviaIndex].fact}`;
+}
+
+function loadNewTrivia() {
+    loadDailyTrivia();
+    showMessage('New trivia loaded!', 'info');
+}
+
+// Quotes of the Day
+const quotes = [
+    '"Reading is to the mind what exercise is to the body." - Joseph Addison',
+    '"A room without books is like a body without a soul." - Cicero',
+    '"The more that you read, the more things you will know." - Dr. Seuss',
+    '"Books are a uniquely portable magic." - Stephen King',
+    '"Reading gives us someplace to go when we have to stay where we are." - Mason Cooley'
+];
+
+let quoteIndex = 0;
+function rotateQuote() {
+    quoteIndex = (quoteIndex + 1) % quotes.length;
+    document.getElementById('quoteOfDay').textContent = quotes[quoteIndex];
+}
+setInterval(rotateQuote, 10000);
+
+// Calendar Functions
+let currentDateObj = new Date();
+let currentMonth = currentDateObj.getMonth();
+let currentYear = currentDateObj.getFullYear();
+
+function renderCalendar() {
+    const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    document.getElementById('calendarMonthYear').textContent = `${monthNames[currentMonth]} ${currentYear}`;
+    
+    const firstDay = new Date(currentYear, currentMonth, 1).getDay();
+    const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+    const daysInPrevMonth = new Date(currentYear, currentMonth, 0).getDate();
+    
+    let calendarHTML = '';
+    
+    for (let i = firstDay - 1; i >= 0; i--) {
+        const prevDate = daysInPrevMonth - i;
+        calendarHTML += `<div class="calendar-day other-month">${prevDate}</div>`;
+    }
+    
+    for (let d = 1; d <= daysInMonth; d++) {
+        const isToday = d === new Date().getDate() && currentMonth === new Date().getMonth() && currentYear === new Date().getFullYear();
+        calendarHTML += `<div class="calendar-day ${isToday ? 'today' : ''}" onclick="selectDate(${d})">${d}</div>`;
+    }
+    
+    const remainingDays = 42 - (firstDay + daysInMonth);
+    for (let i = 1; i <= remainingDays; i++) {
+        calendarHTML += `<div class="calendar-day other-month">${i}</div>`;
+    }
+    
+    document.getElementById('calendarDays').innerHTML = calendarHTML;
+}
+
+function selectDate(day) {
+    showMessage(`📅 Selected: ${day}/${currentMonth + 1}/${currentYear}`, 'info');
+    showAchievement('Date selected!', '📅');
+}
+
+document.getElementById('prevMonthBtn')?.addEventListener('click', () => {
+    currentMonth--;
+    if (currentMonth < 0) { currentMonth = 11; currentYear--; }
+    renderCalendar();
+});
+
+document.getElementById('nextMonthBtn')?.addEventListener('click', () => {
+    currentMonth++;
+    if (currentMonth > 11) { currentMonth = 0; currentYear++; }
+    renderCalendar();
+});
+
+// Events List
+function renderEvents() {
+    const events = [
+        { date: 15, month: 'May', title: 'Book Club Meeting', time: '3:00 PM' },
+        { date: 20, month: 'May', title: 'Author Talk', time: '7:00 PM' },
+        { date: 25, month: 'May', title: "Children's Hour", time: '10:00 AM' }
+    ];
+    
+    document.getElementById('eventsList').innerHTML = events.map(e => `
+        <div class="event-item" onclick="showEventModal('${e.title}', '${e.date} ${e.month}', '${e.time}')">
+            <div class="event-date"><div class="event-day">${e.date}</div><div class="event-month">${e.month}</div></div>
+            <div class="event-info"><div class="event-title">${e.title}</div><div class="event-time">${e.time}</div></div>
+        </div>
+    `).join('');
+}
+
+function showEventModal(title, date, time) {
+    document.getElementById('eventModalContent').innerHTML = `
+        <h4>${title}</h4>
+        <p><i class="bi bi-calendar"></i> <strong>Date:</strong> ${date}</p>
+        <p><i class="bi bi-clock"></i> <strong>Time:</strong> ${time}</p>
+        <p><i class="bi bi-geo-alt"></i> <strong>Location:</strong> Main Library Hall</p>
+        <hr>
+        <p>Join us for this exciting event! All members are welcome.</p>
+    `;
+    new bootstrap.Modal(document.getElementById('eventModal')).show();
+}
+
+function registerForEvent() {
+    showMessage('✅ Registered for event! We\'ll send you reminders.', 'success');
+    bootstrap.Modal.getInstance(document.getElementById('eventModal')).hide();
+    showAchievement('Event registration confirmed!', '🎉');
+}
+
+// Comments Functions
+function renderComments() {
+    const container = document.getElementById('commentsList');
+    if (comments.length === 0) {
+        container.innerHTML = '<div style="text-align:center; padding:1rem; color:rgba(255,255,255,0.5);">✨ No comments yet. Be the first to share!</div>';
+        return;
+    }
+    
+    container.innerHTML = comments.map(c => `
+        <div class="comment-item">
+            <div class="comment-header">
+                <span class="comment-user"><i class="bi bi-person-circle"></i> ${c.user}</span>
+                <span class="comment-date">${formatDate(c.date)}</span>
+            </div>
+            <div class="comment-rating">${renderStars(c.rating)}</div>
+            <div class="comment-text">${escapeHtml(c.text)}</div>
+            <div class="comment-actions">
+                <span class="comment-like" onclick="likeComment(${c.id})"><i class="bi bi-heart"></i> ${c.likes}</span>
+                <span class="comment-delete" onclick="deleteComment(${c.id})"><i class="bi bi-trash"></i> Delete</span>
+            </div>
+        </div>
+    `).join('');
+}
+
+function renderStars(rating) {
+    let stars = '';
+    for (let i = 1; i <= 5; i++) {
+        stars += i <= rating ? '<i class="bi bi-star-fill" style="color:#fbbf24; font-size:0.7rem;"></i>' : '<i class="bi bi-star" style="color:rgba(255,255,255,0.2); font-size:0.7rem;"></i>';
+    }
+    return stars;
+}
+
+function formatDate(dateStr) {
+    const date = new Date(dateStr);
+    const now = new Date();
+    const diffMs = now - date;
+    const diffMins = Math.floor(diffMs / 60000);
+    if (diffMins < 1) return 'Just now';
+    if (diffMins < 60) return `${diffMins} min ago`;
+    if (diffMins < 1440) return `${Math.floor(diffMins / 60)} hours ago`;
+    return `${Math.floor(diffMins / 1440)} days ago`;
+}
+
+function likeComment(id) {
+    const comment = comments.find(c => c.id === id);
+    if (comment) {
+        comment.likes++;
+        renderComments();
+        updateRatingStats();
+    }
+}
+
+function deleteComment(id) {
+    if (confirm('Delete this comment?')) {
+        comments = comments.filter(c => c.id !== id);
+        renderComments();
+        updateRatingStats();
+        showMessage('Comment deleted!', 'success');
+    }
+}
+
+function addComment(text, rating) {
+    const newComment = {
+        id: Date.now(),
+        user: 'You',
+        text: text,
+        date: new Date().toISOString(),
+        likes: 0,
+        rating: rating || 5,
+        avatar: 'YO'
+    };
+    comments.unshift(newComment);
+    renderComments();
+    updateRatingStats();
+    showMessage('Thanks for your feedback!', 'success');
+    showAchievement('Feedback shared!', '💬');
+    showConfetti();
+}
+
+function updateRatingStats() {
+    if (comments.length === 0) {
+        document.getElementById('avgRatingText').textContent = '0 ★ (0 reviews)';
+        document.getElementById('avgRatingStars').innerHTML = '<i class="bi bi-star"></i><i class="bi bi-star"></i><i class="bi bi-star"></i><i class="bi bi-star"></i><i class="bi bi-star"></i>';
+        return;
+    }
+    const totalRating = comments.reduce((sum, c) => sum + c.rating, 0);
+    const avgRating = totalRating / comments.length;
+    let starsHtml = '';
+    for (let i = 1; i <= 5; i++) {
+        starsHtml += i <= Math.floor(avgRating) ? '<i class="bi bi-star-fill" style="color:#fbbf24;"></i>' : (i === Math.floor(avgRating) + 1 && avgRating % 1 >= 0.5 ? '<i class="bi bi-star-half" style="color:#fbbf24;"></i>' : '<i class="bi bi-star" style="color:rgba(255,255,255,0.2);"></i>');
+    }
+    document.getElementById('avgRatingStars').innerHTML = starsHtml;
+    document.getElementById('avgRatingText').textContent = `${avgRating.toFixed(1)} ★ (${comments.length} reviews)`;
+}
+
+// Announcements Render
+function renderAnnouncements() {
+    const container = document.getElementById('announcementsList');
+    container.innerHTML = announcements.map(a => `
+        <div class="announcement-item" onclick="viewAnnouncement(${a.id})">
+            <div class="announcement-icon" style="background: rgba(${parseInt(a.color.slice(1,3), 16)}, ${parseInt(a.color.slice(3,5), 16)}, ${parseInt(a.color.slice(5,7), 16)}, 0.15);">
+                <i class="bi ${a.icon}" style="color: ${a.color};"></i>
+            </div>
+            <div class="announcement-content">
+                <div class="announcement-title">${escapeHtml(a.title)}</div>
+                <div class="announcement-text">${escapeHtml(a.summary)}</div>
+                <small class="announcement-time">${formatDate(a.date)}</small>
+            </div>
+        </div>
+    `).join('');
+}
+
+function viewAnnouncement(id) {
+    const ann = announcements.find(a => a.id === id);
+    if (ann) {
+        document.getElementById('announcementModalTitle').textContent = ann.title;
+        document.getElementById('announcementModalContent').innerHTML = ann.content;
+        new bootstrap.Modal(document.getElementById('announcementModal')).show();
+    }
+}
+
+function viewAllAnnouncements() {
+    let allHtml = '<div class="announcements-list-modal">';
+    announcements.forEach(a => {
+        allHtml += `<div class="announcement-item-modal" onclick="viewAnnouncement(${a.id})" style="padding: 12px; border-bottom: 1px solid rgba(255,255,255,0.1); cursor: pointer;">
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <i class="bi ${a.icon}" style="font-size: 20px;"></i>
+                <div><strong>${a.title}</strong><br><small>${formatDate(a.date)}</small></div>
+            </div>
+        </div>`;
+    });
+    allHtml += '</div>';
+    document.getElementById('announcementModalContent').innerHTML = allHtml;
+    document.getElementById('announcementModalTitle').textContent = 'All Announcements';
+    new bootstrap.Modal(document.getElementById('announcementModal')).show();
+}
+
+// Member Table Functions
+function updateStatistics() {
+    const total = membersData.length;
+    const active = membersData.filter(m => m.status === 'active').length;
+    const premium = membersData.filter(m => m.membership === 'Premium').length;
+    const totalBorrowed = membersData.reduce((sum, m) => sum + m.books_borrowed, 0);
+    
+    document.getElementById('statTotal').textContent = total;
+    document.getElementById('statActive').textContent = active;
+    document.getElementById('statPremium').textContent = premium;
+    document.getElementById('statBorrowed').textContent = totalBorrowed;
+    document.getElementById('totalMembersStat').textContent = total;
+    document.getElementById('activeMembersStat').textContent = active;
+}
+
+function renderTable() {
+    const searchTerm = document.getElementById('searchInput')?.value.toLowerCase() || '';
+    const status = document.getElementById('statusFilter')?.value || 'all';
+    const membership = document.getElementById('membershipFilter')?.value || 'all';
+    
+    const filtered = membersData.filter(m => {
+        if (searchTerm && !m.name.toLowerCase().includes(searchTerm) && !m.email.toLowerCase().includes(searchTerm) && !m.id.toLowerCase().includes(searchTerm)) return false;
+        if (status !== 'all' && m.status !== status) return false;
+        if (membership !== 'all' && m.membership !== membership) return false;
+        return true;
+    });
+    
+    const tbody = document.getElementById('membersTableBody');
+    if (filtered.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="8" style="text-align:center; padding:3rem;">✨ No members found ✨</td></tr>';
+        return;
+    }
+    
+    tbody.innerHTML = filtered.map(m => `
+        <tr>
+            <td><strong>${m.id}</strong></td>
+            <td><div class="member-info-cell"><div class="member-avatar-table">${m.name.substring(0,2)}</div><div><div class="member-name-cell">${escapeHtml(m.name)}</div><div class="member-email-small">${escapeHtml(m.email)}</div></div></div></td>
+            <td>${m.phone}</td>
+            <td><span class="badge-status ${m.membership === 'Premium' ? 'badge-premium' : 'badge-standard'}">${m.membership === 'Premium' ? '⭐ Premium' : '📘 Standard'}</span></td>
+            <td><span style="background:rgba(99,102,241,0.2); padding:0.25rem 0.75rem; border-radius:20px;">${m.books_borrowed}</span></td>
+            <td><span class="badge-status badge-${m.status}">${m.status === 'active' ? '🟢 Active' : (m.status === 'inactive' ? '⚪ Inactive' : '⚠️ Suspended')}</span></td>
+            <td>${formatDateSimple(m.join_date)}</td>
+            <td><div class="action-buttons-group">
+                <button class="action-icon view" onclick="viewMember('${m.id}')"><i class="bi bi-eye"></i></button>
+                <button class="action-icon edit" onclick="openEditModal('${m.id}')"><i class="bi bi-pencil"></i></button>
+                <button class="action-icon delete" onclick="deleteMember('${m.id}')"><i class="bi bi-trash"></i></button>
+            </div></td>
+        </tr>
+    `).join('');
+}
+
+function formatDateSimple(dateStr) {
+    return new Date(dateStr).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+}
+
+function escapeHtml(text) {
+    if (!text) return '';
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
+function showMessage(message, type = 'success') {
+    const msgDiv = document.getElementById('successMessage');
+    const msgText = document.getElementById('successText');
+    msgText.textContent = message;
+    msgDiv.style.display = 'block';
+    setTimeout(() => msgDiv.style.display = 'none', 3000);
+}
+
+function viewMember(id) {
+    const m = membersData.find(m => m.id === id);
+    if (m) {
+        document.getElementById('viewMemberContent').innerHTML = `
+            <div class="text-center">
+                <div class="member-avatar-table mx-auto mb-3" style="width:80px; height:80px; font-size:2rem; line-height:80px;">${m.name.substring(0,2)}</div>
+                <h4>${escapeHtml(m.name)}</h4>
+                <p class="text-muted">${m.id}</p>
+                <hr>
+                <div class="row text-start">
+                    <div class="col-6"><small>📧 Email</small><p><strong>${escapeHtml(m.email)}</strong></p></div>
+                    <div class="col-6"><small>📞 Phone</small><p><strong>${m.phone}</strong></p></div>
+                    <div class="col-6"><small>⭐ Membership</small><p><strong>${m.membership}</strong></p></div>
+                    <div class="col-6"><small>🟢 Status</small><p><strong>${m.status}</strong></p></div>
+                    <div class="col-6"><small>📖 Books Borrowed</small><p><strong>${m.books_borrowed}</strong></p></div>
+                    <div class="col-6"><small>📅 Join Date</small><p><strong>${m.join_date}</strong></p></div>
+                </div>
+            </div>
+        `;
+        new bootstrap.Modal(document.getElementById('viewMemberModal')).show();
+    }
+}
+
+function openEditModal(id) {
+    const m = membersData.find(m => m.id === id);
+    if (m) {
+        document.getElementById('editId').value = m.id;
+        document.getElementById('editName').value = m.name;
+        document.getElementById('editEmail').value = m.email;
+        document.getElementById('editPhone').value = m.phone;
+        document.getElementById('editMembership').value = m.membership;
+        document.getElementById('editStatus').value = m.status;
+        document.getElementById('editAddress').value = m.address || '';
+        new bootstrap.Modal(document.getElementById('editMemberModal')).show();
+    }
+}
+
+document.getElementById('editMemberForm')?.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const id = document.getElementById('editId').value;
+    const index = membersData.findIndex(m => m.id === id);
+    if (index !== -1) {
+        membersData[index] = { ...membersData[index], name: document.getElementById('editName').value, email: document.getElementById('editEmail').value, phone: document.getElementById('editPhone').value, membership: document.getElementById('editMembership').value, status: document.getElementById('editStatus').value, address: document.getElementById('editAddress').value };
+        updateStatistics();
+        renderTable();
+        bootstrap.Modal.getInstance(document.getElementById('editMemberModal')).hide();
+        showMessage('Member updated!', 'success');
+        showAchievement('Member updated!', '✏️');
+    }
+});
+
+function deleteMember(id) {
+    if (confirm('Delete this member?')) {
+        membersData = membersData.filter(m => m.id !== id);
+        updateStatistics();
+        renderTable();
+        showMessage('Member deleted!', 'success');
+        showAchievement('Member removed', '🗑️');
+    }
+}
+
+document.getElementById('addMemberForm')?.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const newId = 'M' + String(membersData.length + 1).padStart(3, '0');
+    membersData.unshift({ id: newId, name: document.getElementById('addName').value, email: document.getElementById('addEmail').value, phone: document.getElementById('addPhone').value, membership: document.getElementById('addMembership').value, books_borrowed: 0, status: 'active', join_date: new Date().toISOString().split('T')[0], address: document.getElementById('addAddress').value });
+    updateStatistics();
+    renderTable();
+    bootstrap.Modal.getInstance(document.getElementById('addMemberModal')).hide();
+    document.getElementById('addMemberForm').reset();
+    showMessage('New member added! 🎉', 'success');
+    showAchievement('New member joined!', '👤');
+    showConfetti();
+});
+
+function applyFilters() { renderTable(); }
+function resetAllFilters() {
+    document.getElementById('searchInput').value = '';
+    document.getElementById('statusFilter').value = 'all';
+    document.getElementById('membershipFilter').value = 'all';
+    renderTable();
+}
+
+// Rating Stars
+let selectedRating = 5;
+document.querySelectorAll('.rating-star-select').forEach(star => {
+    star.addEventListener('click', function() {
+        selectedRating = parseInt(this.getAttribute('data-rating'));
+        document.querySelectorAll('.rating-star-select').forEach((s, i) => {
+            if (i < selectedRating) { s.classList.add('active'); s.classList.remove('bi-star'); s.classList.add('bi-star-fill'); }
+            else { s.classList.remove('active'); s.classList.remove('bi-star-fill'); s.classList.add('bi-star'); }
+        });
+    });
+});
+
+document.getElementById('submitCommentBtn')?.addEventListener('click', function() {
+    const comment = document.getElementById('commentInput').value.trim();
+    if (comment) {
+        addComment(comment, selectedRating);
+        document.getElementById('commentInput').value = '';
+        selectedRating = 5;
+        document.querySelectorAll('.rating-star-select').forEach((s, i) => {
+            if (i < 5) { s.classList.add('active'); s.classList.remove('bi-star'); s.classList.add('bi-star-fill'); }
+        });
+    }
+});
+
+// Mobile Menu
+document.getElementById('mobileMenuToggle')?.addEventListener('click', () => {
+    document.getElementById('sidebar')?.classList.toggle('open');
+    document.getElementById('sidebarOverlay')?.classList.toggle('active');
+});
+document.getElementById('sidebarOverlay')?.addEventListener('click', () => {
+    document.getElementById('sidebar')?.classList.remove('open');
+    document.getElementById('sidebarOverlay')?.classList.remove('active');
+});
+
+// Dark Mode
+const toggle = document.getElementById('darkModeSwitch');
+const theme = localStorage.getItem('libTheme') || 'dark';
+document.body.setAttribute('data-bs-theme', theme);
+if (toggle) {
+    if (theme === 'dark') toggle.checked = true;
+    toggle.addEventListener('change', (e) => {
+        const nt = e.target.checked ? 'dark' : 'light';
+        document.body.setAttribute('data-bs-theme', nt);
+        localStorage.setItem('libTheme', nt);
+    });
+}
+
+// Initialize
+updateStatistics();
+renderTable();
+renderComments();
+updateRatingStats();
+renderAnnouncements();
+renderCalendar();
+renderEvents();
+loadDailyTrivia();
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

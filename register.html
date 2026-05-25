@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Handler - SmartLib</title>
+    <!-- No CSS embedded - all styles are external -->
+</head>
+<body>
+    <!-- This script handles user registration functionality -->
+    <!-- It replaces register.php with client-side JavaScript -->
+    
+    <script>
+// ============================================
+// REGISTRATION HANDLER (Replaces register.php)
+// ============================================
+
+// Storage configuration
+const USERS_STORAGE_KEY = 'library_registered_users';
+const USERS_FILE_CONFIG = 'config/users.json'; // For reference only - actual storage in localStorage
+
+// Demo accounts that are reserved (cannot be registered)
+const RESERVED_EMAILS = ['staff@library.com', 'student@library.com', 'guest@library.com'];
+
+// CSRF token storage
+let csrfToken = null;
+
+/**
+ * Generate a new CSRF token
+ * @returns {string} Random token
+ */
+function generateCsrfToken() {
+    return 'csrf_' + Date.now() + '_' + Math.random().toString(36).substr(2, 16) + '_' + Math.random().toString(36).substr(2, 8);
+}
+
+/**
+ * Initialize CSRF token in sessionStorage
+ * @returns {string} Current CSRF token
+ */
+function initCsrfToken() {
+    let token = sessionStorage.getItem('csrf_token');
+    if (!token) {
+        token = generateCsrfToken();
+        sessionStorage.setItem('csrf_token', token);
+    }
+    csrfToken = token;
+    return token;
+}
+
+/**
+ * Validate CSRF token
+ * @param {string} submittedToken - Token from form
+ * @returns {boolean} True if valid
+ */
+function validateCsrfToken(submittedToken) {
+    const storedToken = sessionStorage.getItem('csrf_token');
+    if (!storedToken || !submittedToken) {
+        return false;
+    }
+    return storedToken === submittedToken;
+}
+
+/**
+ * Load users from localStorage (simulates config/users.json)
+ * @returns {Array} Array of user objects
+ */
+function loadUsers() {
+    const usersJson = localStorage.getItem(USERS_STORAGE_KEY);
+    if (usersJson) {
+        try {
+            const users = JSON.parse(usersJson);
+            return Array.isArray(users) ? users : [];
+        } catch (e) {
+            console.error('Error parsing users data:', e);
+            return [];
+        }
+    }
+    return [];
+}
+
+/**
+ * Save users to localStorage
+ * @param {Array} users - Array of user objects
+ * @returns {boolean} Success status
+ */
+function saveUsers(users) {
+    try {
+        localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(users, null, 2));
+        return true;
+    } catch (e) {
+        console.error('Error saving users data:', e);
+        return false;
+    }
+}
+
+/**
+ * Check if email already exists (checks both registered users and reserved demo emails)
+ * @param {string} email - Email to check
+ * @returns {boolean} True if email exists
+ */
+function emailExists(email) {
+    if (!email) return false;
+    
+    const normalizedEmail = email.trim().toLowerCase();
+    
+    // Check reserved demo emails
+    if (RESERVED_EMAILS.includes(normalizedEmail)) {
+        return true;
+    }
+    
+    // Check registered users
+    const users = loadUsers();
+    return users.some(user => user.email && user.email.toLowerCase() === normalizedEmail);
+}
+
+/**
+ * Hash a password (simulates password_hash with PASSWORD_DEFAULT)
+ * NOTE: This is a simulation for demo purposes only.
+ * In production, password hashing MUST be done on the server-side.
+ * @param {string} password - Plain text password
+ * @returns {string} Hashed password
+ */
+function hashPassword(password) {
+    // This simulates password_hash() behavior
+    // For demo/educational purposes only - NOT for production use
+    const salt = 'smartlib_salt_' + Date.now() + '_' + Math.random().toString(36).substr(2, 8);
+    let combined = password + salt;
+    let hash = '';
+    for (let i = 0; i < combined.length; i++) {
+        hash += combined.charCodeAt(i).toString(16);
+    }
+    return 'hashed_' + btoa(hash).substring(0, 60);
+}
+
+/**
+ * Generate a new user ID
+ * @param {Array} users - Current users array
+ * @returns {string} New user ID (format: U0001, U0002, etc.)
+ */
+function generateUserId(users) {
+    const nextNumber = users.length + 1;
+    return 'U' + String(nextNumber).padStart(4, '0');
+}
+
+/**
+ * Register a new user
+ * @param {object} userData - User registration data
+ * @param {string} userData.fullname - User's full name
+ * @param {string} userData.email - User's email address
+ * @param {string} userData.password - User's password (plain text, will be hashed)
+ * @param {string} userData.role - User's role (Student, Staff, Guest)
+ * @returns {object} { success: boolean, error: string|null, user: object|null }
+ */
+function registerUser(userData) {
+    const { fullname, email, password, confirmPassword, role } = userData;
+    
+    // Validation
+    if (!fullname || fullname.trim().length < 2) {
+        return { success: false, error: 'invalid_name', message: 'Full name must be at least 2 characters' };
+    }
+    
+    if (!email || !email.includes('@') || !email.includes('.')) {
+        return { success: false, error: 'invalid_email', message: 'Please enter a valid email address' };
+    }
+    
+    // Check if email already exists
+    if (emailExists(email)) {
+        return { success: false, error: 'email_exists', message: 'Email already registered' };
+    }
+    
+    // Password validation
+    if (!password || password.length < 8) {
+        return { success: false, error: 'short_password', message: 'Password must be at least 8 characters' };
+    }
+    
+    if (password !== confirmPassword) {
+        return { success: false, error: 'pass_mismatch', message: 'Passwords do not match' };
+    }
+    
+    // Load existing users
+    const users = loadUsers();
+    
+    // Hash the password
+    const hashedPassword = hashPassword(password);
+    
+    // Get current date/time in YYYY-MM-DD HH:MM:SS format
+    const now = new Date();
+    const createdAt = now.toISOString().slice(0, 19).replace('T', ' ');
+    
+    // Create new user entry
+    const newUser = {
+        id: generateUserId(users),
+        fullname: fullname.trim(),
+        email: email.trim().toLowerCase(),
+        password: hashedPassword,
+        role: role || 'Student',
+        created_at: createdAt,
+        status: 'active'
+    };
+    
+    // Add to users array
+    users.push(newUser);
+    
+    // Save to localStorage
+    const saved = saveUsers(users);
+    
+    if (!saved) {
+        return { success: false, error: 'save_failed', message: 'Failed to save user data' };
+    }
+    
+    // Return success without exposing the password hash
+    const { password: _, ...userWithoutPassword } = newUser;
+    return { success: true, error: null, user: userWithoutPassword };
+}
+
+/**
+ * Handle registration form submission
+ * @param {Event} event - Form submit event
+ */
+function handleRegistration(event) {
+    event.preventDefault();
+    
+    const form = event.target;
+    
+    // Get CSRF token from form
+    const submittedToken = form.querySelector('[name="csrf_token"]')?.value;
+    
+    // CSRF Protection - Verify token
+    if (!validateCsrfToken(submittedToken)) {
+        redirectWithError('csrf');
+        return;
+    }
+    
+    // Get form data
+    const fullname = form.querySelector('[name="fullname"]')?.value || '';
+    const email = form.querySelector('[name="email"]')?.value || '';
+    const password = form.querySelector('[name="password"]')?.value || '';
+    const confirmPassword = form.querySelector('[name="confirm_password"]')?.value || '';
+    const role = form.querySelector('[name="role"]')?.value || 'Student';
+    
+    // Register user
+    const result = registerUser({
+        fullname,
+        email,
+        password,
+        confirmPassword,
+        role
+    });
+    
+    if (result.success) {
+        // Registration successful - generate new CSRF token for login page
+        sessionStorage.removeItem('csrf_token');
+        initCsrfToken();
+        redirectWithSuccess();
+    } else {
+        // Registration failed - redirect with error
+        redirectWithError(result.error);
+    }
+}
+
+/**
+ * Redirect to login page with success parameter
+ */
+function redirectWithSuccess() {
+    window.location.href = 'index.html?reg_success=true';
+}
+
+/**
+ * Redirect to login page with error parameter
+ * @param {string} error - Error code
+ */
+function redirectWithError(error) {
+    let errorParam = error;
+    
+    // Map error codes to match PHP expectations
+    switch (error) {
+        case 'email_exists':
+            errorParam = 'email_exists';
+            break;
+        case 'short_password':
+            errorParam = 'short_password';
+            break;
+        case 'pass_mismatch':
+            errorParam = 'pass_mismatch';
+            break;
+        case 'csrf':
+            errorParam = 'csrf';
+            break;
+        case 'invalid_name':
+        case 'invalid_email':
+        default:
+            errorParam = 'invalid_data';
+    }
+    
+    window.location.href = `index.html?reg_error=${errorParam}`;
+}
+
+/**
+ * Initialize CSRF token and attach to registration form
+ */
+function setupRegistrationForm() {
+    // Initialize CSRF token
+    const token = initCsrfToken();
+    
+    // Find the registration form
+    const registerForm = document.getElementById('registerForm') || 
+                         document.querySelector('form[action*="register"]') ||
+                         document.querySelector('#register form');
+    
+    if (registerForm) {
+        // Add or update CSRF token input
+        let csrfInput = registerForm.querySelector('[name="csrf_token"]');
+        if (!csrfInput) {
+            csrfInput = document.createElement('input');
+            csrfInput.type = 'hidden';
+            csrfInput.name = 'csrf_token';
+            registerForm.appendChild(csrfInput);
+        }
+        csrfInput.value = token;
+        
+        // Attach submit handler if not already attached
+        if (!registerForm.hasAttribute('data-register-handler-attached')) {
+            // Remove any existing submit handlers to prevent duplicates
+            const oldHandler = registerForm.onsubmit;
+            registerForm.addEventListener('submit', handleRegistration);
+            registerForm.setAttribute('data-register-handler-attached', 'true');
+        }
+    }
+}
+
+/**
+ * Real-time email availability check (for registration form)
+ * @param {string} email - Email to check
+ * @returns {object} { available: boolean, message: string }
+ */
+function checkEmailAvailability(email) {
+    if (!email || email.trim() === '') {
+        return { available: false, message: 'Email is required' };
+    }
+    
+    if (!email.includes('@') || !email.includes('.')) {
+        return { available: false, message: 'Invalid email format' };
+    }
+    
+    const exists = emailExists(email);
+    
+    return {
+        available: !exists,
+        message: exists ? '❌ Email already registered' : '✅ Email available'
+    };
+}
+
+/**
+ * Real-time password strength checker
+ * @param {string} password - Password to check
+ * @returns {object} { score: number, strength: string, feedback: string[] }
+ */
+function checkPasswordStrength(password) {
+    let score = 0;
+    const feedback = [];
+    
+    if (!password) {
+        return { score: 0, strength: 'None', feedback: ['Enter a password'] };
+    }
+    
+    if (password.length >= 8) {
+        score++;
+    } else {
+        feedback.push('• At least 8 characters');
+    }
+    
+    if (password.match(/[a-z]/) && password.match(/[A-Z]/)) {
+        score++;
+    } else {
+        feedback.push('• Uppercase and lowercase letters');
+    }
+    
+    if (password.match(/\d/)) {
+        score++;
+    } else {
+        feedback.push('• At least one number');
+    }
+    
+    if (password.match(/[^a-zA-Z\d]/)) {
+        score++;
+    } else {
+        feedback.push('• At least one special character');
+    }
+    
+    let strength = '';
+    if (score <= 1) strength = 'Weak';
+    else if (score === 2) strength = 'Fair';
+    else if (score === 3) strength = 'Good';
+    else strength = 'Strong';
+    
+    return { score, strength, feedback };
+}
+
+/**
+ * Real-time password match checker
+ * @param {string} password - Password
+ * @param {string} confirm - Confirm password
+ * @returns {object} { match: boolean, message: string }
+ */
+function checkPasswordMatch(password, confirm) {
+    if (!confirm) {
+        return { match: false, message: '' };
+    }
+    
+    if (password === confirm) {
+        return { match: true, message: '✅ Passwords match' };
+    } else {
+        return { match: false, message: '❌ Passwords do not match' };
+    }
+}
+
+// ============================================
+// AUTO-INITIALIZATION
+// ============================================
+
+// Initialize when DOM is ready
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function() {
+        setupRegistrationForm();
+    });
+} else {
+    setupRegistrationForm();
+}
+
+// ============================================
+// EXPORTS (Global functions for use in other scripts)
+// ============================================
+
+window.RegistrationHandler = {
+    registerUser,
+    emailExists,
+    checkEmailAvailability,
+    checkPasswordStrength,
+    checkPasswordMatch,
+    validateCsrfToken,
+    initCsrfToken,
+    loadUsers,
+    saveUsers,
+    RESERVED_EMAILS
+};
+
+// ============================================
+// CONSOLE LOG FOR DEBUGGING
+// ============================================
+console.log('Registration Handler loaded successfully!');
+console.log('Reserved emails (cannot register):', RESERVED_EMAILS);
+console.log('Available functions:');
+console.log('  - RegistrationHandler.registerUser(userData)');
+console.log('  - RegistrationHandler.emailExists("email@example.com")');
+console.log('  - RegistrationHandler.checkEmailAvailability("email@example.com")');
+console.log('  - RegistrationHandler.checkPasswordStrength("password")');
+console.log('  - RegistrationHandler.checkPasswordMatch("pass", "confirm")');
+
+// ============================================
+// USAGE EXAMPLE
+// ============================================
+/*
+To use this handler in your HTML:
+
+1. Make sure your registration form has inputs with these names:
+   - input[name="fullname"] (required)
+   - input[name="email"] (required)
+   - input[name="password"] (required, min 8 chars)
+   - input[name="confirm_password"] (required)
+   - select[name="role"] (optional, defaults to "Student")
+   - input[name="csrf_token"] (will be auto-added)
+
+2. The form should have id="registerForm" OR be inside the register tab
+
+3. Example HTML structure:
+   <form id="registerForm">
+       <input type="hidden" name="csrf_token">
+       <input type="text" name="fullname" required>
+       <input type="email" name="email" required>
+       <input type="password" name="password" required>
+       <input type="password" name="confirm_password" required>
+       <select name="role">
+           <option value="Student">Student</option>
+           <option value="Staff">Staff</option>
+           <option value="Guest">Guest</option>
+       </select>
+       <input type="checkbox" id="termsCheck" required>
+       <button type="submit">Register</button>
+   </form>
+
+4. The handler will:
+   - Auto-add CSRF protection
+   - Validate all fields
+   - Check for duplicate emails
+   - Hash the password (simulated)
+   - Save user to localStorage
+   - Redirect to index.html with reg_success or reg_error parameter
+*/
+</script>
+</body>
+</html>
