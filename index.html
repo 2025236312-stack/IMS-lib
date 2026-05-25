@@ -80,19 +80,19 @@
                                 
                                 <!-- ROLE SELECTOR DOTS - Interactive -->
                                 <div class="role-selector mt-2" id="roleSelector">
-                                    <div class="role-option" data-role="staff" data-email="staff@library.com" data-password="staff123" data-name="Staff User" data-role-name="Staff">
+                                    <div class="role-option" data-role="staff" data-email="staff@library.com" data-password="staff123">
                                         <div class="role-dot staff-dot">
                                             <i class="bi bi-person-badge"></i>
                                         </div>
                                         <span class="role-label">Staff</span>
                                     </div>
-                                    <div class="role-option" data-role="student" data-email="student@library.com" data-password="student123" data-name="Student User" data-role-name="Student">
+                                    <div class="role-option" data-role="student" data-email="student@library.com" data-password="student123">
                                         <div class="role-dot student-dot">
                                             <i class="bi bi-mortarboard"></i>
                                         </div>
                                         <span class="role-label">Student</span>
                                     </div>
-                                    <div class="role-option" data-role="guest" data-email="guest@library.com" data-password="guest123" data-name="Guest User" data-role-name="Guest">
+                                    <div class="role-option" data-role="guest" data-email="guest@library.com" data-password="guest123">
                                         <div class="role-dot guest-dot">
                                             <i class="bi bi-person"></i>
                                         </div>
@@ -512,7 +512,7 @@
     document.getElementById('fp_new_password')?.addEventListener('input', updateFpPasswordStrength);
     document.getElementById('fp_confirm')?.addEventListener('input', checkFpPasswordMatch);
     
-    // Login Form Submit - CONNECTED TO DASHBOARD.HTML
+    // Login Form Submit
     document.getElementById('loginForm')?.addEventListener('submit', function(e) {
         e.preventDefault();
         const btn = document.getElementById('loginBtn');
@@ -529,38 +529,19 @@
         
         const email = document.getElementById('login_email').value;
         const password = document.getElementById('login_password').value;
-        const rememberMe = document.getElementById('remember_me')?.checked || false;
         const user = authenticateUser(email, password);
         
         setTimeout(() => {
             if (user) {
-                // Reset login attempts
                 resetAttempts();
-                
-                // Store user session data
                 sessionStorage.setItem('logged_in', 'true');
-                sessionStorage.setItem('user_id', user.id);
                 sessionStorage.setItem('user_name', user.fullname);
                 sessionStorage.setItem('user_email', user.email);
                 sessionStorage.setItem('user_role', user.role);
-                sessionStorage.setItem('last_activity', Date.now().toString());
-                
-                // Handle Remember Me
-                if (rememberMe) {
-                    const rememberToken = generateCsrfToken();
-                    sessionStorage.setItem('remember_token', rememberToken);
-                    localStorage.setItem('library_remember_token', rememberToken);
-                    // Set cookie for 30 days
-                    const expiryDate = new Date();
-                    expiryDate.setDate(expiryDate.getDate() + 30);
-                    document.cookie = `remember_token=${rememberToken}; expires=${expiryDate.toUTCString()}; path=/`;
-                }
-                
-                showToast(`Welcome ${user.fullname}! Redirecting to dashboard...`, 'success');
-                
-                // Redirect to dashboard.html
+                showToast(`Welcome ${user.fullname}! Redirecting...`, 'success');
                 setTimeout(() => {
-                    window.location.href = 'dashboard.html';
+                    alert(`Demo Dashboard\nWelcome ${user.fullname} (${user.role})\nEmail: ${user.email}\n\nIn production, this would redirect to dashboard.php`);
+                    location.reload();
                 }, 1000);
             } else {
                 incrementAttempts();
@@ -641,14 +622,6 @@
             alert(message);
         }
     }
-    
-    // Check for existing session and redirect if already logged in
-    function checkExistingSession() {
-        if (sessionStorage.getItem('logged_in') === 'true') {
-            window.location.href = 'dashboard.html';
-        }
-    }
-    checkExistingSession();
     
     // URL hash handling
     const urlHash = window.location.hash;
