@@ -148,9 +148,9 @@
                 <i class="bi bi-moon-fill"></i>
             </div>
             <!-- THIS IS THE ONLY LOGOUT BUTTON -->
-            <a href="#" class="btn btn-outline-danger btn-sm w-100 mt-2" id="logoutSidebarBtn">
-                <i class="bi bi-box-arrow-right"></i> Logout
-            </a>
+            <a href="#" class="btn btn-outline-danger btn-sm w-100 mt-2" onclick="event.preventDefault(); localStorage.removeItem('logged_in'); localStorage.removeItem('username'); localStorage.removeItem('user_email'); localStorage.removeItem('user_role'); window.location.href='index.html';">
+    <i class="bi bi-box-arrow-right"></i> Logout
+</a>
         </div>
     </nav>
 

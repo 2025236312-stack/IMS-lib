@@ -44,7 +44,7 @@
         </ul>
         <div class="sidebar-footer">
             <div class="theme-toggle-wrapper"><i class="bi bi-sun-fill"></i><div class="form-check form-switch"><input class="form-check-input" type="checkbox" id="darkModeSwitch"></div><i class="bi bi-moon-fill"></i></div>
-            <a href="index.html" class="btn btn-outline-danger btn-sm w-100 mt-2"><i class="bi bi-box-arrow-right"></i> Logout</a>
+           <a href="#" id="logoutBtn" class="btn btn-outline-danger btn-sm w-100 mt-2" onclick="event.preventDefault(); localStorage.removeItem('logged_in'); localStorage.removeItem('username'); localStorage.removeItem('user_email'); localStorage.removeItem('user_role'); window.location.href='index.html';"><i class="bi bi-box-arrow-right"></i> Logout</a>
         </div>
     </nav>
 
@@ -235,6 +235,31 @@
 </div>
 
 <script>
+    // ============================================
+// FIXED LOGOUT FUNCTION - ADD THIS TO EVERY PAGE
+// ============================================
+function handleLogout() {
+    console.log('Logging out...');
+    localStorage.removeItem('logged_in');
+    localStorage.removeItem('username');
+    localStorage.removeItem('user_email');
+    localStorage.removeItem('user_role');
+    sessionStorage.clear();
+    window.location.href = 'index.html';
+}
+
+// Find and fix all logout buttons
+document.addEventListener('DOMContentLoaded', function() {
+    const logoutBtns = document.querySelectorAll('.sidebar-footer .btn-outline-danger, a[href="index.html"].btn-outline-danger');
+    logoutBtns.forEach(btn => {
+        btn.removeAttribute('href');
+        btn.style.cursor = 'pointer';
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            handleLogout();
+        });
+    });
+});
 // Complete Books Dataset - 50 Books
 const booksData = [
     { id: 'BK0001', title: 'Harry Potter and the Sorcerer\'s Stone', author: 'J.K. Rowling', publisher: 'Scholastic', genre: 'Fantasy', category: 'Fantasy', year: 1997, pages: 309, description: 'A young boy discovers he is a wizard and begins his magical journey at Hogwarts School.', cover_image: 'https://covers.openlibrary.org/b/isbn/9780590353427-L.jpg', status: 'Available', copies: 3, publishedDate: '1997-01-01' },
