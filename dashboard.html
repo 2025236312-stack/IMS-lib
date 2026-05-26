@@ -25,22 +25,22 @@
 
 <script>
     // ============================================
-    // SESSION CHECK (Replaces PHP session_start)
+    // SESSION CHECK
     // ============================================
     if (localStorage.getItem('logged_in') !== 'true') {
         window.location.href = 'index.html';
     }
     
-    // Get user information from localStorage with fallbacks (replaces PHP session variables)
+    // Get user information from localStorage
     const username = localStorage.getItem('username') || 'User';
     const user_email = localStorage.getItem('user_email') || 'user@library.com';
     const user_role = localStorage.getItem('user_role') || 'Member';
     const user_id = localStorage.getItem('user_id') || 'N/A';
     
-    // Generate random notifications count (replaces PHP rand(3,12))
+    // Generate random notifications count
     let notifications_count = Math.floor(Math.random() * (12 - 3 + 1)) + 3;
     
-    // Sample notifications data (same as PHP)
+    // Sample notifications data
     const notifications = [
         { type: 'success', icon: 'bi-check-circle-fill', title: 'New Book Added', message: '"The Midnight Library" has been added to the collection.', time: '5 minutes ago', read: false },
         { type: 'warning', icon: 'bi-exclamation-triangle-fill', title: 'Overdue Books', message: '3 books are overdue. Please send reminders to members.', time: '1 hour ago', read: false },
@@ -51,10 +51,10 @@
         { type: 'success', icon: 'bi-trophy', title: 'Achievement Unlocked', message: 'Library reached 10,000 total checkouts this month!', time: '2 days ago', read: true }
     ];
     
-    // Update last activity timestamp (replaces $_SESSION['last_activity'] = time())
+    // Update last activity timestamp
     localStorage.setItem('last_activity', Date.now().toString());
     
-    // Report data for generation (replaces require_once 'config/data.php')
+    // Report data for generation
     const report_data = {
         total_books: 40,
         active_members: 20,
@@ -66,6 +66,59 @@
     
     // Calculate unread count
     let unreadCount = notifications.filter(n => !n.read).length;
+    
+    // Function to update all user-related elements
+    function updateUserDisplay() {
+        // Update all elements that display username
+        const userNameElements = ['userName', 'dropdownUserName', 'welcomeUserName', 'profileName', 'modalProfileName', 'displayName'];
+        userNameElements.forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.textContent = username;
+        });
+        
+        // Update user role elements
+        const userRoleEl = document.getElementById('userRole');
+        if (userRoleEl) userRoleEl.innerHTML = `<i class="bi bi-briefcase"></i> ${user_role}`;
+        
+        const dropdownUserRole = document.getElementById('dropdownUserRole');
+        if (dropdownUserRole) dropdownUserRole.innerHTML = `<i class="bi bi-person-badge"></i> ${user_role}`;
+        
+        const modalProfileRole = document.getElementById('modalProfileRole');
+        if (modalProfileRole) modalProfileRole.textContent = user_role;
+        
+        const displayRole = document.getElementById('displayRole');
+        if (displayRole) displayRole.textContent = user_role;
+        
+        // Update email elements
+        const dropdownUserEmail = document.getElementById('dropdownUserEmail');
+        if (dropdownUserEmail) dropdownUserEmail.textContent = user_email;
+        
+        const displayEmail = document.getElementById('displayEmail');
+        if (displayEmail) displayEmail.textContent = user_email;
+        
+        const profileDetails = document.getElementById('profileDetails');
+        if (profileDetails) profileDetails.innerHTML = `${user_role} · ${user_email}`;
+        
+        // Update edit form fields
+        const editFullName = document.getElementById('editFullName');
+        if (editFullName) editFullName.value = username;
+        
+        const editEmail = document.getElementById('editEmail');
+        if (editEmail) editEmail.value = user_email;
+        
+        // Update notification counts
+        const notificationBadge = document.getElementById('notificationCountBadge');
+        if (notificationBadge) notificationBadge.textContent = notifications_count;
+        
+        const welcomeNotificationCount = document.getElementById('welcomeNotificationCount');
+        if (welcomeNotificationCount) welcomeNotificationCount.textContent = notifications_count;
+        
+        const updateBadge = document.getElementById('updateBadge');
+        if (updateBadge) updateBadge.textContent = notifications_count;
+        
+        const unreadCountSpan = document.getElementById('unreadCount');
+        if (unreadCountSpan) unreadCountSpan.textContent = notifications_count;
+    }
 </script>
 
 <div class="wrapper">
@@ -148,9 +201,9 @@
                 <div class="dropdown">
                     <div class="user-avatar-dropdown" data-bs-toggle="dropdown" aria-expanded="false">
                         <div class="user-info">
-                            <div class="user-name" id="userName"><?php echo htmlspecialchars($username); ?></div>
+                            <div class="user-name" id="userName">User</div>
                             <div class="user-role" id="userRole">
-                                <i class="bi bi-briefcase"></i> <?php echo htmlspecialchars($user_role); ?>
+                                <i class="bi bi-briefcase"></i> Member
                             </div>
                         </div>
                         <div class="avatar-circle">
@@ -159,35 +212,35 @@
                     </div>
                     <ul class="dropdown-menu dropdown-menu-end">
                         <li class="dropdown-header">
-                            <div class="dropdown-user-name" id="dropdownUserName"><?php echo htmlspecialchars($username); ?></div>
-                            <div class="dropdown-user-email" id="dropdownUserEmail"><?php echo htmlspecialchars($user_email); ?></div>
+                            <div class="dropdown-user-name" id="dropdownUserName">User</div>
+                            <div class="dropdown-user-email" id="dropdownUserEmail">user@library.com</div>
                             <div class="dropdown-user-badge">
                                 <span class="role-badge" id="dropdownUserRole">
-                                    <i class="bi bi-person-badge"></i> <?php echo htmlspecialchars($user_role); ?>
+                                    <i class="bi bi-person-badge"></i> Member
                                 </span>
                             </div>
                         </li>
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#profileModal"><i class="bi bi-person"></i> My Profile</a></li>
                         <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#settingsModal"><i class="bi bi-gear"></i> Settings</a></li>
-                        <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#notificationsModal"><i class="bi bi-bell"></i> Notifications <span class="badge bg-danger ms-2" id="notificationCountBadge"><?php echo $notifications_count; ?></span></a></li>
+                        <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#notificationsModal"><i class="bi bi-bell"></i> Notifications <span class="badge bg-danger ms-2" id="notificationCountBadge">8</span></a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item text-danger" href="#" onclick="event.preventDefault(); localStorage.removeItem('logged_in'); localStorage.removeItem('username'); localStorage.removeItem('user_email'); localStorage.removeItem('user_role'); window.location.href='index.html';"><i class="bi bi-box-arrow-right"></i> Logout</a></li>
                     </ul>
                 </div>
             </div>
             
-            <!-- Welcome Banner with Working View Updates Button -->
+            <!-- Welcome Banner -->
             <div class="welcome-banner">
                 <div class="welcome-content">
                     <div>
                         <i class="bi bi-emoji-smile welcome-icon"></i>
-                        <strong>Hello, <span id="welcomeUserName"><?php echo htmlspecialchars($username); ?></span>!</strong> 
-                        Welcome back to your library dashboard. You have <span id="welcomeNotificationCount"><?php echo $notifications_count; ?></span> new notifications.
+                        <strong>Hello, <span id="welcomeUserName">User</span>!</strong> 
+                        Welcome back to your library dashboard. You have <span id="welcomeNotificationCount">8</span> new notifications.
                     </div>
                     <a href="#" class="btn-update" data-bs-toggle="modal" data-bs-target="#notificationsModal">
                         <i class="bi bi-bell"></i> View Updates
-                        <span class="notification-badge" id="updateBadge"><?php echo $notifications_count; ?></span>
+                        <span class="notification-badge" id="updateBadge">8</span>
                     </a>
                 </div>
             </div>
@@ -287,8 +340,8 @@
                             <div class="profile-avatar">
                                 <i class="bi bi-person-fill"></i>
                             </div>
-                            <h5 class="profile-name" id="profileName"><?php echo htmlspecialchars($username); ?></h5>
-                            <p class="profile-details" id="profileDetails"><?php echo htmlspecialchars($user_role); ?> · <?php echo htmlspecialchars($user_email); ?></p>
+                            <h5 class="profile-name" id="profileName">User</h5>
+                            <p class="profile-details" id="profileDetails">Member · user@library.com</p>
                             <hr class="profile-divider">
                             <div class="profile-stats">
                                 <div class="profile-stat">
@@ -439,8 +492,8 @@
                         <div class="profile-avatar-large">
                             <i class="bi bi-person-fill"></i>
                         </div>
-                        <h5 class="mt-3" id="modalProfileName"><?php echo htmlspecialchars($username); ?></h5>
-                        <p class="text-muted small" id="modalProfileRole"><?php echo htmlspecialchars($user_role); ?></p>
+                        <h5 class="mt-3" id="modalProfileName">User</h5>
+                        <p class="text-muted small" id="modalProfileRole">Member</p>
                         <div class="d-grid gap-2 mt-3">
                             <button class="btn btn-outline-primary btn-sm" id="changeAvatarBtn">
                                 <i class="bi bi-camera"></i> Change Avatar
@@ -457,19 +510,19 @@
                             <div class="info-row">
                                 <div class="row">
                                     <div class="col-4 text-muted">Full Name</div>
-                                    <div class="col-8 fw-semibold" id="displayName"><?php echo htmlspecialchars($username); ?></div>
+                                    <div class="col-8 fw-semibold" id="displayName">User</div>
                                 </div>
                             </div>
                             <div class="info-row">
                                 <div class="row">
                                     <div class="col-4 text-muted">Email Address</div>
-                                    <div class="col-8 fw-semibold" id="displayEmail"><?php echo htmlspecialchars($user_email); ?></div>
+                                    <div class="col-8 fw-semibold" id="displayEmail">user@library.com</div>
                                 </div>
                             </div>
                             <div class="info-row">
                                 <div class="row">
                                     <div class="col-4 text-muted">User Role</div>
-                                    <div class="col-8"><span class="badge bg-primary" id="displayRole"><?php echo htmlspecialchars($user_role); ?></span></div>
+                                    <div class="col-8"><span class="badge bg-primary" id="displayRole">Member</span></div>
                                 </div>
                             </div>
                             <div class="info-row">
@@ -522,11 +575,11 @@
                 <div class="modal-body">
                     <div class="mb-3">
                         <label class="form-label">Full Name</label>
-                        <input type="text" class="form-control" id="editFullName" value="<?php echo htmlspecialchars($username); ?>">
+                        <input type="text" class="form-control" id="editFullName" value="User">
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Email Address</label>
-                        <input type="email" class="form-control" id="editEmail" value="<?php echo htmlspecialchars($user_email); ?>">
+                        <input type="email" class="form-control" id="editEmail" value="user@library.com">
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Phone Number (Optional)</label>
@@ -852,7 +905,7 @@
             <div class="modal-body p-0">
                 <div class="d-flex justify-content-between align-items-center p-3 border-bottom">
                     <div>
-                        <i class="bi bi-envelope"></i> <span id="unreadCount"><?php echo $notifications_count; ?></span> unread notifications
+                        <i class="bi bi-envelope"></i> <span id="unreadCount">8</span> unread notifications
                     </div>
                     <button class="btn btn-sm btn-link text-primary mark-all-read" id="markAllReadBtn">
                         <i class="bi bi-check2-all"></i> Mark all as read
@@ -917,32 +970,21 @@
     document.getElementById('lastLoginTime').textContent = `${dateStr} at ${timeStr}`;
     document.getElementById('activityTime').textContent = timeStr;
     
-    // Set user data in various places
-    const userName = "<?php echo htmlspecialchars($username); ?>";
-    const userEmail = "<?php echo htmlspecialchars($user_email); ?>";
-    const userRole = "<?php echo htmlspecialchars($user_role); ?>";
-    
-    document.getElementById('userName').innerText = userName;
-    document.getElementById('userRole').innerHTML = `<i class="bi bi-briefcase"></i> ${userRole}`;
-    document.getElementById('dropdownUserName').innerText = userName;
-    document.getElementById('dropdownUserEmail').innerText = userEmail;
-    document.getElementById('dropdownUserRole').innerHTML = `<i class="bi bi-person-badge"></i> ${userRole}`;
-    document.getElementById('welcomeUserName').innerText = userName;
-    document.getElementById('profileName').innerText = userName;
-    document.getElementById('profileDetails').innerHTML = `${userRole} · ${userEmail}`;
-    document.getElementById('modalProfileName').innerText = userName;
-    document.getElementById('modalProfileRole').innerText = userRole;
-    document.getElementById('displayName').innerText = userName;
-    document.getElementById('displayEmail').innerText = userEmail;
-    document.getElementById('displayRole').innerText = userRole;
-    document.getElementById('editFullName').value = userName;
-    document.getElementById('editEmail').value = userEmail;
+    // Update all user displays with actual data from localStorage
+    updateUserDisplay();
     
     // Update notification counts
-    document.getElementById('notificationCountBadge').innerText = notifications_count;
-    document.getElementById('welcomeNotificationCount').innerText = notifications_count;
-    document.getElementById('updateBadge').innerText = notifications_count;
-    document.getElementById('unreadCount').innerText = notifications_count;
+    function updateNotificationCounts() {
+        const badge = document.getElementById('notificationCountBadge');
+        if (badge) badge.textContent = notifications_count;
+        const welcomeBadge = document.getElementById('welcomeNotificationCount');
+        if (welcomeBadge) welcomeBadge.textContent = notifications_count;
+        const updateBadge = document.getElementById('updateBadge');
+        if (updateBadge) updateBadge.textContent = notifications_count;
+        const unreadSpan = document.getElementById('unreadCount');
+        if (unreadSpan) unreadSpan.textContent = notifications_count;
+    }
+    updateNotificationCounts();
     
     // ============================================
     // RENDER NOTIFICATIONS
@@ -988,7 +1030,8 @@
         if (!notifications[id].read) {
             notifications[id].read = true;
             currentUnreadCount--;
-            updateNotificationCounts();
+            document.getElementById('welcomeNotificationCount').textContent = currentUnreadCount;
+            document.getElementById('unreadCount').textContent = currentUnreadCount;
             renderNotifications();
             showToast('Notification marked as read', 'success');
         }
@@ -997,24 +1040,10 @@
     function markAllAsRead() {
         notifications.forEach(n => n.read = true);
         currentUnreadCount = 0;
-        updateNotificationCounts();
-        renderNotifications();
-        showToast('All notifications marked as read', 'success');
-    }
-    
-    function updateNotificationCounts() {
         document.getElementById('welcomeNotificationCount').textContent = currentUnreadCount;
         document.getElementById('unreadCount').textContent = currentUnreadCount;
-        const badge = document.getElementById('notificationCountBadge');
-        if (badge) {
-            badge.textContent = currentUnreadCount;
-            badge.style.display = currentUnreadCount === 0 ? 'none' : 'inline-block';
-        }
-        const updateBadge = document.getElementById('updateBadge');
-        if (updateBadge) {
-            updateBadge.textContent = currentUnreadCount;
-            updateBadge.style.display = currentUnreadCount === 0 ? 'none' : 'inline-flex';
-        }
+        renderNotifications();
+        showToast('All notifications marked as read', 'success');
     }
     
     // ============================================
@@ -1082,10 +1111,6 @@
                     <p class="text-muted">Generated on: ${formattedDate} at ${formattedTime}</p>
                     <hr>
                 </div>
-                <div class="report-summary mb-4">
-                    <h4><i class="bi bi-bar-chart-steps"></i> Executive Summary</h4>
-                    <p>This report provides a comprehensive overview of library operations and statistics for the current period.</p>
-                </div>
                 <div class="row mb-4">
                     <div class="col-md-3"><div class="report-stat-card"><div class="report-stat-value">${report_data.total_books}</div><div class="report-stat-label">Total Books</div></div></div>
                     <div class="col-md-3"><div class="report-stat-card"><div class="report-stat-value">${report_data.active_members}</div><div class="report-stat-label">Active Members</div></div></div>
@@ -1111,10 +1136,6 @@
         const win = window.open('', '_blank');
         win.document.write(`<!DOCTYPE html><html><head><title>SmartLib Report</title><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"><style>body{padding:40px;}</style></head><body>${content}<script>window.print();<\/script></body></html>`);
         win.document.close();
-    }
-    
-    function downloadReport() {
-        printReport();
     }
     
     // ============================================
@@ -1143,7 +1164,7 @@
     // ============================================
     document.getElementById('generateReportBtn')?.addEventListener('click', (e) => { e.preventDefault(); showReportPreview(); });
     document.getElementById('printReportBtn')?.addEventListener('click', () => printReport());
-    document.getElementById('downloadReportBtn')?.addEventListener('click', () => downloadReport());
+    document.getElementById('downloadReportBtn')?.addEventListener('click', () => printReport());
     document.getElementById('markAllReadBtn')?.addEventListener('click', () => markAllAsRead());
     document.getElementById('editProfileBtn')?.addEventListener('click', () => {
         bootstrap.Modal.getInstance(document.getElementById('profileModal')).hide();
@@ -1156,6 +1177,7 @@
         const newEmail = document.getElementById('editEmail').value;
         localStorage.setItem('username', newName);
         localStorage.setItem('user_email', newEmail);
+        updateUserDisplay();
         showToast('Profile updated successfully!', 'success');
         setTimeout(() => location.reload(), 1500);
     });
@@ -1173,6 +1195,7 @@
         if (newPw.length < 8) { showToast('Password must be at least 8 characters!', 'danger'); return; }
         showToast('Password changed successfully!', 'success');
         bootstrap.Modal.getInstance(document.getElementById('changePasswordModal')).hide();
+        document.getElementById('changePasswordForm').reset();
     });
     
     document.getElementById('saveSettingsBtn')?.addEventListener('click', () => {
@@ -1212,7 +1235,7 @@
     
     // Welcome toast
     setTimeout(() => {
-        showToast(`Welcome back, ${userName}! You have ${currentUnreadCount} new updates.`, 'success');
+        showToast(`Welcome back, ${username}! You have ${currentUnreadCount} new updates.`, 'success');
     }, 1000);
 </script>
 </body>
