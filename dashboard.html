@@ -23,20 +23,10 @@
     
 </head>
 <body data-bs-theme="light">
-    <body data-bs-theme="light">
-
 <script>
-    // CHECK IF USER IS LOGGED IN
-    const isLoggedIn = sessionStorage.getItem('logged_in') === 'true';
-    
-    if (!isLoggedIn) {
-        window.location.href = 'index.html';
+    if (sessionStorage.getItem('logged_in') !== 'true') { 
+        window.location.href = 'index.html'; 
     }
-    
-    // Display user info
-    const userName = sessionStorage.getItem('user_name') || 'User';
-    const userRole = sessionStorage.getItem('user_role') || 'Member';
-    console.log('Logged in as:', userName, '(' + userRole + ')');
 </script>
 <div class="wrapper">
     <!-- Sidebar Navigation -->

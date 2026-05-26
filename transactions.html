@@ -23,6 +23,11 @@
     <link rel="stylesheet" href="css/transactions.css">
 </head>
 <body data-bs-theme="dark">
+    <script>
+    if (sessionStorage.getItem('logged_in') !== 'true') { 
+        window.location.href = 'index.html'; 
+    }
+</script>
 <div class="wrapper">
     <!-- Sidebar Navigation -->
     <nav class="sidebar">
