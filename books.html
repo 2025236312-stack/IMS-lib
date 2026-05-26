@@ -21,6 +21,19 @@
     <link rel="stylesheet" href="css/books-fix.css">
 </head>
 <body data-bs-theme="light">
+    <body data-bs-theme="light">
+
+<script>
+    // CHECK IF USER IS LOGGED IN
+    const isLoggedIn = sessionStorage.getItem('logged_in') === 'true';
+    
+    if (!isLoggedIn) {
+        window.location.href = 'index.html';
+    }
+    
+    const userName = sessionStorage.getItem('user_name') || 'User';
+    console.log('Books page - Logged in as:', userName);
+</script>
 <div class="wrapper">
     <!-- Sidebar Navigation -->
     <nav class="sidebar">
@@ -636,6 +649,5 @@ updateAllCounts();
 applyFilters();
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-<script src="auth.js"></script>
 </body>
 </html>
