@@ -334,7 +334,7 @@
                     </div>
                     <button class="btn btn-login" id="doLoginBtn"><i class="bi bi-arrow-right-circle-fill"></i> LOGIN & ACCESS DASHBOARD</button>
                     <div class="demo-note mt-3 text-center text-white-50 small">
-                        <i class="bi bi-info-circle"></i> Demo: admin@library.com / any password
+                        <i class="bi bi-info-circle"></i> Demo: staff@library.com / staff123
                     </div>
                 </div>
             </div>
@@ -352,10 +352,11 @@
             </div>
         </div>
         <ul class="nav flex-column">
-            <li><a class="nav-link active" href="#"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
-            <li><a class="nav-link" href="#"><i class="bi bi-journal-bookmark-fill"></i> Books</a></li>
-            <li><a class="nav-link" href="#"><i class="bi bi-people-fill"></i> Members</a></li>
-            <li><a class="nav-link" href="#"><i class="bi bi-arrow-left-right"></i> Transactions</a></li>
+            <li><a class="nav-link active" href="dashboard.html"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
+            <li><a class="nav-link" href="books.html"><i class="bi bi-journal-bookmark-fill"></i> Books</a></li>
+            <li><a class="nav-link" href="members.html"><i class="bi bi-people-fill"></i> Members</a></li>
+            <li><a class="nav-link" href="transactions.html"><i class="bi bi-arrow-left-right"></i> Transactions</a></li>
+            <li><a class="nav-link" href="insights.html"><i class="bi bi-graph-up"></i> Insights</a></li>
         </ul>
         <div class="sidebar-footer position-absolute bottom-0 p-3 w-100">
             <button class="btn btn-outline-danger w-100" id="logoutBtnDashboard"><i class="bi bi-box-arrow-right"></i> Logout</button>
@@ -396,9 +397,9 @@
             </div>
 
             <div class="quick-actions-row mt-4">
-                <a href="#" class="action-btn"><i class="bi bi-journal-plus"></i> Add Book</a>
-                <a href="#" class="action-btn" style="background:#28a745;"><i class="bi bi-person-plus"></i> Register Member</a>
-                <a href="#" class="action-btn" style="background:#17a2b8;"><i class="bi bi-arrow-left-right"></i> New Transaction</a>
+                <a href="books.html" class="action-btn"><i class="bi bi-journal-plus"></i> Add Book</a>
+                <a href="members.html" class="action-btn" style="background:#28a745;"><i class="bi bi-person-plus"></i> Register Member</a>
+                <a href="transactions.html" class="action-btn" style="background:#17a2b8;"><i class="bi bi-arrow-left-right"></i> New Transaction</a>
             </div>
             
             <footer class="footer"><span>© 2025 4a Repository — SmartLib Integration | Secure Session</span></footer>
@@ -408,6 +409,13 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 <script>
+    // Demo accounts
+    const demoAccounts = [
+        { id: "STAFF001", fullname: "Staff User", email: "staff@library.com", password: "staff123", role: "Staff" },
+        { id: "STU002", fullname: "Student User", email: "student@library.com", password: "student123", role: "Student" },
+        { id: "GUEST003", fullname: "Guest User", email: "guest@library.com", password: "guest123", role: "Guest" }
+    ];
+
     // Initialize Vanta background
     if (typeof VANTA !== 'undefined') {
         VANTA.NET({
@@ -421,35 +429,23 @@
         });
     }
 
-    document.getElementById('loginForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    
-    const email = document.getElementById('loginEmail').value;
-    const password = document.getElementById('loginPassword').value;
-    
-    // Your authentication logic
-    if (user) {
-        // IMPORTANT - These 5 lines are CRITICAL:
-        sessionStorage.setItem('logged_in', 'true');
-        sessionStorage.setItem('user_id', user.id);
-        sessionStorage.setItem('user_name', user.fullname);
-        sessionStorage.setItem('user_email', user.email);
-        sessionStorage.setItem('user_role', user.role);
-        
-        // Then redirect
-        window.location.href = 'dashboard.html';
-    }
-});
-
-    // === AUTHENTICATION LOGIC (connects login to dashboard) ===
+    // ============================================
+    // FIXED LOGIN FUNCTION
+    // ============================================
     function performLogin(email, password) {
-        // For demo: accept any non-empty email, store user info in session
-        if (email && email.trim() !== "") {
-            // Store user session
+        // Find matching user
+        const user = demoAccounts.find(u => u.email === email && u.password === password);
+        
+        if (user) {
+            // Store ALL session data - CRITICAL for other pages
             sessionStorage.setItem('logged_in', 'true');
-            sessionStorage.setItem('user_name', email.split('@')[0] || 'Librarian');
-            sessionStorage.setItem('user_email', email);
-            sessionStorage.setItem('user_role', 'Library Admin');
+            sessionStorage.setItem('user_id', user.id);
+            sessionStorage.setItem('user_name', user.fullname);
+            sessionStorage.setItem('user_email', user.email);
+            sessionStorage.setItem('user_role', user.role);
+            sessionStorage.setItem('last_activity', Date.now().toString());
+            
+            console.log('Login successful! User data saved:', user.fullname);
             return true;
         }
         return false;
@@ -457,6 +453,7 @@
 
     function loadDashboard() {
         const isLoggedIn = sessionStorage.getItem('logged_in') === 'true';
+        
         if (!isLoggedIn) {
             document.getElementById('loginSection').style.display = 'flex';
             document.getElementById('dashboardSection').style.display = 'none';
@@ -469,11 +466,12 @@
         
         // Populate user data from session
         const userName = sessionStorage.getItem('user_name') || 'Admin User';
-        const userEmail = sessionStorage.getItem('user_email') || 'admin@library.com';
+        const userRole = sessionStorage.getItem('user_role') || 'Admin';
+        
         document.getElementById('dashboardUserName').innerHTML = `<i class="bi bi-person-circle"></i> ${userName}`;
         document.getElementById('welcomeUserName').innerText = userName;
         
-        // Update any additional profile fields if needed
+        // Update stats
         const stats = { totalBooks: 1284, activeMembers: 342, borrowed: 87, pending: 12 };
         document.getElementById('totalBooks').innerText = stats.totalBooks;
         document.getElementById('activeMembers').innerText = stats.activeMembers;
@@ -491,25 +489,38 @@
 
     function logout() {
         sessionStorage.clear();
-        loadDashboard();
-        // optional reset view
-        window.location.reload(); // full refresh to clean state
+        // Redirect to login page
+        window.location.href = 'index.html';
     }
 
     // Login button handler
     document.getElementById('doLoginBtn').addEventListener('click', function(e) {
         const email = document.getElementById('loginEmail').value;
         const password = document.getElementById('loginPassword').value;
+        
         if (performLogin(email, password)) {
-            loadDashboard();
+            // Redirect to dashboard.html (your real dashboard page)
+            window.location.href = 'dashboard.html';
         } else {
-            alert('Please enter a valid email address to access the dashboard.');
+            alert('Invalid email or password!\n\nDemo accounts:\nstaff@library.com / staff123\nstudent@library.com / student123\nguest@library.com / guest123');
         }
     });
 
     // Logout handler inside dashboard
     document.getElementById('logoutBtnDashboard').addEventListener('click', function() {
         logout();
+    });
+
+    // Allow Enter key to submit login
+    document.getElementById('loginPassword').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            document.getElementById('doLoginBtn').click();
+        }
+    });
+    document.getElementById('loginEmail').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            document.getElementById('doLoginBtn').click();
+        }
     });
 
     // View updates alert
@@ -522,26 +533,27 @@
     document.querySelectorAll('.action-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
             e.preventDefault();
-            alert('✨ Feature demo: This would open the respective management module.');
+            // For book/member/transaction buttons, let them navigate
+            const href = btn.getAttribute('href');
+            if (href && href !== '#') {
+                window.location.href = href;
+            } else {
+                alert('✨ This would open the respective management module.');
+            }
         });
     });
 
-    // On page load, check session and show appropriate view
+    // On page load, check session
     document.addEventListener('DOMContentLoaded', function() {
-        loadDashboard();
-        // Fix for chart resize
-        if (document.getElementById('visitorsChart')) {
-            const ctx = document.getElementById('visitorsChart').getContext('2d');
-            if (ctx && !window.visitorsChart) {
-                window.visitorsChart = new Chart(ctx, {
-                    type: 'line',
-                    data: { labels: ['Jan','Feb','Mar','Apr','May','Jun'], datasets: [{ label: 'Library Visitors', data: [65, 78, 90, 112, 135, 148], borderColor: '#3a7bd5', backgroundColor: 'rgba(58,123,213,0.1)', fill: true, tension: 0.3 }] }
-                });
-            }
+        // If already logged in, redirect to dashboard.html
+        if (sessionStorage.getItem('logged_in') === 'true') {
+            window.location.href = 'dashboard.html';
+        } else {
+            document.getElementById('loginSection').style.display = 'flex';
+            document.getElementById('dashboardSection').style.display = 'none';
         }
     });
 </script>
 
-<!-- Ensure that any external library conflicts are minimal, dashboard fully integrated -->
 </body>
 </html>
