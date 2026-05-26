@@ -24,15 +24,49 @@
 </head>
 <body data-bs-theme="light">
 <script>
-    // Check if user is logged in
+    // SESSION CHECK - KEEP THIS
     if (localStorage.getItem('logged_in') !== 'true') {
         window.location.href = 'index.html';
     }
     
-    // Get user data (optional - for displaying username)
+    // Get user data
     const username = localStorage.getItem('username') || 'User';
     const userEmail = localStorage.getItem('user_email') || '';
     const userRole = localStorage.getItem('user_role') || 'Librarian';
+    
+    // ============================================
+    // FIXED LOGOUT FUNCTION - ONE FUNCTION TO RULE THEM ALL
+    // ============================================
+    function logoutUser() {
+        // Clear ONLY login session
+        localStorage.removeItem('logged_in');
+        localStorage.removeItem('username');
+        localStorage.removeItem('user_email');
+        localStorage.removeItem('user_role');
+        
+        // Clear any session storage
+        sessionStorage.clear();
+        
+        // Clear remember cookie
+        document.cookie = "remember_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        
+        // DO NOT clear registered users data!
+        console.log('✅ Logged out successfully');
+        
+        // Redirect to login page
+        window.location.href = 'index.html';
+    }
+    
+    // Attach logout to sidebar button
+    document.addEventListener('DOMContentLoaded', function() {
+        const logoutBtn = document.querySelector('.sidebar-footer .btn-outline-danger');
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                logoutUser();
+            });
+        }
+    });
 </script>
 <div class="wrapper">
     <!-- Sidebar Navigation -->
@@ -1398,7 +1432,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 </script>
-<button id="logoutBtn" class="btn btn-outline-danger">Logout</button>
 
 <script>
     document.getElementById('logoutBtn')?.addEventListener('click', function() {
