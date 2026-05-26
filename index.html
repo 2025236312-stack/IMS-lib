@@ -421,6 +421,26 @@
         });
     }
 
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const email = document.getElementById('loginEmail').value;
+    const password = document.getElementById('loginPassword').value;
+    
+    // Your authentication logic
+    if (user) {
+        // IMPORTANT - These 5 lines are CRITICAL:
+        sessionStorage.setItem('logged_in', 'true');
+        sessionStorage.setItem('user_id', user.id);
+        sessionStorage.setItem('user_name', user.fullname);
+        sessionStorage.setItem('user_email', user.email);
+        sessionStorage.setItem('user_role', user.role);
+        
+        // Then redirect
+        window.location.href = 'dashboard.html';
+    }
+});
+
     // === AUTHENTICATION LOGIC (connects login to dashboard) ===
     function performLogin(email, password) {
         // For demo: accept any non-empty email, store user info in session
