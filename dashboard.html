@@ -24,8 +24,9 @@
 </head>
 <body data-bs-theme="light">
 <script>
-    if (sessionStorage.getItem('logged_in') !== 'true') { 
-        window.location.href = 'index.html'; 
+    // 🔐 PROTECTION CODE - PUT THIS RIGHT HERE
+    if (localStorage.getItem('logged_in') !== 'true') {
+        window.location.href = 'index.html';
     }
 </script>
 <div class="wrapper">
@@ -863,6 +864,13 @@
 
 <script>
 
+// Add this at the beginning of your dashboard.html JavaScript
+if (localStorage.getItem('logged_in') !== 'true') {
+    window.location.href = 'index.html';
+}
+
+// Then to display the username anywhere:
+const username = localStorage.getItem('username') || 'User';
     // ============================================
 // READ LOGGED IN USER FROM SESSION STORAGE
 // ============================================
