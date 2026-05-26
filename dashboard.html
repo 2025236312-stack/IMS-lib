@@ -24,10 +24,15 @@
 </head>
 <body data-bs-theme="light">
 <script>
-    // 🔐 PROTECTION CODE - PUT THIS RIGHT HERE
+    // Check if user is logged in
     if (localStorage.getItem('logged_in') !== 'true') {
         window.location.href = 'index.html';
     }
+    
+    // Get user data (optional - for displaying username)
+    const username = localStorage.getItem('username') || 'User';
+    const userEmail = localStorage.getItem('user_email') || '';
+    const userRole = localStorage.getItem('user_role') || 'Librarian';
 </script>
 <div class="wrapper">
     <!-- Sidebar Navigation -->
@@ -869,31 +874,6 @@ if (localStorage.getItem('logged_in') !== 'true') {
     window.location.href = 'index.html';
 }
 
-// Then to display the username anywhere:
-const username = localStorage.getItem('username') || 'User';
-    // ============================================
-// READ LOGGED IN USER FROM SESSION STORAGE
-// ============================================
-
-// Get user data from sessionStorage (set by login page)
-function getLoggedInUser() {
-    const isLoggedIn = sessionStorage.getItem('logged_in') === 'true';
-    
-    if (!isLoggedIn) {
-        // No user logged in - redirect to login page
-        window.location.href = 'index.html';
-        return null;
-    }
-    
-    return {
-        id: sessionStorage.getItem('user_id'),
-        name: sessionStorage.getItem('user_name'),
-        email: sessionStorage.getItem('user_email'),
-        role: sessionStorage.getItem('user_role'),
-        lastActivity: sessionStorage.getItem('last_activity')
-    };
-}
-
 // Update all profile sections with actual user data
 function updateUserProfile() {
     const user = getLoggedInUser();
@@ -912,6 +892,7 @@ function updateUserProfile() {
         const element = document.getElementById(id);
         if (element) element.textContent = user.name;
     });
+    
     
     // Update user role elements
     const userRoleElements = ['userRole', 'modalProfileRole', 'displayRole'];
@@ -1416,6 +1397,17 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+</script>
+<button id="logoutBtn" class="btn btn-outline-danger">Logout</button>
+
+<script>
+    document.getElementById('logoutBtn')?.addEventListener('click', function() {
+        localStorage.removeItem('logged_in');
+        localStorage.removeItem('username');
+        localStorage.removeItem('user_email');
+        localStorage.removeItem('user_role');
+        window.location.href = 'index.html';
+    });
 </script>
 </body>
 </html>
